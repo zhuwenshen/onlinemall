@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhuwenshen.mapper.TGoodsDetailMapper">
+  <resultMap id="BaseResultMap" type="com.zhuwenshen.model.TGoodsDetail">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="goods_id" jdbcType="CHAR" property="goodsId" />
+    <result column="producer" jdbcType="VARCHAR" property="producer" />
+    <result column="specification" jdbcType="VARCHAR" property="specification" />
+    <result column="detail" jdbcType="VARCHAR" property="detail" />
+    <result column="description_img1_url" jdbcType="VARCHAR" property="descriptionImg1Url" />
+    <result column="description_img2_url" jdbcType="VARCHAR" property="descriptionImg2Url" />
+    <result column="description_img3_ur" jdbcType="VARCHAR" property="descriptionImg3Ur" />
+    <result column="description_img4_url" jdbcType="VARCHAR" property="descriptionImg4Url" />
+    <result column="description_img5_url" jdbcType="VARCHAR" property="descriptionImg5Url" />
+    <result column="description_img6_url" jdbcType="VARCHAR" property="descriptionImg6Url" />
+    <result column="description_img7_url" jdbcType="VARCHAR" property="descriptionImg7Url" />
+    <result column="description_img8_url" jdbcType="VARCHAR" property="descriptionImg8Url" />
+    <result column="description_img9_url" jdbcType="VARCHAR" property="descriptionImg9Url" />
+    <result column="description_img10_url" jdbcType="VARCHAR" property="descriptionImg10Url" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_userid" jdbcType="CHAR" property="createUserid" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_userid" jdbcType="CHAR" property="updateUserid" />
+  </resultMap>
+</mapper>

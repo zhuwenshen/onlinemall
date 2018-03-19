@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhuwenshen.mapper.TChatMapper">
+  <resultMap id="BaseResultMap" type="com.zhuwenshen.model.TChat">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="sender_id" jdbcType="CHAR" property="senderId" />
+    <result column="receiver_id" jdbcType="CHAR" property="receiverId" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="content_url" jdbcType="VARCHAR" property="contentUrl" />
+    <result column="send_time" jdbcType="TIMESTAMP" property="sendTime" />
+    <result column="checked" jdbcType="BIT" property="checked" />
+    <result column="sender_deleted" jdbcType="BIT" property="senderDeleted" />
+    <result column="receiver_deleted" jdbcType="BIT" property="receiverDeleted" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_userid" jdbcType="CHAR" property="createUserid" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_userid" jdbcType="CHAR" property="updateUserid" />
+  </resultMap>
+</mapper>

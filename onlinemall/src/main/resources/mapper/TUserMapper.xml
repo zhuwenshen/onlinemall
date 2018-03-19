@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhuwenshen.mapper.TUserMapper">
+  <resultMap id="BaseResultMap" type="com.zhuwenshen.model.TUser">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="ID_number" jdbcType="CHAR" property="idNumber" />
+    <result column="head_portrait_url" jdbcType="VARCHAR" property="headPortraitUrl" />
+    <result column="integral" jdbcType="DECIMAL" property="integral" />
+    <result column="all_integral" jdbcType="DECIMAL" property="allIntegral" />
+    <result column="fund" jdbcType="DECIMAL" property="fund" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="birthdate" jdbcType="DATE" property="birthdate" />
+    <result column="user_type" jdbcType="INTEGER" property="userType" />
+    <result column="login_ID" jdbcType="VARCHAR" property="loginId" />
+    <result column="login_passworld" jdbcType="VARCHAR" property="loginPassworld" />
+    <result column="pay_passworld" jdbcType="VARCHAR" property="payPassworld" />
+    <result column="frozen" jdbcType="BIT" property="frozen" />
+    <result column="unfreezing_time" jdbcType="TIMESTAMP" property="unfreezingTime" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_userid" jdbcType="CHAR" property="createUserid" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_userid" jdbcType="CHAR" property="updateUserid" />
+  </resultMap>
+</mapper>

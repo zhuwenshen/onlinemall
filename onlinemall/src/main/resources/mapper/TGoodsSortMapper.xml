@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhuwenshen.mapper.TGoodsSortMapper">
+  <resultMap id="BaseResultMap" type="com.zhuwenshen.model.TGoodsSort">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="goods_id" jdbcType="CHAR" property="goodsId" />
+    <result column="sort_name" jdbcType="VARCHAR" property="sortName" />
+    <result column="sort_detail" jdbcType="VARCHAR" property="sortDetail" />
+    <result column="sort_num" jdbcType="INTEGER" property="sortNum" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_userid" jdbcType="CHAR" property="createUserid" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_userid" jdbcType="CHAR" property="updateUserid" />
+  </resultMap>
+</mapper>
