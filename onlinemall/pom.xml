@@ -65,6 +65,10 @@
 			<artifactId>idworker-client</artifactId>
 			<version>1.5</version>
 		</dependency>
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
