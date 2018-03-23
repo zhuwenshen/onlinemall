@@ -1,0 +1,46 @@
+.test{
+	border: 1px solid red;
+	
+	
+}
+
+.m_1{
+	float: left;
+	/* background-image: url("https://4.url.cn/zc/v3/img/01-3.jpg"); */
+	padding-right:5px;
+	width: auto;
+	
+	
+}
+
+.m_1 img{
+	height: 100%;
+}
+
+.m_3{
+	float:right;
+}
+
+.m_2{
+	float: left;
+	background-color: bule;
+	margin-top: 2%;
+	padding: 5% 0 0 10%; 
+	width: 40%;
+	
+}
+.m_table{	
+	
+	border: 1px solid red;
+	
+	
+	
+}
+
+.m_register_form{
+	/* float: right;
+	margin: 18% 5%; */
+}
+
+
+

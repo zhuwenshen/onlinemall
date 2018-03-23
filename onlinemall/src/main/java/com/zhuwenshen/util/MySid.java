@@ -42,6 +42,11 @@ public class MySid {
         String yyMMdd = new SimpleDateFormat("yyMMdd").format(new Date());
         return yyMMdd + String.format("%014d", id);
     }
+    
+    public static String nextInt() {
+        long id = idWorker.nextId();        
+        return String.format("%014d", id);
+    }
 
 
     /**
