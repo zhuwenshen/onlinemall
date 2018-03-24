@@ -1,5 +1,12 @@
 package com.zhuwenshen;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.zhuwenshen.model.custom.User;
+
 public class Test2 {
 	
 /*	public static void main(String[] args) {

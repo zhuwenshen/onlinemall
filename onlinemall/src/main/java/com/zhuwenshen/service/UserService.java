@@ -2,8 +2,6 @@ package com.zhuwenshen.service;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -191,31 +189,6 @@ public class UserService {
 
 		loginHistoryMapper.insertSelective(loginHistory);
 		log.debug("登录成功");
-		Map<String, String> data = new HashMap<String, String>();
-		data.put("t", token);
-
-		String uri = "/login";
-		switch (u.getUserType()) {
-		case (1):
-			uri = "/index";
-			break;
-		case (2):
-			uri = "/index";
-			break;
-		case (3):
-			uri = "/m/index";
-			break;
-		case (4):
-			uri = "/m/index";
-			break;
-		case (5):
-			uri = "/a/index";
-			break;
-		default:
-			uri = "/a/index";
-			break;
-		}
-		data.put("uri", uri);
 
 		return JsonResult.ok("登录成功", token);
 	}

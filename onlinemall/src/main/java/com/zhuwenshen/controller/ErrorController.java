@@ -10,7 +10,6 @@ public class ErrorController {
 	
 	@GetMapping("/msg")
 	public String errorMsg(String msg) {
-		System.out.println(msg);
 		return msg;
 	}
 
