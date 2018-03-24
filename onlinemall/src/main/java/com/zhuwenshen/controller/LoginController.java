@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zhuwenshen.model.custom.JsonResult;
 import com.zhuwenshen.service.UserService;
@@ -22,7 +23,9 @@ public class LoginController {
 	
 	
 	@PostMapping("/login")
-	public JsonResult login(String loginId, String password,String ip) {
-		return userService.login(loginId, password, ip);
+	@ResponseBody
+	public JsonResult login(String login_id, String password,String client_type, String ip, String location) {
+		
+		return userService.login(login_id, password, client_type, ip, location );
 	}
 }

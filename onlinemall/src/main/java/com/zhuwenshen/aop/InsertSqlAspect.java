@@ -19,7 +19,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.zhuwenshen.exception.RedisException;
-import com.zhuwenshen.mapper.TUserMapperCustom;
 import com.zhuwenshen.model.TUser;
 import com.zhuwenshen.service.RedisService;
 import com.zhuwenshen.util.MySid;
@@ -39,9 +38,6 @@ public class InsertSqlAspect {
 	@Autowired
 	private RedisService redisService;
 	
-	@Autowired
-	private TUserMapperCustom userMapperCustom;
-
 	@Pointcut("execution(public * com.zhuwenshen.mapper.*.insert*(..))")
 	public void insert() {
 	}
@@ -65,6 +61,7 @@ public class InsertSqlAspect {
 	 * 设置值
 	 * 
 	 * @param o
+	 * @param executingObject 
 	 */
 	private void setValue(Object o) {
 		log.info("反射执行，插入sql设置表的创建人 、创建时间、更新人和更新时间");
@@ -92,9 +89,28 @@ public class InsertSqlAspect {
 		// setId
 		if (id == null) {
 			id = MySid.nextLong();
-			while(userMapperCustom.selectCountById(id)>0) {
-				id = MySid.nextLong();
-			}
+			/*while(true) {				
+				try {
+					Object o = 
+					Method selectCountByIdMethod = executingObject.getClass().getMethod("selectCountById");
+
+					try {
+						Object obj = selectCountByIdMethod.invoke(executingObject, id);
+						if (obj != null) {
+							if( Integer.valueOf((String) obj)==0) {
+								break;
+							}
+						}
+					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+						e.printStackTrace();
+					}
+				} catch (NoSuchMethodException e) {
+					log.info("当前对象"+executingObject+"没有selectCountById方法");
+					break;
+
+				}
+				//id = MySid.nextLong();
+			}*/
 
 			try {
 				Method setIdMethod = o.getClass().getMethod("setId", String.class);

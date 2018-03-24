@@ -16,7 +16,7 @@ public class Redis {
 	
 	public static int SESSION_TIME = 1*60*60;//session存活时间
 	
-	public static int OBJECT_TIME = 1*60*60;//普通对象存活时间
+	public static int OBJECT_TIME = 5*60;//普通对象存活时间
 
 	@Autowired
 	private JedisPool jedisPool;

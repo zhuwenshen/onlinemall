@@ -15,14 +15,25 @@ public class ValidController {
 	@Autowired
 	private UserService userService;
 	
-	@PostMapping("login/valid/phone")
+	@PostMapping("register/valid/phone")
 	@ResponseBody
-	public String validPhone(String phone) {
-		System.out.println("phone="+phone);
+	public String validPhoneForRegister(String phone) {
+		
 		if(StringUtils.isEmpty(phone)) {
 			return ValidResultUtil.failed();
 		}
 		
 		return userService.validPhoneForRegister(phone);
+	}
+	
+	@PostMapping("login/valid/login_id")
+	@ResponseBody
+	public String validLoginIdForLogin(String login_id) {
+		
+		if(StringUtils.isEmpty(login_id)) {
+			return ValidResultUtil.failed();
+		}
+		
+		return userService.validLoginIdForLogin(login_id);
 	}
 }

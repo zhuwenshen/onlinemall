@@ -12,7 +12,7 @@ public class RedisKey {
 	//过期时间
 	private Integer expire;
 	
-	private String kind;
+	private RedisKind kind;
 
 	
 	
@@ -20,7 +20,7 @@ public class RedisKey {
 		super();
 	}
 
-	public RedisKey(Class<?> clazz, String token, Integer expire, String kind) {
+	public RedisKey(Class<?> clazz, String token, Integer expire, RedisKind kind) {
 		super();
 		this.clazz = clazz;
 		this.token = token;
@@ -52,11 +52,11 @@ public class RedisKey {
 		this.expire = expire;
 	}
 
-	public String getKind() {
+	public RedisKind getKind() {
 		return kind;
 	}
 
-	public void setKind(String kind) {
+	public void setKind(RedisKind kind) {
 		this.kind = kind;
 	}
 
@@ -68,11 +68,15 @@ public class RedisKey {
 		return new RedisKey(clazz, token, time, null);
 	}
 	
-	public static RedisKey key(Class<?> clazz, String token , int time, String kind) {
+	public static RedisKey key(Class<?> clazz, String token , int time, RedisKind kind) {
 		return new RedisKey(clazz, token, time, kind);
 	}
 	
 	
+	public static RedisKey key(Class<?> clazz, String token, RedisKind kind) {
+		return new RedisKey(clazz, token, 0, kind);
+	}
+
 	@Override
 	public String toString() {
 		return JsonUtils.objectToJson(this);

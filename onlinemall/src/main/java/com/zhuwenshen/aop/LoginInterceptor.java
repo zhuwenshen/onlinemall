@@ -1,51 +1,36 @@
-package com.zhuwenshen.filter;
+package com.zhuwenshen.aop;
 
-import java.io.IOException;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.zhuwenshen.exception.RedisException;
 import com.zhuwenshen.model.custom.User;
 import com.zhuwenshen.service.RedisService;
 
-//@Component
-//@WebFilter(urlPatterns = "/*",filterName = "loginFilter")
-public class LoginFilter implements Filter {
 
-	private static Logger log = LoggerFactory.getLogger(LoginFilter.class);
+public class LoginInterceptor implements HandlerInterceptor{
+	
+	private static Logger log = LoggerFactory.getLogger(LoginInterceptor.class);
 
 	@Autowired
 	private RedisService redisService;
 
 	/**
-	 * 封装，不需要过滤的list列表
+	 * 在请求处理之前进行调用（Controller方法调用之前）
 	 */
-	// protected static List<Pattern> patterns = new ArrayList<Pattern>();
-
 	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
-
-		String uri = ((HttpServletRequest) request).getRequestURI();
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, 
+			Object object) throws Exception {		
+		
+		
+		String uri = request.getRequestURI();
+		System.out.println("***uri:" + uri);
 		int u2 = uri.indexOf("/", 2);
 		if (u2 == -1) {
 			uri = "";
@@ -58,29 +43,26 @@ public class LoginFilter implements Filter {
 
 		// 不拦截登录 注册
 		if (uri.startsWith("/login")) {
-			chain.doFilter(request, response);
-			return;
+			
+			return true;
 		}
 		if (uri.startsWith("/register")) {
-			chain.doFilter(request, response);
-			return;
+			return true;
 		}
 
 		if (uri.startsWith("/error")) {
-			chain.doFilter(request, response);
-			return;
+			return true;
 		}
 		
 		if (uri.startsWith("/static")) {
-			chain.doFilter(request, response);
-			return;
+			return true;
 		}
 
 		Object t = request.getAttribute("t");
 		if (t == null) {
 			log.debug("没有到参数t，拒绝访问");			
 			request.getRequestDispatcher("/error/msg?msg=没有到参数t，拒绝访问").forward(request, response);
-			return;
+			return false;
 		}
 
 		// redis获取user对象
@@ -89,9 +71,8 @@ public class LoginFilter implements Filter {
 			user = redisService.getSession(t.toString());
 		} catch (RedisException e) {
 			log.debug("获取不到user对象，即还没登录，拒绝访问");
-
-			((HttpServletResponse) response).sendRedirect("login");
-			return;
+			response.sendRedirect("login");
+			return false;
 
 		}
 
@@ -105,7 +86,7 @@ public class LoginFilter implements Filter {
 		if (uri.startsWith("/m/")) {
 			if (!(user.getUserType() == 4)) {
 				request.getRequestDispatcher("/error/msg?msg=无权限，拒绝访问").forward(request, response);
-				return;
+				return false;
 			}
 		}
 
@@ -113,18 +94,34 @@ public class LoginFilter implements Filter {
 		if (uri.startsWith("/a/")) {
 			if (!(user.getUserType() == 5 || user.getUserType() == 6)) {
 				request.getRequestDispatcher("/error/msg?msg=无权限，拒绝访问").forward(request, response);
-				return;
+				return false;
 			}
 		}
 		log.debug("登录拦截器结束");
-		chain.doFilter(request, response);		
-		return;
-
+			
+		return true;
 	}
-
+	
+	/**
+	 * 请求处理之后进行调用，但是在视图被渲染之前（Controller方法调用之后）
+	 */
 	@Override
-	public void destroy() {
-
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, 
+			Object object, ModelAndView mv)
+			throws Exception {
+		
 	}
-
+	
+	/**
+	 * 在整个请求结束之后被调用，也就是在DispatcherServlet 渲染了对应的视图之后执行
+	 * （主要是用于进行资源清理工作）
+	 */
+	@Override
+	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, 
+			Object object, Exception ex)
+			throws Exception {
+		
+	}
+	
+	
 }

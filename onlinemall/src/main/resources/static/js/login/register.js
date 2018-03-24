@@ -1,6 +1,5 @@
-$(function(){
+$(function(){	
 	
-	console.log("21321")
 	$(".m_1").css("height",$(window).height()); 
 	
 	
@@ -26,7 +25,7 @@ $(function(){
                         remote: {// ajax验证。server result:{"valid",true or
 									// false} 向服务发送当前input
 									// name值，获得一个json数据。例表示正确：{"valid",true}
-                            url: 'login/valid/phone',// 验证地址
+                            url: 'register/valid/phone',// 验证地址
                             message: '手机号已经注册',// 提示消息
                             delay :  200,// 每输入一个字符，就发ajax请求，服务器压力还是太大，设置2秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
                             type: 'POST'// 请求方式
@@ -69,11 +68,11 @@ $(function(){
         });
 	
 	$("#register_form_b").click(function(){
-		alert("1231656");
+		
 		var v = $("#register_form").data('bootstrapValidator');
 		v.validate();
     	if(v.isValid()) {
-    		v.disableSubmitButtons(true);
+    		 $("#register_form_b").attr('disabled',"true");
     		$.ajax({
                 // 几个参数需要注意一下
                     type: "POST",// 方法类型
@@ -81,13 +80,12 @@ $(function(){
                     url: "register" ,// url
                     data: $('#register_form').serialize(),
                     success: function (result) {
-                        console.log(result);// 打印服务端返回的数据(调试用)
-                        $("#register_form_b").attr('disabled',"true");
+                        //console.log(result);// 打印服务端返回的数据(调试用)                       
                        if (result.status) {
                             alert(result.msg);
                             window.location.href="login";
                         }else {
-                        	//alert(result.msg);
+                        	alert(result.msg);
                         }
                     },
                     error : function() {

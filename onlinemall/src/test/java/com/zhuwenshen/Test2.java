@@ -9,7 +9,7 @@ import com.zhuwenshen.model.custom.User;
 
 public class Test2 {
 	
-	public static void main(String[] args) {
+/*	public static void main(String[] args) {
 		List<User> list =  new ArrayList<User>();
 		list.add(new User());
 		
@@ -26,6 +26,6 @@ public class Test2 {
             } 
         }
        
-	}
+	}*/
 
 }
