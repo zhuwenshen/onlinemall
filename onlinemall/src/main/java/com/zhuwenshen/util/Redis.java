@@ -1,8 +1,12 @@
 package com.zhuwenshen.util;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+
+import com.zhuwenshen.model.custom.RedisKey;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -11,13 +15,12 @@ import redis.clients.jedis.JedisPool;
 public class Redis {
 	
 	public static int SESSION_TIME = 1*60*60;//session存活时间
+	
+	public static int OBJECT_TIME = 1*60*60;//普通对象存活时间
 
 	@Autowired
 	private JedisPool jedisPool;
-
-	public Jedis getResource() {
-		return jedisPool.getResource();
-	}
+	
 
 	/**
 	 * 获取key的value值
@@ -25,7 +28,7 @@ public class Redis {
 	 * @param key
 	 * @return
 	 */
-	public String get(String key) {
+	private String get(String key) {
 		Jedis jedis = jedisPool.getResource();
 		String str = "";
 		try {
@@ -47,7 +50,7 @@ public class Redis {
 	 * @param value
 	 * @return
 	 */
-	public String set(String key, String value) {
+	private String set(String key, String value) {
 		Jedis jedis = jedisPool.getResource();
 		String str = "";
 		try {
@@ -61,7 +64,7 @@ public class Redis {
 		}
 		return str;
 	}
-
+	
 	/**
 	 * 实现命令：SET key value EX seconds，设置key-value和超时时间（秒）
 	 * 
@@ -70,7 +73,7 @@ public class Redis {
 	 * @param timeout
 	 *            （以秒为单位）
 	 */
-	public String set(String key, int seconds, String value) {
+	private String set(String key, int seconds, String value) {
 		Jedis jedis = jedisPool.getResource();
 		String str = "";
 		try {
@@ -109,32 +112,41 @@ public class Redis {
 	 * @param key
 	 * @param data
 	 */
-	public void setObject(String key, Object data) {
-		set(key, JsonUtils.objectToJson(data));		
-	}
+	public void setObject(RedisKey key, Object data) {	
+		if(key.getExpire() <= 0) {
+			set(key.toString(), JsonUtils.objectToJson(data));	
+		}else {
+			set(key.toString(), key.getExpire(), JsonUtils.objectToJson(data));
+		}
+			
+	}	
 	
-	/**
-	 * 保存一个对象一段时间
-	 * @param key
-	 * @param seconds
-	 * @param data
-	 */
-	public void setObject(String key, int seconds,Object data) {
-		set(key, seconds, JsonUtils.objectToJson(data));
-	}
 	
 	/**
 	 * 获取一个对象
-	 * @param <T>
 	 * @param key
-	 * @param clazz
 	 * @return 
 	 * @return 
 	 */
-	public<T> T getObject(String key , Class<T> clazz) {
-		String data = get(key);
+	public Object getObject(RedisKey key) {
+		String data = get(key.toString());
 		if(!StringUtils.isEmpty(data)) {
-			 return JsonUtils.jsonToPojo(data, clazz);
+			 return  JsonUtils.jsonToPojo(data, key.getClass());
+		}
+		return null;
+	}	
+	
+	/**
+	 * 获取一个List
+	 * @param <T>
+	 * @param key
+	 * @return 
+	 * @return 
+	 */
+	public <T> List<T> getList(RedisKey key, Class<T> clazz) {
+		String data = get(key.toString());
+		if(!StringUtils.isEmpty(data)) {
+			 return  JsonUtils.jsonToList(data, clazz);
 		}
 		return null;
 	}
@@ -142,18 +154,44 @@ public class Redis {
 	/**
 	 * 获取一个对象，并且让它继续存活一段时间
 	 * @param key
-	 * @param clazz
 	 * @return
 	 */
-	public<T> T getObjectAndActive(String key , Class<T> clazz, int seconds) {		
+	public Object getObjectAndActive(RedisKey key) {		
 		Jedis jedis = jedisPool.getResource();
 		String data = "";
-		T t = null;
+		Object t = null;
 		try {
-			data = jedis.get(key);
-			jedis.expire(key, seconds);
+			data = jedis.get(key.toString());
+			jedis.expire(key.toString(), key.getExpire());
 			if(!StringUtils.isEmpty(data)) {
-				 t =  JsonUtils.jsonToPojo(data, clazz);
+				 t =  JsonUtils.jsonToPojo(data, key.getClazz());
+			}
+		} finally {
+			try {
+				jedis.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return t;
+	}
+	
+	/**
+	 * 获取一个对象，并且让它继续存活一段时间
+	 * @param key
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> List<T> getListAndActive(RedisKey key,  Class<T> clazz) {		
+		Jedis jedis = jedisPool.getResource();
+		String data = "";
+		List<T> t = null;
+		try {
+			data = jedis.get(key.toString());
+			jedis.expire(key.toString(), key.getExpire());
+			if(!StringUtils.isEmpty(data)) {
+				 t =  (List<T>) JsonUtils.jsonToList(data, key.getClazz());
 			}
 		} finally {
 			try {

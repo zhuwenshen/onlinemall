@@ -19,8 +19,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.zhuwenshen.exception.RedisException;
+import com.zhuwenshen.mapper.TUserMapperCustom;
 import com.zhuwenshen.model.TUser;
-import com.zhuwenshen.model.custom.User;
 import com.zhuwenshen.service.RedisService;
 import com.zhuwenshen.util.MySid;
 
@@ -38,6 +38,9 @@ public class InsertSqlAspect {
 
 	@Autowired
 	private RedisService redisService;
+	
+	@Autowired
+	private TUserMapperCustom userMapperCustom;
 
 	@Pointcut("execution(public * com.zhuwenshen.mapper.*.insert*(..))")
 	public void insert() {
@@ -89,6 +92,9 @@ public class InsertSqlAspect {
 		// setId
 		if (id == null) {
 			id = MySid.nextLong();
+			while(userMapperCustom.selectCountById(id)>0) {
+				id = MySid.nextLong();
+			}
 
 			try {
 				Method setIdMethod = o.getClass().getMethod("setId", String.class);
@@ -152,7 +158,7 @@ public class InsertSqlAspect {
 		Object t = session.getAttribute("t");
 		if (t != null) {
 			try {
-				userId = redisService.getObject(t.toString(), User.class).getId();
+				userId = redisService.getSession(t.toString()).getId();
 			} catch (RedisException e) {
 				log.info("redis无登录对象");
 			}

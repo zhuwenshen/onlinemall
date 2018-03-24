@@ -25,12 +25,12 @@ public class RedisTest {
 		
 		u.setId(MySid.nextLong());
 		u.setName("这是名字");
-		u.setPassworld("这是密码");
+		//u.setPassworld("这是密码");
 				
-		String  token = redisService.setSession(u, null);
+		//String  token = redisService.setSession(u, null);
 		
-		User user = redisService.getSession(token);
+		//User user = redisService.getSession(token);
 		System.out.println(u);
-		System.out.println(user);
+		//System.out.println(user);
 	}
 }

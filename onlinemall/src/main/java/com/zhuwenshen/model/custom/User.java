@@ -3,6 +3,8 @@ package com.zhuwenshen.model.custom;
 import java.math.BigDecimal;
 import java.util.Set;
 
+import com.zhuwenshen.model.TUser;
+
 public class User {
 
 	private String id;
@@ -10,8 +12,6 @@ public class User {
 	private String phone;
 
 	private String name;
-
-	private String passworld;
 	
 	private String email;
 	
@@ -37,6 +37,23 @@ public class User {
 
 	private Set<String> urls;
 
+	
+	
+	public User() {
+		super();
+	}
+
+	public User(TUser u) {
+		id = u.getId();
+		phone = u.getPhone();
+		name = u.getName();
+		email = u.getEmail();
+		integral = u.getIntegral();
+		allIntegral = u.getAllIntegral();
+		fund = u.getFund();
+		userType = u.getUserType();
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -61,13 +78,6 @@ public class User {
 		this.name = name;
 	}
 
-	public String getPassworld() {
-		return passworld;
-	}
-
-	public void setPassworld(String passworld) {
-		this.passworld = passworld;
-	}
 
 	public String getEmail() {
 		return email;
@@ -119,7 +129,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", phone=" + phone + ", name=" + name + ", passworld=" + passworld + ", email="
+		return "User [id=" + id + ", phone=" + phone + ", name=" + name + ", email="
 				+ email + ", integral=" + integral + ", allIntegral=" + allIntegral + ", fund=" + fund + ", userType="
 				+ userType + ", urls=" + urls + "]";
 	}

@@ -18,7 +18,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.zhuwenshen.exception.RedisException;
-import com.zhuwenshen.model.custom.User;
 import com.zhuwenshen.service.RedisService;
 
 /**
@@ -79,7 +78,7 @@ public class UpdateSqlAspect {
 		Object t = session.getAttribute("t");
 		if (t != null) {
 			try {
-				userId = redisService.getObject(t.toString(), User.class).getId();
+				userId = redisService.getSession(t.toString()).getId();
 			} catch (RedisException e) {
 				log.info("redis无登录对象");
 			}

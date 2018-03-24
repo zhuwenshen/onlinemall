@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.zhuwenshen.exception.RedisException;
 import com.zhuwenshen.mapper.TUserMapper;
 import com.zhuwenshen.mapper.TUserMapperCustom;
 import com.zhuwenshen.model.TUser;
 import com.zhuwenshen.model.custom.JsonResult;
+import com.zhuwenshen.model.custom.User;
 import com.zhuwenshen.util.MySid;
 import com.zhuwenshen.util.ValidResultUtil;
 
@@ -26,6 +28,9 @@ public class UserService {
 	
 	@Autowired
 	private TUserMapper userMapper;
+	
+	@Autowired
+	private RedisService redisService;
 	
 	/**
 	 * 验证手机号是否已经注册，或者已经是登录ID
@@ -80,16 +85,49 @@ public class UserService {
 		user.setLoginId(phone);
 		user.setLoginPassworld(password);
 		user.setFrozen(false);
-		/*user.setDeleted(false);
-		user.setCreateTime(new Date());
-		user.setCreateUserid(user.getId());
-		user.setUpdateTime(new Date());
-		user.setUpdateUserid(user.getId());*/
 		userMapper.insertSelective(user);
 		log.info(user.toString());		
 		log.info("注册完成");
 		
 		return JsonResult.ok("注册成功");
+	}
+
+	 /**
+	  * 登录
+	  * @param loginId
+	  * @param password
+	  * @param ip
+	  * @return
+	  */
+	public JsonResult login(String loginId, String password, String ip) {
+		TUser tuser = new TUser();
+		tuser.setLoginId(loginId);
+		tuser.setLoginPassworld(password);
+		tuser.setDeleted(false);
+		if(userMapper.selectCount(tuser)<=0) {
+			return JsonResult.fail("账号或密码错误");
+		}
+		
+		tuser = userMapper.selectByExample(tuser).get(0);
+		
+		//判断是否冻结
+		if(tuser.getFrozen()) {
+			
+		}
+		
+		//缓存redis
+		User u = new User(tuser);
+		//TODO 这是权限url
+		//u.setUrls( );
+		
+		String token = null;
+		try {
+			token = redisService.setObjectLong(null, u, u.getClass()).getToken();
+		} catch (RedisException e) {
+			return JsonResult.fail("服务器异常，请联系管理员,"+e.getMsg());
+		}
+		
+		return JsonResult.ok("登录成功", token);
 	}
 	
 }

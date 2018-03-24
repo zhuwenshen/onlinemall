@@ -1,10 +1,13 @@
 package com.zhuwenshen.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.zhuwenshen.exception.RedisException;
+import com.zhuwenshen.model.custom.RedisKey;
 import com.zhuwenshen.model.custom.User;
 import com.zhuwenshen.util.MySid;
 import com.zhuwenshen.util.Redis;
@@ -36,7 +39,7 @@ public class RedisService {
 		if(StringUtils.isEmpty(token)) {
 			token = MySid.nextLong();
 		}
-		redis.setObject(token, Redis.SESSION_TIME, user);
+		setObject(token, user, User.class, Redis.SESSION_TIME);
 		
 		return token;
 	}
@@ -50,9 +53,8 @@ public class RedisService {
 	public User getSession(String token) throws RedisException {
 		if(StringUtils.isEmpty(token)) {
 			return null;
-		}
-		
-		User user = redis.getObjectAndActive(token, User.class, Redis.SESSION_TIME);
+		}		
+		User user = getObject(token, User.class, Redis.SESSION_TIME);
 		
 		if(user == null) {
 			throw new RedisException("redis获取session对象失败");
@@ -60,16 +62,25 @@ public class RedisService {
 		
 		return user;
 	}
-	
+		
 	
 	
 	/**
-	 * 转换redis的的字符串
-	 * @param token
-	 * @return
+	 * redis保存对象
+	 * @param test
+	 * @throws RedisException
 	 */
-	public static String transforToRedisToken(String token, Class<?> clazz) {
-		return "token-"+clazz.getSimpleName()+"-"+token;
+	public RedisKey setObjectForever(String token, Object o ,Class<?> clazz) throws RedisException  {
+		if(o == null) {
+			throw new RedisException("redis保存对象不能为空");
+		}
+		if(StringUtils.isEmpty(token)) {
+			token = MySid.nextLong();
+		}
+		RedisKey key  = RedisKey.key(clazz, token);
+		redis.setObject(key, o);
+		
+		return key;
 	}
 	
 	/**
@@ -77,30 +88,59 @@ public class RedisService {
 	 * @param test
 	 * @throws RedisException
 	 */
-	public String setObject(String token, Object o ,Class<?> clazz) throws RedisException  {
-		if(o == null) {
+	public RedisKey setObject(String token, Object data ,Class<?> clazz , int time) throws RedisException  {
+		if(data == null) {
 			throw new RedisException("redis保存对象不能为空");
 		}
 		if(StringUtils.isEmpty(token)) {
 			token = MySid.nextLong();
 		}
-		redis.setObject(transforToRedisToken(token, clazz), Redis.SESSION_TIME, o);
+		RedisKey key  = RedisKey.key(clazz, token, time);
+		redis.setObject(key, data);
 		
-		return token;
+		return key;
 	}
 	
 	/**
-	 * redis获取对象
+	 * 短时间保存对象
+	 * @param token
+	 * @param o
+	 * @param clazz
+	 * @param time
+	 * @return
+	 * @throws RedisException
+	 */
+	public RedisKey setObjectShort(String token, Object data ,Class<?> clazz) throws RedisException  {		
+		return setObject(token, data, clazz, Redis.OBJECT_TIME);
+	}
+	
+	/**
+	 * 长时间保存对象
+	 * @param token
+	 * @param o
+	 * @param clazz
+	 * @param time
+	 * @return
+	 * @throws RedisException
+	 */
+	public RedisKey setObjectLong(String token, Object data ,Class<?> clazz) throws RedisException  {		
+		return setObject(token, data, clazz, Redis.SESSION_TIME);
+	}
+	
+	
+	/**
+	 * redis获取永久对象
 	 * @param token
 	 * @return
 	 * @throws RedisException
 	 */
-	public <T> T getObject(String token,Class<T> clazz) throws RedisException {
+	public <T> T getObjectForever(String token,Class<T> clazz) throws RedisException {
 		if(StringUtils.isEmpty(token)) {
 			return null;
 		}
 		
-		T t = redis.getObjectAndActive(transforToRedisToken(token, clazz), clazz, Redis.SESSION_TIME);
+		@SuppressWarnings("unchecked")
+		T t = (T) redis.getObject(RedisKey.key(clazz, token));
 		
 		if(t == null) {
 			throw new RedisException("redis获取对象失败");
@@ -109,15 +149,73 @@ public class RedisService {
 		return t;
 	}
 	
-	/*public String getUserIdByToken(String token) {
+	/**
+	 * redis获取一段时间的对象
+	 * @param token
+	 * @return
+	 * @throws RedisException
+	 */
+	public <T> T getObject(String token,Class<T> clazz,int time) throws RedisException {
 		if(StringUtils.isEmpty(token)) {
 			return null;
 		}
-		String userId = redis.get(transforTokenToRedisToken(token));
-		return userId;
+		
+		@SuppressWarnings("unchecked")
+		T t = (T) redis.getObjectAndActive(RedisKey.key(clazz, token,time));
+		
+		if(t == null) {
+			throw new RedisException("redis获取对象失败");
+		}
+		
+		return t;
 	}
 	
-	public String transforTokenToRedisToken(String token) {
-		return "token-userId-"+token;
-	}*/
+	/**
+	 * 取出短时间对象
+	 * @param token
+	 * @param o
+	 * @param clazz
+	 * @param time
+	 * @return
+	 * @throws RedisException
+	 */
+	public <T> T getObjectShort(String token ,Class<T> clazz) throws RedisException  {		
+		return getObject(token, clazz, Redis.OBJECT_TIME);
+	}
+	
+	/**
+	 * 取出长时间对象
+	 * @param token
+	 * @param o
+	 * @param clazz
+	 * @param time
+	 * @return
+	 * @throws RedisException
+	 */
+	public  <T> T getObjectLong(String token ,Class<T> clazz) throws RedisException  {		
+		return getObject(token,  clazz, Redis.SESSION_TIME);
+	}
+	
+	/**
+	 * redis获取永久List
+	 * @param <T>
+	 * @param token
+	 * @return
+	 * @throws RedisException
+	 */
+	public <T> List<T> getListForever(String token,Class<T> clazz) throws RedisException {
+		if(StringUtils.isEmpty(token)) {
+			return null;
+		}
+				
+		List<T> list =  redis.getList(RedisKey.key(clazz, token) ,clazz);
+		
+		if(list == null) {
+			throw new RedisException("redis获取对象失败");
+		}
+		
+		return list;
+	}
+	
+	
 }
