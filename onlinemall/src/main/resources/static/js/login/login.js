@@ -66,7 +66,7 @@ $(function(){
                        if (result.status) {
                             alert(result.msg);
                             
-                            window.location.href="index?t="+result.data;
+                            window.location.href=result.data.uri+"?t="+result.data.t;
                         }else {
                         	alert(result.msg);
                         }

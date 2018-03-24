@@ -15,6 +15,7 @@ import com.zhuwenshen.util.MySid;
 @SpringBootTest
 public class RedisTest {
 	
+	@SuppressWarnings("unused")
 	@Autowired
 	private RedisService redisService;	
 	
