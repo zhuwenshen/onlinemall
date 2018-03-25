@@ -30,7 +30,7 @@ public class Redis {
 	 */
 	private String get(String key) {
 		Jedis jedis = jedisPool.getResource();
-		String str = "";
+		String str = null;
 		try {
 			str = jedis.get(key);
 		} finally {
@@ -38,6 +38,7 @@ public class Redis {
 				jedis.close();
 			} catch (Exception e) {
 				e.printStackTrace();
+				return str;
 			}
 		}
 		return str;
@@ -52,7 +53,7 @@ public class Redis {
 	 */
 	private String set(String key, String value) {
 		Jedis jedis = jedisPool.getResource();
-		String str = "";
+		String str = null;
 		try {
 			str = jedis.set(key, value);
 		} finally {
@@ -60,6 +61,7 @@ public class Redis {
 				jedis.close();
 			} catch (Exception e) {
 				e.printStackTrace();
+				return str;
 			}
 		}
 		return str;
@@ -75,7 +77,7 @@ public class Redis {
 	 */
 	private String set(String key, int seconds, String value) {
 		Jedis jedis = jedisPool.getResource();
-		String str = "";
+		String str = null;
 		try {
 			str = jedis.setex(key, seconds, value);
 		} finally {
@@ -83,6 +85,7 @@ public class Redis {
 				jedis.close();
 			} catch (Exception e) {
 				e.printStackTrace();
+				return str;
 			}
 		}
 		return str;
@@ -166,11 +169,15 @@ public class Redis {
 			if(!StringUtils.isEmpty(data)) {
 				 t =  JsonUtils.jsonToPojo(data, key.getClazz());
 			}
-		} finally {
+		}catch(Exception e) {
+			e.printStackTrace();
+			return t;
+		}finally {
 			try {
 				jedis.close();
 			} catch (Exception e) {
 				e.printStackTrace();
+				return t;
 			}
 		}
 		
@@ -193,11 +200,15 @@ public class Redis {
 			if(!StringUtils.isEmpty(data)) {
 				 t =  (List<T>) JsonUtils.jsonToList(data, key.getClazz());
 			}
+		}catch(Exception e) {
+			e.printStackTrace();
+			return t;
 		} finally {
 			try {
 				jedis.close();
 			} catch (Exception e) {
 				e.printStackTrace();
+				return t;
 			}
 		}
 		

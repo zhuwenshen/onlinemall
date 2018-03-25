@@ -169,16 +169,30 @@ public class UserService {
 		}
 
 		// 缓存redis
-		User u = new User(tuser);
+		User u = getUserByTUser(tuser);
+				
 		// TODO 这是权限url
 		// u.setUrls( );
 
 		String token = null;
+		//检查该用户是否已经登陆
+		//TODO
+		
 		try {
 			token = redisService.setObjectLong(null, u, u.getClass(), RedisKind.SESSION).getToken();
 		} catch (RedisException e) {
-			return JsonResult.fail("服务器异常，请联系管理员," + e.getMsg());
+			//return JsonResult.fail("服务器异常，请联系管理员," + e.getMsg());
+			log.error("redis服务器异常");
+			token = MySid.nextLong();
 		}
+		
+		//更改以前的登录历史为无效
+		/*TLoginHistory lh= new TLoginHistory();
+		lh.setUseful(false);
+		TLoginHistory example = new  TLoginHistory();
+		
+		
+		loginHistoryMapper.updateByExampleSelective(lh, example);*/
 
 		// 插入登录历史
 		TLoginHistory loginHistory = new TLoginHistory();
@@ -187,10 +201,15 @@ public class UserService {
 		loginHistory.setLoginTime(new Date());
 		loginHistory.setToken(token);
 		loginHistory.setIp(ip);
+		loginHistory.setUseful(true);
 		loginHistory.setLocation(location);
 
 		loginHistoryMapper.insertSelective(loginHistory);
 		log.debug("登录成功");
+		
+		
+		
+		
 		Map<String, String> data = new HashMap<String, String>();
 		data.put("t", token);
 
@@ -218,6 +237,36 @@ public class UserService {
 		data.put("uri", uri);
 
 		return JsonResult.ok("登录成功", data);
+	}
+
+	/**
+	 * 获取登陆对象User
+	 * 
+	 * @param token
+	 * @return
+	 * @throws RedisException
+	 */
+	public User getSession(String token) {
+		User u = null;
+		try {
+			u = redisService.getSession(token);
+		} catch (Exception e) {
+			log.debug("redis服务异常");
+		}
+
+		if (u == null) {
+			// 到登录历史中查询最新登录
+		}
+
+		return u;
+	}
+
+	public User getUserByTUser(TUser t) {
+		User u = getUserByTUser(t);
+		new User(t);
+		// TODO 这是权限url
+		// u.setUrls( );
+		return u;
 	}
 
 }
