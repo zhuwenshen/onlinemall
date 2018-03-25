@@ -1,7 +1,5 @@
+
 $(function(){	
-	
-	$(".m_1").css("height",$(window).height()); 
-	
 	
 	$('#login_form').bootstrapValidator({
 　　　　　　　　message: 'This value is not valid',
@@ -49,10 +47,29 @@ $(function(){
             }
         });
 	
+	var form =  $("#login_form").data('bootstrapValidator');
+	$("#login_id").focusout(function(){
+		form.validateField("login_id");
+	});
+	$("#password").focus(function(){
+		form.validate();
+	});
+	
+	/*function a(value){
+		alert(value)
+	}
+	
+	function b(fun , value) {
+		fun(value);
+	}*/
+	
+	
+	
 	$("#login_form_b").click(function(){
 		
+		
 		var v = $("#login_form").data('bootstrapValidator');
-		v.validate();
+		var a = v.validate();
     	if(v.isValid()) {
     		 $("#login_form_b").attr('disabled',"true");
     		$.ajax({
@@ -64,21 +81,24 @@ $(function(){
                     success: function (result) {
                         //console.log(result);// 打印服务端返回的数据(调试用)                       
                        if (result.status) {
-                            alert(result.msg);
-                            
+                            alert(result.msg); 
+                            console.log(a);
                             window.location.href=result.data.uri+"?t="+result.data.t;
                         }else {
                         	alert(result.msg);
+                        	 $("#login_form_b").removeAttr("disabled");
                         }
                     },
                     error : function() {
                         alert("服务器异常！");
                         $("#login_form_b").removeAttr("disabled");
                     }
-                });
-    		
+                });    		
     	}
 	});
+	
+	
 });
+
 
 

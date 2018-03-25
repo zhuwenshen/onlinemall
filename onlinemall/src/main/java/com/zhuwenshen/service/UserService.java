@@ -197,27 +197,27 @@ public class UserService {
 		String uri = "/login";
 		switch (u.getUserType()) {
 		case (1):
-			uri = "/index";
+			uri = "index";
 			break;
 		case (2):
-			uri = "/index";
+			uri = "index";
 			break;
 		case (3):
-			uri = "/m/index";
+			uri = "m/index";
 			break;
 		case (4):
-			uri = "/m/index";
+			uri = "m/index";
 			break;
 		case (5):
-			uri = "/a/index";
+			uri = "a/index";
 			break;
 		default:
-			uri = "/a/index";
+			uri = "a/index";
 			break;
 		}
 		data.put("uri", uri);
 
-		return JsonResult.ok("登录成功", token);
+		return JsonResult.ok("登录成功", data);
 	}
 
 }
