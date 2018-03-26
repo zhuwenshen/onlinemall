@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zhuwenshen.service.UserService;
-import com.zhuwenshen.util.ValidResultUtil;
+import com.zhuwenshen.util.ValidResultUtils;
 
 @Controller
 public class ValidController {
@@ -20,7 +20,7 @@ public class ValidController {
 	public String validPhoneForRegister(String phone) {
 		
 		if(StringUtils.isEmpty(phone)) {
-			return ValidResultUtil.failed();
+			return ValidResultUtils.failed();
 		}
 		
 		return userService.validPhoneForRegister(phone);
@@ -31,7 +31,7 @@ public class ValidController {
 	public String validLoginIdForLogin(String login_id) {
 		
 		if(StringUtils.isEmpty(login_id)) {
-			return ValidResultUtil.failed();
+			return ValidResultUtils.failed();
 		}
 		
 		return userService.validLoginIdForLogin(login_id);

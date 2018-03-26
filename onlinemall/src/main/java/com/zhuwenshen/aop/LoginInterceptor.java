@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.zhuwenshen.model.custom.User;
 import com.zhuwenshen.service.UserService;
-import com.zhuwenshen.util.ContextUtil;
+import com.zhuwenshen.util.ContextUtils;
 
 public class LoginInterceptor extends WebApplicationObjectSupport implements HandlerInterceptor {
 
@@ -29,7 +29,7 @@ public class LoginInterceptor extends WebApplicationObjectSupport implements Han
 		
 
 		if (userService == null) {
-			userService = ContextUtil.getBean(UserService.class);
+			userService = ContextUtils.getBean(UserService.class);
 		}
 
 		String uri = request.getRequestURI();
@@ -52,7 +52,7 @@ public class LoginInterceptor extends WebApplicationObjectSupport implements Han
 				}
 			}
 		}
-
+		
 		Object t2 = request.getParameter("t");
 		if (t2 == null) {
 			if (t != null) {
@@ -61,7 +61,9 @@ public class LoginInterceptor extends WebApplicationObjectSupport implements Han
 		} else if (t == null) {
 			t = t2;
 		}
-
+		
+		String contextPath = ContextUtils.contextPath;
+		
 		// redis获取user对象
 		User user = null;
 		if (t != null) {
@@ -71,11 +73,15 @@ public class LoginInterceptor extends WebApplicationObjectSupport implements Han
 				log.debug("获取不到user对象，即还没登录，拒绝访问");
 				deleteCookieT(response);
 				request.removeAttribute("t");
-				response.sendRedirect("/login");
+				if(uri.startsWith("/login") || uri.startsWith("/static") || uri.startsWith("/error")||uri.startsWith("/register")) {
+					return true;
+				}
+				
+				response.sendRedirect(contextPath+"/login");
 				return false;
 			}
 		}
-
+		
 		if (uri.startsWith("/login")) {
 			if (user != null) {
 
@@ -101,8 +107,7 @@ public class LoginInterceptor extends WebApplicationObjectSupport implements Han
 					break;
 				}
 
-				request.getRequestDispatcher(nextUri + "?t=" + t.toString()).forward(request, response);
-
+				response.sendRedirect(nextUri + "?t=" + t.toString());
 				return false;
 			}
 			return true;
@@ -176,6 +181,7 @@ public class LoginInterceptor extends WebApplicationObjectSupport implements Han
 		}
 		if (t != null) {
 			Cookie cookie = new Cookie("t", t.toString());
+			cookie.setPath(ContextUtils.contextPath);
 			// 设置cookie的存活时间
 			// cookie.setMaxAge(5*60);
 			response.addCookie(cookie);
@@ -194,6 +200,7 @@ public class LoginInterceptor extends WebApplicationObjectSupport implements Han
 
 	private void deleteCookieT(HttpServletResponse response) {
 		Cookie cookie = new Cookie("t", null);
+		cookie.setPath(ContextUtils.contextPath);
 		cookie.setMaxAge(0);
 		response.addCookie(cookie);
 	}

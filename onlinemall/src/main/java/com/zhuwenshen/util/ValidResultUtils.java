@@ -1,6 +1,6 @@
 package com.zhuwenshen.util;
 
-public class ValidResultUtil {
+public class ValidResultUtils {
 	
 	public  static String ok() {
 		return "{\"valid\":true}";

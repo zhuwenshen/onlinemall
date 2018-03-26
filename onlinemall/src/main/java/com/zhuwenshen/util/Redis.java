@@ -214,6 +214,27 @@ public class Redis {
 		
 		return t;
 	}
+
+	/**
+	 * 删除一个对象
+	 * @param key
+	 */
+	public void delete(RedisKey key) {
+		Jedis jedis = jedisPool.getResource();
+		try {
+			jedis.del(key.toString());
+			
+		}catch(Exception e) {
+			e.printStackTrace();			
+		} finally {
+			try {
+				jedis.close();
+			} catch (Exception e) {
+				e.printStackTrace();				
+			}
+		}
+		
+	}
 	
 	
 }

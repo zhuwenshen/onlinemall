@@ -65,6 +65,20 @@ public class RedisService {
 		
 		return user;
 	}
+	
+	/**
+	 * 删除一个session
+	 * @param token
+	 */
+	public void deleteSession(String token) {
+		if(StringUtils.isEmpty(token)) {
+			return;
+		}		
+		
+		RedisKey key = RedisKey.key(User.class, token, Redis.SESSION_TIME, RedisKind.SESSION);
+		redis.delete(key);		
+		
+	}
 		
 	
 	
@@ -232,6 +246,8 @@ public class RedisService {
 		
 		return list;
 	}
+
+	
 	
 	
 }

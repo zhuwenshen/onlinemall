@@ -22,8 +22,12 @@ import com.zhuwenshen.model.TUser;
 import com.zhuwenshen.model.custom.JsonResult;
 import com.zhuwenshen.model.custom.RedisKind;
 import com.zhuwenshen.model.custom.User;
+import com.zhuwenshen.util.ContextUtils;
 import com.zhuwenshen.util.MySid;
-import com.zhuwenshen.util.ValidResultUtil;
+import com.zhuwenshen.util.ValidResultUtils;
+
+import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Example.Criteria;
 
 @Service
 public class UserService {
@@ -44,6 +48,9 @@ public class UserService {
 
 	@Autowired
 	private TLoginHistoryMapper loginHistoryMapper;
+	
+	
+	private String contextPath = "";
 
 	/**
 	 * 验证手机号是否已经注册，或者是登录ID
@@ -55,10 +62,10 @@ public class UserService {
 		int num = userMapperCustom.selectCountPhoneOrLoginId(phone);
 
 		if (num == 0) {
-			return ValidResultUtil.ok();
+			return ValidResultUtils.ok();
 		}
 
-		return ValidResultUtil.failed();
+		return ValidResultUtils.failed();
 	}
 
 	/**
@@ -71,10 +78,10 @@ public class UserService {
 		int num = userMapperCustom.selectCountPhoneOrLoginId(phone);
 
 		if (num == 0) {
-			return ValidResultUtil.failed();
+			return ValidResultUtils.failed();
 		}
 
-		return ValidResultUtil.ok();
+		return ValidResultUtils.ok();
 	}
 
 	/**
@@ -125,7 +132,7 @@ public class UserService {
 	 * @param location
 	 * @return
 	 */
-	public JsonResult login(String loginId, String password, String client_type, String ip, String location) {
+	public JsonResult login(String loginId, String password, String clientType, String ip, String location) {
 
 		if (StringUtils.isEmpty(loginId)) {
 			return JsonResult.fail("账号不能为空");
@@ -135,12 +142,12 @@ public class UserService {
 			return JsonResult.fail("密码不能为空");
 		}
 
-		if (StringUtils.isEmpty(client_type)) {
+		if (StringUtils.isEmpty(clientType)) {
 			return JsonResult.fail("客户端类型不能为空");
 		}
 
 		try {
-			Integer.valueOf(client_type);
+			Integer.valueOf(clientType);
 		} catch (NumberFormatException e1) {
 			return JsonResult.fail("客户端类型为整数");
 		}
@@ -175,8 +182,12 @@ public class UserService {
 		// u.setUrls( );
 
 		String token = null;
-		//检查该用户是否已经登陆
-		//TODO
+		//检查该用户是否存在有用的token
+		TLoginHistory l2 = loginHistoryMapper.selectUsefulByUserIdAndClientType(u.getId(), Integer.valueOf(clientType));
+		if(l2!=null) {
+			//在redis中删除有用的token
+			redisService.deleteSession(l2.getToken());
+		}
 		
 		try {
 			token = redisService.setObjectLong(null, u, u.getClass(), RedisKind.SESSION).getToken();
@@ -187,17 +198,19 @@ public class UserService {
 		}
 		
 		//更改以前的登录历史为无效
-		/*TLoginHistory lh= new TLoginHistory();
+		TLoginHistory lh= new TLoginHistory();
 		lh.setUseful(false);
-		TLoginHistory example = new  TLoginHistory();
-		
-		
-		loginHistoryMapper.updateByExampleSelective(lh, example);*/
+		Example example = new Example(TLoginHistory.class);
+		Criteria criteria  = example.createCriteria();
+		criteria.andEqualTo("userId", u.getId());
+		criteria.andEqualTo("clientType", Integer.valueOf(clientType));
+		criteria.andEqualTo("useful", true);		
+		loginHistoryMapper.updateByExampleSelective(lh, example);
 
 		// 插入登录历史
 		TLoginHistory loginHistory = new TLoginHistory();
 		loginHistory.setUserId(tuser.getId());
-		loginHistory.setClientType(Integer.valueOf(client_type));
+		loginHistory.setClientType(Integer.valueOf(clientType));
 		loginHistory.setLoginTime(new Date());
 		loginHistory.setToken(token);
 		loginHistory.setIp(ip);
@@ -213,25 +226,26 @@ public class UserService {
 		Map<String, String> data = new HashMap<String, String>();
 		data.put("t", token);
 
-		String uri = "/login";
+		contextPath = ContextUtils.contextPath;
+		String uri = contextPath+"/login";
 		switch (u.getUserType()) {
 		case (1):
-			uri = "index";
+			uri = contextPath+"/index";
 			break;
 		case (2):
-			uri = "index";
+			uri = contextPath+"/index";
 			break;
 		case (3):
-			uri = "m/index";
+			uri = contextPath+"/m/index";
 			break;
 		case (4):
-			uri = "m/index";
+			uri = contextPath+"/m/index";
 			break;
 		case (5):
-			uri = "a/index";
+			uri = contextPath+"/a/index";
 			break;
 		default:
-			uri = "a/index";
+			uri = contextPath+"/a/index";
 			break;
 		}
 		data.put("uri", uri);
@@ -256,14 +270,17 @@ public class UserService {
 
 		if (u == null) {
 			// 到登录历史中查询最新登录
+			TLoginHistory loginHistory = loginHistoryMapper.selectByUsefulToken(token);
+			if(loginHistory!=null) {
+				u = getUserByTUser(userMapper.selectByPrimaryKey(loginHistory.getUserId()));
+			}
 		}
 
 		return u;
 	}
 
 	public User getUserByTUser(TUser t) {
-		User u = getUserByTUser(t);
-		new User(t);
+		User u = new User(t);
 		// TODO 这是权限url
 		// u.setUrls( );
 		return u;

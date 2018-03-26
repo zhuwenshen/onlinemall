@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import com.zhuwenshen.util.ContextUtil;
+import com.zhuwenshen.util.ContextUtils;
 
 import tk.mybatis.spring.annotation.MapperScan;
 
@@ -23,6 +23,6 @@ public class Application {
 
 	public static void main(String[] args) {
 		final ApplicationContext applicationContext = SpringApplication.run(Application.class, args);
-		ContextUtil.set(applicationContext);
+		ContextUtils.set(applicationContext);
 	}	
 }
