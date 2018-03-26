@@ -1,5 +1,7 @@
 package com.zhuwenshen.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +26,8 @@ public class LoginController {
 	
 	@PostMapping("/login")
 	@ResponseBody
-	public JsonResult login(String login_id, String password,String client_type, String ip, String location) {
+	public JsonResult login(HttpSession session, String login_id, String password,String client_type, String ip, String location) {
 		
-		return userService.login(login_id, password, client_type, ip, location );
+		return userService.login(session, login_id, password, client_type, ip, location );
 	}
 }

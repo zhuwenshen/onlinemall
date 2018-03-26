@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
 import org.springframework.web.context.support.WebApplicationObjectSupport;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -42,7 +41,7 @@ public class LoginInterceptor extends WebApplicationObjectSupport implements Han
 
 		System.out.println("uri:" + uri + "?" + (request.getQueryString() == null ? "" : request.getQueryString()));
 
-		Object t = null;
+		/*Object t = null;
 
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
@@ -51,71 +50,64 @@ public class LoginInterceptor extends WebApplicationObjectSupport implements Han
 					t = cookies[i].getValue();
 				}
 			}
-		}
-		
-		Object t2 = request.getParameter("t");
-		if (t2 == null) {
-			if (t != null) {
-				request.setAttribute("t", t);
-			}
-		} else if (t == null) {
-			t = t2;
-		}
-		
+		}		
+		*/
 		String contextPath = ContextUtils.contextPath;
 		
-		// redis获取user对象
+		// session获取user对象
 		User user = null;
-		if (t != null) {
-
-			user = userService.getSession(t.toString());
-			if (user == null) {
-				log.debug("获取不到user对象，即还没登录，拒绝访问");
-				deleteCookieT(response);
-				request.removeAttribute("t");
-				if(uri.startsWith("/login") || uri.startsWith("/static") || uri.startsWith("/error")||uri.startsWith("/register")) {
-					return true;
-				}
-				
-				response.sendRedirect(contextPath+"/login");
-				return false;
-			}
+		Object u = request.getSession().getAttribute("user");
+		if(u!=null && u instanceof User) {
+			user = (User)u;
 		}
+//		if (t != null) {
+			//检验ip和token，自动登录
+//			user = userService.getSession(t.toString());
+//			if (user == null) {
+//				log.debug("获取不到user对象，即还没登录，拒绝访问");
+//				deleteCookieT(response);
+//				request.removeAttribute("t");
+//				if(uri.startsWith("/login") || uri.startsWith("/static") || uri.startsWith("/error")||uri.startsWith("/register")) {
+//					return true;
+//				}
+//				
+//				response.sendRedirect(contextPath+"/login");
+//				return false;
+//			}
+//		}
 		
 		if (uri.startsWith("/login")) {
 			if (user != null) {
 
-				String nextUri = "index";
+				String nextUri = contextPath+"/index";
 				switch (user.getUserType()) {
 				case (1):
-					nextUri = "index";
+					nextUri = contextPath+"/index";
 					break;
 				case (2):
-					nextUri = "index";
+					nextUri = contextPath+"/index";
 					break;
 				case (3):
-					nextUri = "m/index";
+					nextUri = contextPath+"/m/index";
 					break;
 				case (4):
-					nextUri = "m/index";
+					nextUri = contextPath+"/m/index";
 					break;
 				case (5):
-					nextUri = "a/index";
+					nextUri = contextPath+"/a/index";
 					break;
 				default:
-					nextUri = "a/index";
+					nextUri = contextPath+"/a/index";
 					break;
 				}
 
-				response.sendRedirect(nextUri + "?t=" + t.toString());
+				response.sendRedirect(nextUri+"?2222");
 				return false;
 			}
 			return true;
 		}
 
-		if (uri.startsWith("/register")) {
-			deleteCookieT(response);
-			request.removeAttribute("t");
+		if (uri.startsWith("/register")) {			
 			return true;
 		}
 
@@ -127,9 +119,16 @@ public class LoginInterceptor extends WebApplicationObjectSupport implements Han
 			return true;
 		}
 
-		if (t == null) {
+		/*if (t == null) {
 			log.debug("没有到参数t，拒绝访问");
 			request.getRequestDispatcher("/error/msg?msg=没有到参数t，拒绝访问").forward(request, response);
+			return false;
+		}*/
+		
+		if (user == null) {
+			log.debug("没有登录，拒绝访问");
+			response.sendRedirect(contextPath+"/login");
+			//request.getRequestDispatcher("/login").forward(request, response);
 			return false;
 		}
 
@@ -171,14 +170,7 @@ public class LoginInterceptor extends WebApplicationObjectSupport implements Han
 		if (mv == null)
 			return;
 		Object t = mv.getModel().get("t");
-		if (t == null) {
-			t = request.getParameter("t");
-			if (t instanceof String) {
-				if (!StringUtils.isEmpty(t)) {
-					mv.getModel().put("t", t);
-				}
-			}
-		}
+		
 		if (t != null) {
 			Cookie cookie = new Cookie("t", t.toString());
 			cookie.setPath(ContextUtils.contextPath);
@@ -198,11 +190,11 @@ public class LoginInterceptor extends WebApplicationObjectSupport implements Han
 
 	}
 
-	private void deleteCookieT(HttpServletResponse response) {
+	/*private void deleteCookieT(HttpServletResponse response) {
 		Cookie cookie = new Cookie("t", null);
 		cookie.setPath(ContextUtils.contextPath);
 		cookie.setMaxAge(0);
 		response.addCookie(cookie);
-	}
+	}*/
 
 }

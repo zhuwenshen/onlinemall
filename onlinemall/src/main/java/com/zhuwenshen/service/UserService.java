@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,6 @@ import com.zhuwenshen.mapper.TUserMapperCustom;
 import com.zhuwenshen.model.TLoginHistory;
 import com.zhuwenshen.model.TUser;
 import com.zhuwenshen.model.custom.JsonResult;
-import com.zhuwenshen.model.custom.RedisKind;
 import com.zhuwenshen.model.custom.User;
 import com.zhuwenshen.util.ContextUtils;
 import com.zhuwenshen.util.MySid;
@@ -40,8 +41,8 @@ public class UserService {
 	@Autowired
 	private TUserMapper userMapper;
 
-	@Autowired
-	private RedisService redisService;
+	//@Autowired
+	//private RedisService redisService;
 
 	@Autowired
 	private FrozenInformationService frozenInformationService;
@@ -124,7 +125,7 @@ public class UserService {
 
 	/**
 	 * 登录
-	 * 
+	 * @param session 
 	 * @param loginId
 	 * @param password
 	 * @param client_type
@@ -132,7 +133,7 @@ public class UserService {
 	 * @param location
 	 * @return
 	 */
-	public JsonResult login(String loginId, String password, String clientType, String ip, String location) {
+	public JsonResult login(HttpSession session, String loginId, String password, String clientType, String ip, String location) {
 
 		if (StringUtils.isEmpty(loginId)) {
 			return JsonResult.fail("账号不能为空");
@@ -175,14 +176,15 @@ public class UserService {
 			}
 		}
 
-		// 缓存redis
 		User u = getUserByTUser(tuser);
 				
 		// TODO 这是权限url
 		// u.setUrls( );
 
-		String token = null;
-		//检查该用户是否存在有用的token
+		String token = MySid.nextLong();		
+		
+				
+		/*//检查该用户是否存在有用的token
 		TLoginHistory l2 = loginHistoryMapper.selectUsefulByUserIdAndClientType(u.getId(), Integer.valueOf(clientType));
 		if(l2!=null) {
 			//在redis中删除有用的token
@@ -195,7 +197,12 @@ public class UserService {
 			//return JsonResult.fail("服务器异常，请联系管理员," + e.getMsg());
 			log.error("redis服务器异常");
 			token = MySid.nextLong();
-		}
+		}*/
+		
+		
+		//存放到session
+		session.setAttribute("user", u);
+		
 		
 		//更改以前的登录历史为无效
 		TLoginHistory lh= new TLoginHistory();
@@ -260,7 +267,7 @@ public class UserService {
 	 * @return
 	 * @throws RedisException
 	 */
-	public User getSession(String token) {
+	/*public User getSession(String token) {
 		User u = null;
 		try {
 			u = redisService.getSession(token);
@@ -277,7 +284,7 @@ public class UserService {
 		}
 
 		return u;
-	}
+	}*/
 
 	public User getUserByTUser(TUser t) {
 		User u = new User(t);

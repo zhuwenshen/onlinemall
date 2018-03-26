@@ -12,13 +12,11 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.zhuwenshen.exception.RedisException;
-import com.zhuwenshen.service.RedisService;
+import com.zhuwenshen.model.custom.User;
 
 /**
  * 拦截更新，补充对创建人 、创建时间、更新人和更新时间的补充
@@ -32,9 +30,6 @@ public class UpdateSqlAspect {
 
 	private static Logger log = LoggerFactory.getLogger(UpdateSqlAspect.class);	
 	
-	@Autowired
-	private RedisService redisService;
-
 	@Pointcut("execution(public * com.zhuwenshen.mapper.*.update*(*))")
 	public void update() {
 	}
@@ -74,13 +69,21 @@ public class UpdateSqlAspect {
 		// 接收到请求，记录请求内容
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
 				.getRequestAttributes();
-		HttpServletRequest session = attributes.getRequest();
-		Object t = session.getAttribute("t");
+		HttpServletRequest request = attributes.getRequest();
+		/*Object t = session.getAttribute("t");
 		if (t != null) {
 			try {
 				userId = redisService.getSession(t.toString()).getId();
 			} catch (RedisException e) {
 				log.info("redis无登录对象");
+			}
+		}*/
+		Object user = request.getSession().getAttribute("user");
+		if (user != null) {
+			try {
+				userId = ((User)user).getId();
+			} catch (Exception e) {
+				log.info("session无登录对象");
 			}
 		}
 		
