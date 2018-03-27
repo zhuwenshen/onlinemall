@@ -10,6 +10,8 @@
     <result column="kind_name" jdbcType="VARCHAR" property="kindName" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="name_cn" jdbcType="VARCHAR" property="nameCn" />
+    <result column="value_1" jdbcType="VARCHAR" property="value1" />
+    <result column="userful" jdbcType="BIT" property="userful" />
     <result column="remake" jdbcType="VARCHAR" property="remake" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />

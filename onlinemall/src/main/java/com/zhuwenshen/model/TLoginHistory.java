@@ -38,9 +38,9 @@ public class TLoginHistory {
      * 定位位置
      */
     private String location;
-    
+
     /**
-     * 是否有效的；0否 1是
+     * 有效的，有用的
      */
     private Boolean useful;
 
@@ -189,17 +189,27 @@ public class TLoginHistory {
      */
     public void setLocation(String location) {
         this.location = location == null ? null : location.trim();
-    }    
+    }
 
+    /**
+     * 获取有效的，有用的
+     *
+     * @return useful - 有效的，有用的
+     */
     public Boolean getUseful() {
-		return useful;
-	}
+        return useful;
+    }
 
-	public void setUseful(Boolean useful) {
-		this.useful = useful;
-	}
+    /**
+     * 设置有效的，有用的
+     *
+     * @param useful 有效的，有用的
+     */
+    public void setUseful(Boolean useful) {
+        this.useful = useful;
+    }
 
-	/**
+    /**
      * 获取是否删除；0否 1是
      *
      * @return deleted - 是否删除；0否 1是

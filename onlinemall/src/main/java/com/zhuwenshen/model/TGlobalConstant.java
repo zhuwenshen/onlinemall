@@ -32,6 +32,17 @@ public class TGlobalConstant {
     private String nameCn;
 
     /**
+     * 值
+     */
+    @Column(name = "value_1")
+    private String value1;
+
+    /**
+     * 有效的;0否 1是
+     */
+    private Boolean userful;
+
+    /**
      * 备注
      */
     private String remake;
@@ -149,6 +160,42 @@ public class TGlobalConstant {
      */
     public void setNameCn(String nameCn) {
         this.nameCn = nameCn == null ? null : nameCn.trim();
+    }
+
+    /**
+     * 获取值
+     *
+     * @return value_1 - 值
+     */
+    public String getValue1() {
+        return value1;
+    }
+
+    /**
+     * 设置值
+     *
+     * @param value1 值
+     */
+    public void setValue1(String value1) {
+        this.value1 = value1 == null ? null : value1.trim();
+    }
+
+    /**
+     * 获取有效的;0否 1是
+     *
+     * @return userful - 有效的;0否 1是
+     */
+    public Boolean getUserful() {
+        return userful;
+    }
+
+    /**
+     * 设置有效的;0否 1是
+     *
+     * @param userful 有效的;0否 1是
+     */
+    public void setUserful(Boolean userful) {
+        this.userful = userful;
     }
 
     /**
