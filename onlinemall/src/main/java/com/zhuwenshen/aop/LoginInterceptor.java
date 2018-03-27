@@ -41,8 +41,8 @@ public class LoginInterceptor extends WebApplicationObjectSupport implements Han
 
 		System.out.println("uri:" + uri + "?" + (request.getQueryString() == null ? "" : request.getQueryString()));
 
-		/*Object t = null;
-
+		//自动登录
+		Object t = null;
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 			for (int i = 0; i < cookies.length; i++) {
@@ -51,7 +51,7 @@ public class LoginInterceptor extends WebApplicationObjectSupport implements Han
 				}
 			}
 		}		
-		*/
+		
 		String contextPath = ContextUtils.contextPath;
 		
 		// session获取user对象
@@ -60,21 +60,11 @@ public class LoginInterceptor extends WebApplicationObjectSupport implements Han
 		if(u!=null && u instanceof User) {
 			user = (User)u;
 		}
-//		if (t != null) {
+		if (t != null && user==null) {
 			//检验ip和token，自动登录
-//			user = userService.getSession(t.toString());
-//			if (user == null) {
-//				log.debug("获取不到user对象，即还没登录，拒绝访问");
-//				deleteCookieT(response);
-//				request.removeAttribute("t");
-//				if(uri.startsWith("/login") || uri.startsWith("/static") || uri.startsWith("/error")||uri.startsWith("/register")) {
-//					return true;
-//				}
-//				
-//				response.sendRedirect(contextPath+"/login");
-//				return false;
-//			}
-//		}
+			user = userService.getSession(t.toString(), request.getSession());
+			
+		}
 		
 		if (uri.startsWith("/login")) {
 			if (user != null) {

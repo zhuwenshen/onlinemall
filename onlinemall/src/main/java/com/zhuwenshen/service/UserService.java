@@ -264,27 +264,25 @@ public class UserService {
 	 * 获取登陆对象User
 	 * 
 	 * @param token
+	 * @param httpSession 
 	 * @return
 	 * @throws RedisException
 	 */
-	/*public User getSession(String token) {
-		User u = null;
-		try {
-			u = redisService.getSession(token);
-		} catch (Exception e) {
-			log.debug("redis服务异常");
+	public User getSession(String token, HttpSession session) {
+		User u = null;	
+		
+		// 到登录历史中查询最新登录
+		TLoginHistory loginHistory = loginHistoryMapper.selectByUsefulToken(token);
+		if(loginHistory!=null) {
+			u = getUserByTUser(userMapper.selectByPrimaryKey(loginHistory.getUserId()));
 		}
-
-		if (u == null) {
-			// 到登录历史中查询最新登录
-			TLoginHistory loginHistory = loginHistoryMapper.selectByUsefulToken(token);
-			if(loginHistory!=null) {
-				u = getUserByTUser(userMapper.selectByPrimaryKey(loginHistory.getUserId()));
-			}
+		//将u放到session中		
+		if(u!=null) {
+			session.setAttribute("user", u);
 		}
 
 		return u;
-	}*/
+	}
 
 	public User getUserByTUser(TUser t) {
 		User u = new User(t);
