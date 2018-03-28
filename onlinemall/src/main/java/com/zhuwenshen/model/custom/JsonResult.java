@@ -1,5 +1,8 @@
 package com.zhuwenshen.model.custom;
 
+import com.github.pagehelper.Page;
+import com.zhuwenshen.util.JsonUtils;
+
 public class JsonResult {
 
 	private boolean status;
@@ -44,6 +47,31 @@ public class JsonResult {
 	
 	public static JsonResult fail(String msg) {
 		return new JsonResult(false, msg);
+	}
+	
+	public static String okToPageList(Page<?> page) {
+		StringBuilder json = new StringBuilder();
+		if(page != null) {
+			json.append("{")
+			.append("\"status\":true")
+			.append(",\"msg\":\"\"")
+			.append(",\"data\":");
+			
+			json.append("{")
+				.append("\"pageNum\":"+page.getPageNum())
+				.append(",\"pageSize\":"+page.getPageSize())
+				.append(",\"startRow\":"+page.getStartRow())
+				.append(",\"endRow\":"+page.getEndRow())
+				.append(",\"total\":"+page.getTotal())
+				.append(",\"pages\":"+page.getPages())
+				.append(",\"pageSizeZero\":"+page.getPageSizeZero())
+				.append(",\"list\":"+JsonUtils.objectToJson(page.getResult()))
+				.append("}");
+				
+		}
+		
+		
+		return json.toString().replaceAll("\"", "'");
 	}
 
 	public boolean isStatus() {

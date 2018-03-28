@@ -1,6 +1,6 @@
 package com.zhuwenshen.controller;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zhuwenshen.model.custom.JsonResult;
 import com.zhuwenshen.service.UserService;
+import com.zhuwenshen.util.IpUtils;
 
 @Controller
 public class LoginController {
@@ -26,8 +27,8 @@ public class LoginController {
 	
 	@PostMapping("/login")
 	@ResponseBody
-	public JsonResult login(HttpSession session, String login_id, String password,String client_type, String ip, String location) {
-		
-		return userService.login(session, login_id, password, client_type, ip, location );
+	public JsonResult login(HttpServletRequest request, String login_id, String password,String client_type, String location) {
+		String ip = IpUtils.getIpAddr(request);
+		return userService.login(request.getSession(), login_id, password, client_type, ip, location );
 	}
 }

@@ -17,6 +17,7 @@ import org.springframework.util.StringUtils;
 
 import com.zhuwenshen.exception.RedisException;
 import com.zhuwenshen.mapper.TLoginHistoryMapper;
+import com.zhuwenshen.mapper.TLoginHistoryMapperCustom;
 import com.zhuwenshen.mapper.TUserMapper;
 import com.zhuwenshen.mapper.TUserMapperCustom;
 import com.zhuwenshen.model.TLoginHistory;
@@ -49,6 +50,9 @@ public class UserService {
 
 	@Autowired
 	private TLoginHistoryMapper loginHistoryMapper;
+	
+	@Autowired
+	private TLoginHistoryMapperCustom loginHistoryMC;
 	
 	
 	private String contextPath = "";
@@ -264,15 +268,16 @@ public class UserService {
 	 * 获取登陆对象User
 	 * 
 	 * @param token
+	 * @param ip 
 	 * @param httpSession 
 	 * @return
 	 * @throws RedisException
 	 */
-	public User getSession(String token, HttpSession session) {
+	public User getSession(String token, HttpSession session, String ip) {
 		User u = null;	
 		
 		// 到登录历史中查询最新登录
-		TLoginHistory loginHistory = loginHistoryMapper.selectByUsefulToken(token);
+		TLoginHistory loginHistory = loginHistoryMC.selectByUsefulTokenAndIp(token,ip);
 		if(loginHistory!=null) {
 			u = getUserByTUser(userMapper.selectByPrimaryKey(loginHistory.getUserId()));
 		}

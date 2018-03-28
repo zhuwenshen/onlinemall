@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhuwenshen.mapper.TLoginHistoryMapperCustom">
+  
+  
+  <select id="selectByUsefulTokenAndIp" resultType="com.zhuwenshen.model.TLoginHistory">
+		SELECT
+			id,
+			user_id,
+			token,
+			useful
+		FROM
+			t_login_history
+		WHERE
+			token = #{token}
+		AND ip = #{ip}
+		AND deleted = '0'
+		AND useful = '1'
+  </select>
+  
+   <!-- <select id="selectUsefulByUserIdAndClientType" resultType="com.zhuwenshen.model.TLoginHistory">
+		SELECT
+			id,
+			user_id,
+			token,
+			useful
+		FROM
+			t_login_history
+		WHERE
+			id = (
+				SELECT
+					t.id
+				FROM
+					t_login_history t
+				WHERE
+					t.deleted = '0'
+				AND t.useful = '1'
+				AND t.user_id =#{userId}
+				AND t.client_type =#{clientType}				
+				GROUP BY
+					t.id
+				HAVING
+					MAX(t.create_time)
+			)
+  </select> -->
+  
+  
+</mapper>

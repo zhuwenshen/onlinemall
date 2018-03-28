@@ -1,25 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhuwenshen.mapper.TLoginHistoryMapper">
-  <resultMap id="BaseResultMap" type="com.zhuwenshen.model.TLoginHistory">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="CHAR" property="id" />
-    <result column="user_id" jdbcType="CHAR" property="userId" />
-    <result column="client_type" jdbcType="INTEGER" property="clientType" />
-    <result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />
-    <result column="token" jdbcType="VARCHAR" property="token" />
-    <result column="ip" jdbcType="VARCHAR" property="ip" />
-    <result column="location" jdbcType="VARCHAR" property="location" />
-    <result column="useful" jdbcType="BIT" property="useful" />
-    <result column="deleted" jdbcType="BIT" property="deleted" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="create_userid" jdbcType="CHAR" property="createUserid" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="update_userid" jdbcType="CHAR" property="updateUserid" />
-  </resultMap>
-  <resultMap id="BaseResultMap" type="com.zhuwenshen.model.TLoginHistory">
+   <resultMap id="BaseResultMap" type="com.zhuwenshen.model.TLoginHistory">
     <id column="id" jdbcType="CHAR" property="id" />
     <result column="user_id" jdbcType="CHAR" property="userId" />
     <result column="client_type" jdbcType="INTEGER" property="clientType" />
@@ -35,45 +17,7 @@
     <result column="update_userid" jdbcType="CHAR" property="updateUserid" />
   </resultMap>
   
-  <select id="selectByUsefulToken" resultType="com.zhuwenshen.model.TLoginHistory">
-		SELECT
-			id,
-			user_id,
-			token,
-			useful
-		FROM
-			t_login_history
-		WHERE
-			token = #{token}
-		AND deleted = '0'
-		AND useful = '1'
-  </select>
   
-   <select id="selectUsefulByUserIdAndClientType" resultType="com.zhuwenshen.model.TLoginHistory">
-		SELECT
-			id,
-			user_id,
-			token,
-			useful
-		FROM
-			t_login_history
-		WHERE
-			id = (
-				SELECT
-					t.id
-				FROM
-					t_login_history t
-				WHERE
-					t.deleted = '0'
-				AND t.useful = '1'
-				AND t.user_id =#{userId}
-				AND t.client_type =#{clientType}				
-				GROUP BY
-					t.id
-				HAVING
-					MAX(t.create_time)
-			)
-  </select>
   
   
 </mapper>

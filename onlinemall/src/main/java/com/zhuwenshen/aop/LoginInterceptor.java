@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.zhuwenshen.model.custom.User;
 import com.zhuwenshen.service.UserService;
 import com.zhuwenshen.util.ContextUtils;
+import com.zhuwenshen.util.IpUtils;
 
 public class LoginInterceptor extends WebApplicationObjectSupport implements HandlerInterceptor {
 
@@ -31,6 +32,7 @@ public class LoginInterceptor extends WebApplicationObjectSupport implements Han
 			userService = ContextUtils.getBean(UserService.class);
 		}
 
+		String ip = IpUtils.getIpAddr(request);
 		String uri = request.getRequestURI();
 		int u2 = uri.indexOf("/", 2);
 		if (u2 == -1) {
@@ -39,8 +41,13 @@ public class LoginInterceptor extends WebApplicationObjectSupport implements Han
 			uri = uri.substring(u2);
 		}
 
-		System.out.println("uri:" + uri + "?" + (request.getQueryString() == null ? "" : request.getQueryString()));
+		System.out.println("ip："+ip+"，uri:" + uri + "?" + (request.getQueryString() == null ? "" : request.getQueryString()));
 
+		//查询系统常量
+		if (uri.startsWith("/c/")) {			
+			return true;
+		}
+		
 		//自动登录
 		Object t = null;
 		Cookie[] cookies = request.getCookies();
@@ -62,7 +69,7 @@ public class LoginInterceptor extends WebApplicationObjectSupport implements Han
 		}
 		if (t != null && user==null) {
 			//检验ip和token，自动登录
-			user = userService.getSession(t.toString(), request.getSession());
+			user = userService.getSession(t.toString(), request.getSession(),ip);
 			
 		}
 		
@@ -91,7 +98,7 @@ public class LoginInterceptor extends WebApplicationObjectSupport implements Han
 					break;
 				}
 
-				response.sendRedirect(nextUri+"?2222");
+				response.sendRedirect(nextUri);
 				return false;
 			}
 			return true;
