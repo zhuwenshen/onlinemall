@@ -2,9 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="com.zhuwenshen.mapper.TFrozenInformationMapperCustom">
-
+	<!-- 开启基于redis的二级缓存 -->
+	<cache type="com.zhuwenshen.conf.RedisCache"></cache>
 	<select id="selectFrozenInforByUserId"
-		resultType="com.zhuwenshen.model.TFrozenInformation">
+		resultType="com.zhuwenshen.model.TFrozenInformation" useCache="true">
 		SELECT
 			id,
 			frozen_user_id,

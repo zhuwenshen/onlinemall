@@ -1,20 +1,9 @@
 package com.zhuwenshen.util;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-
-import com.zhuwenshen.model.custom.RedisKey;
-
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-
-@Component
+//@Component
 public class Redis {
 	
-	public static int SESSION_TIME = 1*60*60;//session存活时间
+	/*public static int SESSION_TIME = 1*60*60;//session存活时间
 	
 	public static int OBJECT_TIME = 5*60;//普通对象存活时间
 
@@ -22,12 +11,12 @@ public class Redis {
 	private JedisPool jedisPool;
 	
 
-	/**
+	*//**
 	 * 获取key的value值
 	 * 
 	 * @param key
 	 * @return
-	 */
+	 *//*
 	private String get(String key) {
 		Jedis jedis = jedisPool.getResource();
 		String str = null;
@@ -44,13 +33,13 @@ public class Redis {
 		return str;
 	}
 
-	/**
+	*//**
 	 * 保存一个值
 	 * 
 	 * @param key
 	 * @param value
 	 * @return
-	 */
+	 *//*
 	private String set(String key, String value) {
 		Jedis jedis = jedisPool.getResource();
 		String str = null;
@@ -67,14 +56,14 @@ public class Redis {
 		return str;
 	}
 	
-	/**
+	*//**
 	 * 实现命令：SET key value EX seconds，设置key-value和超时时间（秒）
 	 * 
 	 * @param key
 	 * @param value
 	 * @param timeout
 	 *            （以秒为单位）
-	 */
+	 *//*
 	private String set(String key, int seconds, String value) {
 		Jedis jedis = jedisPool.getResource();
 		String str = null;
@@ -91,12 +80,12 @@ public class Redis {
 		return str;
 	}	
 
-	/**
+	*//**
 	 * 实现命令：expire 设置过期时间，单位秒
 	 * 
 	 * @param key
 	 * @return
-	 */
+	 *//*
 	public void expire(String key, int seconds) {
 		Jedis jedis = jedisPool.getResource();
 		try {
@@ -110,11 +99,11 @@ public class Redis {
 		}
 	}
 	
-	/**
+	*//**
 	 * 保存一个对象
 	 * @param key
 	 * @param data
-	 */
+	 *//*
 	public void setObject(RedisKey key, Object data) {	
 		if(key.getExpire() <= 0) {
 			set(key.toString(), JsonUtils.objectToJson(data));	
@@ -125,12 +114,12 @@ public class Redis {
 	}	
 	
 	
-	/**
+	*//**
 	 * 获取一个对象
 	 * @param key
 	 * @return 
 	 * @return 
-	 */
+	 *//*
 	public Object getObject(RedisKey key) {
 		String data = get(key.toString());
 		if(!StringUtils.isEmpty(data)) {
@@ -139,13 +128,13 @@ public class Redis {
 		return null;
 	}	
 	
-	/**
+	*//**
 	 * 获取一个List
 	 * @param <T>
 	 * @param key
 	 * @return 
 	 * @return 
-	 */
+	 *//*
 	public <T> List<T> getList(RedisKey key, Class<T> clazz) {
 		String data = get(key.toString());
 		if(!StringUtils.isEmpty(data)) {
@@ -154,11 +143,11 @@ public class Redis {
 		return null;
 	}
 	
-	/**
+	*//**
 	 * 获取一个对象，并且让它继续存活一段时间
 	 * @param key
 	 * @return
-	 */
+	 *//*
 	public Object getObjectAndActive(RedisKey key) {		
 		Jedis jedis = jedisPool.getResource();
 		String data = "";
@@ -184,11 +173,11 @@ public class Redis {
 		return t;
 	}
 	
-	/**
+	*//**
 	 * 获取一个对象，并且让它继续存活一段时间
 	 * @param key
 	 * @return
-	 */
+	 *//*
 	@SuppressWarnings("unchecked")
 	public <T> List<T> getListAndActive(RedisKey key,  Class<T> clazz) {		
 		Jedis jedis = jedisPool.getResource();
@@ -215,10 +204,10 @@ public class Redis {
 		return t;
 	}
 
-	/**
+	*//**
 	 * 删除一个对象
 	 * @param key
-	 */
+	 *//*
 	public void delete(RedisKey key) {
 		Jedis jedis = jedisPool.getResource();
 		try {
@@ -234,7 +223,7 @@ public class Redis {
 			}
 		}
 		
-	}
+	}*/
 	
 	
 }

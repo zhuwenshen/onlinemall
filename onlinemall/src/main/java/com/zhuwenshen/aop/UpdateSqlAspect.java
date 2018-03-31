@@ -24,8 +24,8 @@ import com.zhuwenshen.model.custom.User;
  * @author zhuwenshen
  *
  */
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class UpdateSqlAspect {
 
 	private static Logger log = LoggerFactory.getLogger(UpdateSqlAspect.class);	

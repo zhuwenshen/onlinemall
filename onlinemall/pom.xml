@@ -65,10 +65,10 @@
 			<artifactId>idworker-client</artifactId>
 			<version>1.5</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
-		</dependency>
+		</dependency> -->
 		
 		<!-- 添加thymeleaf -->
 		<dependency>
@@ -94,6 +94,15 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-ehcache</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
 

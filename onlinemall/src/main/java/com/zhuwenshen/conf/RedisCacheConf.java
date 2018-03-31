@@ -1,20 +1,11 @@
 package com.zhuwenshen.conf;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
-import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
-
-@Configuration
-@EnableCaching
+//@Configuration
+//@EnableCaching
 public class RedisCacheConf extends CachingConfigurerSupport{
-
+/*
 	Logger logger = LoggerFactory.getLogger(RedisCacheConf.class);
 
     @Value("${spring.redis.host}")
@@ -46,7 +37,7 @@ public class RedisCacheConf extends CachingConfigurerSupport{
         JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, password);
 
         return jedisPool;
-    }
+    }*/
 
 }
 
