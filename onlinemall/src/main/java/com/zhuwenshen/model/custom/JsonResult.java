@@ -67,11 +67,13 @@ public class JsonResult {
 				.append(",\"pageSizeZero\":"+page.getPageSizeZero())
 				.append(",\"list\":"+JsonUtils.objectToJson(page.getResult()))
 				.append("}");
-				
+			
+			
+			json.append("}");	
 		}
 		
 		
-		return json.toString().replaceAll("\"", "'");
+		return json.toString();
 	}
 
 	public boolean isStatus() {

@@ -9,7 +9,7 @@ public class QueryConstant {
 	private String value1;
 	private Boolean useful;
 	private Integer pageNum;
-	private Integer pageSize = 15;
+	private Integer pageSize = 10;
 	public String getKind() {
 		return kind;
 	}

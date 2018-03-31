@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.zhuwenshen.model.TGlobalConstant;
 import com.zhuwenshen.model.custom.JsonResult;
 import com.zhuwenshen.model.custom.QueryConstant;
+import com.zhuwenshen.model.custom.UpdateConstant;
 import com.zhuwenshen.service.ConstantService;
 
 @Controller
@@ -68,4 +69,49 @@ public class ConstantController {
 	public String queryConstant(QueryConstant qc) {
 		return cs.queryConstant(qc);
 	}
+	
+	/**
+	 * 根据id查询常量（用于更新）
+	 * @param idU
+	 * @return
+	 */
+	@GetMapping("a/getConstantById")
+	@ResponseBody
+	public JsonResult getConstantById(String idU) {
+		return cs.getConstantById(idU);
+	}
+	
+	/**
+	 * 单个更新常量
+	 * @param uc
+	 * @return
+	 */
+	@PostMapping("a/updateConstant")
+	@ResponseBody
+	public JsonResult updateConstant(UpdateConstant uc) {
+		return cs.updateConstant(uc);
+	}
+	
+	/**
+	 * 删除常量
+	 * @param id
+	 * @return
+	 */
+	@GetMapping("a/deleteConstantById")
+	@ResponseBody
+	public JsonResult deleteConstantById(String id) {
+		return cs.deleteConstantById(id);
+	}
+	
+	/**
+	 * 批量删除常量
+	 * @param ids
+	 * @return
+	 */
+	@PostMapping("a/deleteConstantByIds")
+	@ResponseBody
+	public JsonResult deleteConstantByIds(String ids) {
+		return cs.deleteConstantByIds(ids);
+	}
+	
 }

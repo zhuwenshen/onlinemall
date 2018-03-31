@@ -40,7 +40,7 @@ public class TGlobalConstant {
     /**
      * 有效的;0否 1是
      */
-    private Boolean userful;
+    private Boolean useful;
 
     /**
      * 备注
@@ -183,19 +183,19 @@ public class TGlobalConstant {
     /**
      * 获取有效的;0否 1是
      *
-     * @return userful - 有效的;0否 1是
+     * @return useful - 有效的;0否 1是
      */
-    public Boolean getUserful() {
-        return userful;
+    public Boolean getUseful() {
+        return useful;
     }
 
     /**
      * 设置有效的;0否 1是
      *
-     * @param userful 有效的;0否 1是
+     * @param useful 有效的;0否 1是
      */
-    public void setUserful(Boolean userful) {
-        this.userful = userful;
+    public void setUseful(Boolean useful) {
+        this.useful = useful;
     }
 
     /**
@@ -309,7 +309,7 @@ public class TGlobalConstant {
 	@Override
 	public String toString() {
 		return "TGlobalConstant [id=" + id + ", kind=" + kind + ", kindName=" + kindName + ", name=" + name
-				+ ", nameCn=" + nameCn + ", value1=" + value1 + ", userful=" + userful + ", remake=" + remake
+				+ ", nameCn=" + nameCn + ", value1=" + value1 + ", useful=" + useful + ", remake=" + remake
 				+ ", deleted=" + deleted + ", createTime=" + createTime + ", createUserid=" + createUserid
 				+ ", updateTime=" + updateTime + ", updateUserid=" + updateUserid + "]";
 	}

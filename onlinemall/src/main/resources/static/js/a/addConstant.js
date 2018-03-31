@@ -104,19 +104,22 @@ $(function() {
 				success: function(result) {
 					console.log(result); // 打印服务端返回的数据(调试用)
 					if(result.status) {
-						alert(result.msg);
+						//alert(result.msg);
+						ms.append_alert("success",true,result.msg,"msg_alert_div");
 						// console.log(a);
 						// window.location.href=result.data.uri+"?t="+result.data.t;
 						$("#add_constant_form_b").attr("disabled");
 						$("#add_constant_form_next").removeAttr("disabled");
 						getConstantChangedLately();
 					} else {
-						alert(result.msg);
+						//alert(result.msg);
+						ms.append_alert("danger",true,result.msg,"msg_alert_div");
 						$("#add_constant_form_b").removeAttr("disabled");
 					}
 				},
 				error: function() {
-					alert("服务器异常！");
+					//alert("服务器异常！");
+					ms.append_alert("danger",true,"服务器异常！","msg_alert_div");
 					$("#add_constant_form_b").removeAttr("disabled");
 				}
 			});
@@ -141,18 +144,20 @@ $(function() {
 							" <td>" + list[i].name + "</td>" +
 							" <td>" + list[i].nameCn + "</td>" +
 							"<td>" + list[i].value1 + "</td>" +
-							"<td>" + ms.translate(list[i].userful) + "</td>" +
+							"<td>" + ms.translate(list[i].useful) + "</td>" +
 							"</tr>";
 						$("#constant_tbody").html(htm);
 					}
 
 				} else {
-					alert(result.msg);
+					//alert(result.msg);
+					ms.append_alert("danger",true,result.msg,"msg_alert_div");
 
 				}
 			},
 			error: function() {
-				alert("服务器异常！");
+				//alert("服务器异常！");
+				ms.append_alert("danger",true,"服务器异常！","msg_alert_div");
 				$("#add_constant_form_b").removeAttr("disabled");
 			}
 		});
