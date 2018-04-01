@@ -30,22 +30,14 @@ public class UpdateSqlAspect {
 
 	private static Logger log = LoggerFactory.getLogger(UpdateSqlAspect.class);	
 	
-	@Pointcut("execution(public * com.zhuwenshen.mapper.*.update*(*))")
+	@Pointcut("execution(public * com.zhuwenshen.mapper.*.update*(*||*,*))")
 	public void update() {
-	}
+	}	
 
 	@Before("update()")
 	public void deBefore(JoinPoint joinPoint) {
 		
-		Object o = null;
-		if(joinPoint.getArgs().length == 1) {
-			o = joinPoint.getArgs()[0];
-		}else if(joinPoint.getArgs().length == 2) {
-			o = joinPoint.getArgs()[1];
-		}else {
-			log.info("当前更新方法不符合预定的更新规则，已经忽略");
-			return;
-		}			
+		Object o = joinPoint.getArgs()[0];				
 		
 		log.info("反射执行，更新sql设置表的更新人和更新时间");
 		log.info("设置前对象为" + o);				

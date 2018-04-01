@@ -18,11 +18,20 @@ public class ContextUtils {
 		if(contextPath==null) {
 			contextPath = "";
 		}
+		System.out.println("ApplicationContext注入成功");
 	}
 	
 	public static<T> T getBean(Class<T> clazz) {
 		if(ac!=null) {
 			return ac.getBean(clazz);
+		}
+		
+		return null;
+	}
+	
+	public static Object getBean(String name) {
+		if(ac!=null) {
+			return ac.getBean(name);
 		}
 		
 		return null;

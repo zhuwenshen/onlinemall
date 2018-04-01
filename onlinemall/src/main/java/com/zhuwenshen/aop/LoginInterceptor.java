@@ -115,6 +115,10 @@ public class LoginInterceptor extends WebApplicationObjectSupport implements Han
 		if (uri.startsWith("/static")) {
 			return true;
 		}
+		
+		if (uri.startsWith("/test")) {			
+			return true;
+		}
 
 		/*if (t == null) {
 			log.debug("没有到参数t，拒绝访问");

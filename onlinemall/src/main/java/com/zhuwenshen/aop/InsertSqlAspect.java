@@ -38,16 +38,17 @@ public class InsertSqlAspect {
 	}
 
 	@Before("insert()")
-	public void deBefore(JoinPoint joinPoint) {
+	public void deBefore(JoinPoint joinPoint) {		
+		
 		// 接收到请求，记录请求内容
 		Object ob = joinPoint.getArgs()[0];
 		if (List.class.isInstance(ob)) {
 			List<?> list = (List<?>) ob;
 			for (int i = 0; i < list.size(); i++) {
-				setValue(list.get(i));
+				setValue(list.get(i), joinPoint);
 			}
 		} else {
-			setValue(ob);
+			setValue(ob, joinPoint);
 		}
 
 	}
@@ -58,7 +59,7 @@ public class InsertSqlAspect {
 	 * @param o
 	 * @param executingObject 
 	 */
-	private void setValue(Object o) {
+	private void setValue(Object o,JoinPoint joinPoint) {
 		log.info("反射执行，插入sql设置表的创建人 、创建时间、更新人和更新时间");
 		log.info("设置前对象为" + o);
 
@@ -84,28 +85,35 @@ public class InsertSqlAspect {
 		// setId
 		if (id == null) {
 			id = MySid.nextLong();
-			/*while(true) {				
-				try {
-					Object o = 
-					Method selectCountByIdMethod = executingObject.getClass().getMethod("selectCountById");
+			//获取代理对象
+			Object mapper = joinPoint.getTarget();
+			while(true) {				
+				try {					
+					Method existsWithPrimaryKeyMethod = mapper.getClass().getMethod("existsWithPrimaryKey",Object.class);
 
 					try {
-						Object obj = selectCountByIdMethod.invoke(executingObject, id);
+						Object obj = existsWithPrimaryKeyMethod.invoke(mapper, id);						
+						
 						if (obj != null) {
-							if( Integer.valueOf((String) obj)==0) {
-								break;
+							if(obj instanceof Boolean) {
+								if(!(Boolean)obj) {
+									break;
+								}
+							}else {
+								log.info(existsWithPrimaryKeyMethod+"返回的类型不是Boolean");
 							}
+							
 						}
 					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 						e.printStackTrace();
 					}
 				} catch (NoSuchMethodException e) {
-					log.info("当前对象"+executingObject+"没有selectCountById方法");
+					log.info("当前对象"+mapper+"没有selectCountById方法");
 					break;
 
 				}
 				//id = MySid.nextLong();
-			}*/
+			}
 
 			try {
 				Method setIdMethod = o.getClass().getMethod("setId", String.class);
@@ -215,4 +223,5 @@ public class InsertSqlAspect {
 
 		}
 	}
+		
 }

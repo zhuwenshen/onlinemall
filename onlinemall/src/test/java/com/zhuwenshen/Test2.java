@@ -1,8 +1,14 @@
 package com.zhuwenshen;
 
+import java.lang.annotation.Annotation;
+
+import javax.persistence.Table;
+
+import com.zhuwenshen.model.TUser;
+
 public class Test2 {
 	
-/*	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		List<User> list =  new ArrayList<User>();
 		list.add(new User());
 		
@@ -20,5 +26,17 @@ public class Test2 {
         }
        
 	}*/
+	
+	public static void main(String[] args) {
+		TUser u = new TUser();
+		Class<? extends TUser> clazz = u.getClass();
+		System.out.println(clazz.getSimpleName());
+		/*Annotation[] list = clazz.getAnnotations();
+		for (Annotation annotation : list) {
+			if(annotation instanceof Table) {
+				System.out.println(((Table) annotation).name());
+			}
+		}*/
+	}
 
 }
