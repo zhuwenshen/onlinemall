@@ -1,8 +1,16 @@
 package com.zhuwenshen.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.zhuwenshen.mapper.TGlobalConstantMapper;
+import com.zhuwenshen.model.TGlobalConstant;
+import com.zhuwenshen.model.custom.Constant;
+import com.zhuwenshen.util.ConstantUtils;
 import com.zhuwenshen.util.Redis;
 
 /**
@@ -17,6 +25,9 @@ public class RedisService {
 
 	@Autowired
 	private Redis redis;
+	
+	@Autowired
+	private TGlobalConstantMapper gcm;
 	
 	/**
 	 * 缓存一个缓存对象
@@ -40,6 +51,111 @@ public class RedisService {
 	
 	public void flushCach() {
 		redis.deleteBatch(Redis.CACH_PREFIX+"*");
+	}
+	
+	/**
+	 * 缓存所有静态常量 
+	 */
+	public void cachAllConstant() {
+		//先删除所有常量
+		this.deletedAllConstant();
+		
+		TGlobalConstant gc = new TGlobalConstant();
+		gc.setDeleted(false);
+		gc.setUseful(true);
+		List<TGlobalConstant> list = gcm.select(gc);
+		
+		//永久保存静态变量
+		for (TGlobalConstant g : list) {
+			redis.setObject(ConstantUtils.key(g), g.getValue1(), Redis.PERMANENT_TIME);
+		}
+	}
+	
+	/**
+	 * 更新一个常量
+	 * @param gc
+	 */
+	public void setConstant(TGlobalConstant gc) {
+		redis.setObject(ConstantUtils.key(gc), gc.getValue1(), Redis.PERMANENT_TIME);
+	}
+	
+	/**
+	 * 更新一个常量
+	 * @param gc
+	 */
+	public void setConstant(Constant c) {
+		redis.setObject(ConstantUtils.key(c.getKind(),c.getName()), c.getValue(), Redis.PERMANENT_TIME);
+	}
+	
+	/**
+	 * 获取一个常量
+	 * @param kind
+	 * @param name
+	 * @return
+	 */
+	public Constant getConstant(String kind , String name) {
+		Object value = redis.getObject(ConstantUtils.key(kind, name), String.class, false);
+		if(value == null) {
+			return null;
+		}
+		return new Constant(kind, name, value.toString());
+	}
+	
+	/**
+	 * 获取一个常量值
+	 * @param kind
+	 * @param name
+	 * @return
+	 */
+	public String getConstantvalue(String kind , String name) {
+		Object value = redis.getObject(ConstantUtils.key(kind, name), String.class, false);
+		if(value == null) {
+			return null;
+		}
+		return value.toString();
+	}
+	
+	/**
+	 * 获取一类常量
+	 * @param kind
+	 * @return
+	 */
+	public List<Constant> getConstantBykind(String kind){
+		List<Constant> list = new ArrayList<Constant>();
+		Set<String> set = redis.key(Redis.CONSTANT_PREFIX+kind+"-*");
+		String name = null;
+		for (String key : set) {
+			name = key.split("-")[2];
+			list.add(this.getConstant(kind, name));
+		}
+		
+		return list;
+	}
+	
+	/**
+	 * 删除单个常量
+	 * @param gc
+	 */
+	public void deletedConstant(TGlobalConstant gc) {
+		redis.delete(ConstantUtils.key(gc));
+	}
+	
+	/**
+	 * 批量删除
+	 * @param glist
+	 */
+	public void deletedBatchConstant(List<TGlobalConstant> glist) {
+		for (TGlobalConstant tGlobalConstant : glist) {
+			this.deletedConstant(tGlobalConstant);
+		}
+	}
+	
+	/**
+	 * 删除所有常量缓存
+	 * @param glist
+	 */
+	public void deletedAllConstant() {
+		redis.deleteBatch(Redis.CONSTANT_PREFIX+"*");		
 	}
 	
 //	

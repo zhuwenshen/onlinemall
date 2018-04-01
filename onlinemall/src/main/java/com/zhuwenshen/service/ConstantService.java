@@ -1,5 +1,6 @@
 package com.zhuwenshen.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -8,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.github.pagehelper.Page;
@@ -15,6 +18,7 @@ import com.github.pagehelper.PageHelper;
 import com.zhuwenshen.mapper.TGlobalConstantMapper;
 import com.zhuwenshen.mapper.TGlobalConstantMapperCustom;
 import com.zhuwenshen.model.TGlobalConstant;
+import com.zhuwenshen.model.custom.Constant;
 import com.zhuwenshen.model.custom.JsonResult;
 import com.zhuwenshen.model.custom.QueryConstant;
 import com.zhuwenshen.model.custom.UpdateConstant;
@@ -32,6 +36,9 @@ public class ConstantService {
 
 	@Autowired
 	private TGlobalConstantMapperCustom gcmc;
+	
+	@Autowired
+	private RedisService redisService;
 
 	/**
 	 * 根据kind获取kindName
@@ -106,7 +113,8 @@ public class ConstantService {
 		// 插入数据
 		gcm.insert(gc);
 
-		// TODO 缓存到redis中
+		//缓存到redis中
+		redisService.setConstant(gc);
 
 		return JsonResult.ok("保存成功");
 	}
@@ -255,7 +263,8 @@ public class ConstantService {
 		//更新数据
 		gcm.updateByPrimaryKeySelective(gc);
 
-		// TODO 删除redis缓存，更新缓存
+		// 删除redis缓存，更新缓存
+		redisService.setConstant(gc);
 
 		return JsonResult.ok("更新成功");
 	}
@@ -275,6 +284,11 @@ public class ConstantService {
 		if(num<=0) {
 			return JsonResult.fail("删除失败，数据错误");
 		}
+		
+		//删除redis缓存
+		record = gcm.selectByPrimaryKey(id);
+		redisService.deletedConstant(record);
+		
 		return JsonResult.ok("删除成功，共删除 "+num +" 条数据");
 	}
 
@@ -283,6 +297,7 @@ public class ConstantService {
 	 * @param ids
 	 * @return
 	 */
+	@Transactional(propagation = Propagation.REQUIRED)
 	public JsonResult deleteConstantByIds(String ids) {
 		
 		if(StringUtils.isEmpty(ids)) {
@@ -302,9 +317,100 @@ public class ConstantService {
 			return JsonResult.fail("删除失败，数据错误");
 		}
 		
+		//删除redis缓存
+		List<TGlobalConstant> glist  = gcm.selectByExample(example);
+		redisService.deletedBatchConstant(glist);
+		
 		return JsonResult.ok("删除成功，共删除 "+num +" 条数据");
 	}
 
 	
+	
+	/**
+	 * 获取一个常量
+	 * @param kind
+	 * @param name
+	 * @return
+	 */
+	public Constant getConstant(String kind , String name) {
+		Constant c = redisService.getConstant(kind, name);
+		if(c == null) {
+			log.error("redis获取常量失败，kind："+kind+"，name："+name);
+			TGlobalConstant gc = new TGlobalConstant();
+			gc.setDeleted(false);
+			gc.setKind(kind);
+			gc.setUseful(true);
+			gc.setName(name);
+			
+			List<TGlobalConstant> list = gcm.select(gc);
+			if(list!=null && !list.isEmpty()) {
+				c = new Constant(list.get(0));
+			}
+		}
+		return c;
+	}
+	
+	/**
+	 * 获取一个常量值
+	 * @param kind
+	 * @param name
+	 * @return
+	 */
+	public String getConstantvalue(String kind , String name) {
+		Object value = redisService.getConstantvalue(kind, name);
+		if(value == null) {
+			log.error("redis获取常量值失败，kind："+kind+"，name："+name);
+			TGlobalConstant gc = new TGlobalConstant();
+			gc.setDeleted(false);
+			gc.setKind(kind);
+			gc.setUseful(true);
+			gc.setName(name);
+			
+			List<TGlobalConstant> list = gcm.select(gc);
+			if(list!=null && !list.isEmpty()) {
+				value = list.get(0).getValue1();
+			}
+		}
+		return value.toString();
+	}
+	
+	/**
+	 * 获取一类常量
+	 * @param kind
+	 * @return
+	 */
+	public List<Constant> getConstantBykind(String kind){
+		List<Constant> list =  null;
+		list = redisService.getConstantBykind(kind);
+		if(list == null) {
+			list = new ArrayList<Constant>();
+		}
+		if(list.isEmpty()) {
+			log.error("redis获取一类常量失败，kind："+kind);
+			TGlobalConstant gc = new TGlobalConstant();
+			gc.setDeleted(false);
+			gc.setKind(kind);
+			gc.setUseful(true);			
+			
+			List<TGlobalConstant> tlist = gcm.select(gc);
+			
+			if(tlist!=null && !tlist.isEmpty()) {
+				for (TGlobalConstant tGlobalConstant : tlist) {
+					list.add(new Constant(tGlobalConstant));
+				}				
+			}
+		}
+		
+		return list;
+	}
+	
+	/**
+	 * 缓存所有静态常量 
+	 * @return
+	 */
+	public JsonResult cachAllConstant() {
+		redisService.cachAllConstant();
+		return JsonResult.ok("redis缓存所有常量成功");
+	}
 
 }

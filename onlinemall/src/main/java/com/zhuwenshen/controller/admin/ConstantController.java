@@ -114,4 +114,14 @@ public class ConstantController {
 		return cs.deleteConstantByIds(ids);
 	}
 	
+	/**
+	 * 缓存所有静态常量 
+	 * @return
+	 */
+	@GetMapping("a/cachAllConstant")
+	@ResponseBody
+	public JsonResult cachAllConstant() {		
+		return cs.cachAllConstant();
+	}
+	
 }

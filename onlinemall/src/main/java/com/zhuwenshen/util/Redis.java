@@ -15,8 +15,14 @@ public class Redis {
 	public static int SESSION_TIME = 1*60*60;//session存活时间
 	
 	public static int CACH_TIME = 5*60;//普通对象存活时间
+	//永久保存对象
+	public static Integer PERMANENT_TIME = -1;
 	//缓存对象前缀
 	public static String CACH_PREFIX = "c-";
+	//常量值对象前缀
+	public static String CONSTANT_PREFIX = "g-";
+	
+	
 
 	@Autowired
 	private JedisPool jedisPool;
@@ -111,9 +117,10 @@ public class Redis {
 	}
 	
 	/**
-	 * 保存一个对象
+	 * 保存一个对象 
 	 * @param key
 	 * @param data
+	 * @param seconds 小于等于0为永久保存
 	 */
 	public void setObject(String key, Object data , int seconds) {	
 		if(seconds <= 0) {
@@ -229,6 +236,26 @@ public class Redis {
 			}
 		}
 		
+	}
+	
+	public Set<String> key(String pattern) {
+		Jedis jedis = jedisPool.getResource();
+		Set<String> keys = null;
+		try {
+			keys = jedis.keys(pattern);						
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				jedis.close();
+			} catch (Exception e) {
+				e.printStackTrace();	
+				return null;
+			}
+		}
+		return keys;
 	}
 	
 	

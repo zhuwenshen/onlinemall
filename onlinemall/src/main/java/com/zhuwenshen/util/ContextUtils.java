@@ -3,6 +3,8 @@ package com.zhuwenshen.util;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 
+import com.zhuwenshen.service.RedisService;
+
 public class ContextUtils {
 	
 	private static ApplicationContext ac = null;
@@ -19,6 +21,10 @@ public class ContextUtils {
 			contextPath = "";
 		}
 		System.out.println("ApplicationContext注入成功");
+		
+		//redis缓存所有常量
+		ContextUtils.getBean(RedisService.class).cachAllConstant();
+		System.out.println("redis缓存所有常量成功");
 	}
 	
 	public static<T> T getBean(Class<T> clazz) {
