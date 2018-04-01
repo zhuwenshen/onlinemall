@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhuwenshen.mapper.TestMapperCustom"> 
+  
+  <select id="selectTTTT" resultType="com.zhuwenshen.model.Test">
+		SELECT
+			id,name,passworld,sex
+		FROM
+			test
+		WHERE
+		id='2018040113299KMRNG8PH0' and
+			name=#{name}
+			and passworld=#{passworld}
+			and sex= '0'
+  </select>
+</mapper>

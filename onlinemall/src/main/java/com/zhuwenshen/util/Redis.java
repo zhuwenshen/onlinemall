@@ -1,12 +1,10 @@
 package com.zhuwenshen.util;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-
-import com.zhuwenshen.model.custom.RedisKey;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -16,7 +14,9 @@ public class Redis {
 	
 	public static int SESSION_TIME = 1*60*60;//session存活时间
 	
-	public static int OBJECT_TIME = 5*60;//普通对象存活时间
+	public static int CACH_TIME = 5*60;//普通对象存活时间
+	//缓存对象前缀
+	public static String CACH_PREFIX = "c-";
 
 	@Autowired
 	private JedisPool jedisPool;
@@ -115,69 +115,71 @@ public class Redis {
 	 * @param key
 	 * @param data
 	 */
-	public void setObject(RedisKey key, Object data) {	
-		if(key.getExpire() <= 0) {
+	public void setObject(String key, Object data , int seconds) {	
+		if(seconds <= 0) {
 			set(key.toString(), JsonUtils.objectToJson(data));	
 		}else {
-			set(key.toString(), key.getExpire(), JsonUtils.objectToJson(data));
+			set(key.toString(), seconds, JsonUtils.objectToJson(data));
 		}
 			
 	}	
 	
-	
 	/**
 	 * 获取一个对象
 	 * @param key
-	 * @return 
-	 * @return 
+	 * @param clazz
+	 * @param isList
+	 * @return
 	 */
-	public Object getObject(RedisKey key) {
+	public Object getObject(String key, Class<?> clazz , Boolean isList) {
 		String data = get(key.toString());
-		if(!StringUtils.isEmpty(data)) {
-			 return  JsonUtils.jsonToPojo(data, key.getClass());
+		Object t = null;
+		try {
+			if(!StringUtils.isEmpty(data)) {
+				if(isList) {
+					t = JsonUtils.jsonToList(data, clazz);
+				}else {
+					t =  JsonUtils.jsonToPojo(data, clazz);
+				}				 
+			}
+		} catch (Exception e) {			
+			e.printStackTrace();
+			return null;
 		}
-		return null;
-	}	
-	
-	/**
-	 * 获取一个List
-	 * @param <T>
-	 * @param key
-	 * @return 
-	 * @return 
-	 */
-	public <T> List<T> getList(RedisKey key, Class<T> clazz) {
-		String data = get(key.toString());
-		if(!StringUtils.isEmpty(data)) {
-			 return  JsonUtils.jsonToList(data, clazz);
-		}
-		return null;
+		return t;
 	}
 	
 	/**
 	 * 获取一个对象，并且让它继续存活一段时间
 	 * @param key
+	 * @param seconds 小于0为
+	 * @param clazz
+	 * @param isList
 	 * @return
 	 */
-	public Object getObjectAndActive(RedisKey key) {		
+	public Object getObjectAndActive(String key ,int seconds , Class<?> clazz, Boolean isList) {		
 		Jedis jedis = jedisPool.getResource();
 		String data = "";
 		Object t = null;
 		try {
 			data = jedis.get(key.toString());
-			jedis.expire(key.toString(), key.getExpire());
+			jedis.expire(key, seconds);
 			if(!StringUtils.isEmpty(data)) {
-				 t =  JsonUtils.jsonToPojo(data, key.getClazz());
+				if(isList) {
+					t = JsonUtils.jsonToList(data, clazz);
+				}else {
+					t =  JsonUtils.jsonToPojo(data, clazz);
+				}				 
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
-			return t;
+			return null;
 		}finally {
 			try {
 				jedis.close();
 			} catch (Exception e) {
 				e.printStackTrace();
-				return t;
+				return null;
 			}
 		}
 		
@@ -185,44 +187,37 @@ public class Redis {
 	}
 	
 	/**
-	 * 获取一个对象，并且让它继续存活一段时间
+	 * 删除一个对象
 	 * @param key
-	 * @return
 	 */
-	@SuppressWarnings("unchecked")
-	public <T> List<T> getListAndActive(RedisKey key,  Class<T> clazz) {		
+	public void delete(String key) {
 		Jedis jedis = jedisPool.getResource();
-		String data = "";
-		List<T> t = null;
 		try {
-			data = jedis.get(key.toString());
-			jedis.expire(key.toString(), key.getExpire());
-			if(!StringUtils.isEmpty(data)) {
-				 t =  (List<T>) JsonUtils.jsonToList(data, key.getClazz());
-			}
+			jedis.del(key);
+			
 		}catch(Exception e) {
-			e.printStackTrace();
-			return t;
+			e.printStackTrace();			
 		} finally {
 			try {
 				jedis.close();
 			} catch (Exception e) {
-				e.printStackTrace();
-				return t;
+				e.printStackTrace();				
 			}
 		}
 		
-		return t;
 	}
-
+	
 	/**
-	 * 删除一个对象
+	 * 批量删除对象
 	 * @param key
 	 */
-	public void delete(RedisKey key) {
+	public void deleteBatch(String pattern) {
 		Jedis jedis = jedisPool.getResource();
 		try {
-			jedis.del(key.toString());
+			Set<String> keys = jedis.keys(pattern);
+			for(String key : keys) {
+				jedis.del(key);
+			}			
 			
 		}catch(Exception e) {
 			e.printStackTrace();			

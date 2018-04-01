@@ -1,18 +1,47 @@
 package com.zhuwenshen.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.zhuwenshen.util.Redis;
+
 /**
  * 缓存redis
  * 格式：
- * 1.对象 = token-对象名-*****（包括user对象）
- * 2.对数据库的id查询对象缓存  = id-对象名-*******
+ * 1.缓存对象 ：key：c-*****
  * @author zhuwenshen
  *
  */
-//@Service
+@Service
 public class RedisService {
 
-//	@Autowired
-//	private Redis redis;
+	@Autowired
+	private Redis redis;
+	
+	/**
+	 * 缓存一个缓存对象
+	 * @param key
+	 * @param data
+	 */
+	public void setCachObject(String key, Object data ) {
+		redis.setObject(key, data, Redis.CACH_TIME);
+	}
+	
+	/**
+	 * 获取缓存对象
+	 * @param key
+	 * @param clazz
+	 * @param isList
+	 * @return
+	 */
+	public Object getCachObject(String key , Class<?> clazz, Boolean isList) {
+		return redis.getObjectAndActive(key, Redis.CACH_TIME, clazz, isList);
+	}
+	
+	public void flushCach() {
+		redis.deleteBatch(Redis.CACH_PREFIX+"*");
+	}
+	
 //	
 //	/**
 //	 * redis保存session

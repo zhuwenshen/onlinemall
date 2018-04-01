@@ -1,9 +1,5 @@
 package com.zhuwenshen;
 
-import java.lang.annotation.Annotation;
-
-import javax.persistence.Table;
-
 import com.zhuwenshen.model.TUser;
 
 public class Test2 {

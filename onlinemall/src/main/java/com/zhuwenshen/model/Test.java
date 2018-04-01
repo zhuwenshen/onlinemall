@@ -68,4 +68,11 @@ public class Test {
     public void setSex(Boolean sex) {
         this.sex = sex;
     }
+
+	@Override
+	public String toString() {
+		return "Test [id=" + id + ", name=" + name + ", passworld=" + passworld + ", sex=" + sex + "]";
+	}
+    
+    
 }

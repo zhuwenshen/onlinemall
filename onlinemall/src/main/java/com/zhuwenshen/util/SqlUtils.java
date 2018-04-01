@@ -1,8 +1,13 @@
 package com.zhuwenshen.util;
 
 import java.lang.annotation.Annotation;
+import java.util.List;
 
 import javax.persistence.Table;
+
+import org.apache.ibatis.mapping.BoundSql;
+import org.apache.ibatis.mapping.ParameterMapping;
+
 
 public class SqlUtils {
 
@@ -30,5 +35,38 @@ public class SqlUtils {
 			System.out.println(method);
 		}*/
 		return mapper;
+	}
+	
+	public static String shortParameterMappings(List<ParameterMapping> list) {
+		if(list == null || list.size()==0) {
+			return "[]";
+		}
+		String rs = "";
+		for (ParameterMapping parameterMapping : list) {
+			rs+= parameterMapping.getProperty()+",";
+		}			
+		
+		return rs;		
+	}
+	
+	/**
+	 * 返回18位的key （c- 开头的）
+	 * @param boundSql
+	 * @return
+	 */
+	public static String getRedisCachKey(BoundSql boundSql) {
+		if(boundSql == null ) return "";
+		//不缓存查询语句
+		if("SELECT LAST_INSERT_ID()".compareToIgnoreCase(boundSql.getSql()) == 0) {
+			return "";
+		}
+		String rs = "{";
+		rs+="["+boundSql.getSql()+"],";
+		rs+="["+shortParameterMappings(boundSql.getParameterMappings())+"],";
+		rs+="["+JsonUtils.objectToJson(boundSql.getParameterObject())+"],";
+		rs+="}";
+		rs = Redis.CACH_PREFIX+MD5Utils.md5Hex(rs);
+		return rs;
+		
 	}
 }
