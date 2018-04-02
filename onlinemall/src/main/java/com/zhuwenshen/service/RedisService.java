@@ -76,7 +76,9 @@ public class RedisService {
 	 * @param gc
 	 */
 	public void setConstant(TGlobalConstant gc) {
-		redis.setObject(ConstantUtils.key(gc), gc.getValue1(), Redis.PERMANENT_TIME);
+		if(gc.getUseful()) {
+			redis.setObject(ConstantUtils.key(gc), gc.getValue1(), Redis.PERMANENT_TIME);
+		}		
 	}
 	
 	/**
