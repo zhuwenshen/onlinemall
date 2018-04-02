@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.zhuwenshen.model.TGlobalConstant;
 import com.zhuwenshen.service.RedisService;
 
 @Component
@@ -28,15 +27,12 @@ public class RedisUpdateCachInterceptor implements Interceptor {
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {		
 		
-		Object o = invocation.getArgs()[1];
+		//Object o = invocation.getArgs()[1];
 		
-		log.info("当前更新的对象是："+o);
-		//如果更新对象是TGlobalConstant的实例 则 不用清空缓存
-		if(o == null || ! (o instanceof TGlobalConstant)) {
-			//在这里清理redis缓存
-			redisService.flushCach();
-			log.debug("清理了redis缓存");
-		}		
+		//log.info("当前更新的对象是："+o);
+		//在这里清理redis缓存
+		redisService.flushCach();
+		log.debug("清理了redis缓存");		
 		
 		Object result = invocation.proceed();		
 		return result;
