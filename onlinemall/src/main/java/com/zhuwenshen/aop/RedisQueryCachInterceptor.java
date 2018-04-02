@@ -57,7 +57,7 @@ public class RedisQueryCachInterceptor implements Interceptor {
 		Object result = invocation.proceed();
 
 		//加入redis缓存
-		System.out.println(result);
+		//System.out.println(result);
 		if(!StringUtils.isEmpty(key)) {
 			redisService.setCachObject(key, result);
 			log.debug("缓存了对象，key：" + key + ",data:" + result);

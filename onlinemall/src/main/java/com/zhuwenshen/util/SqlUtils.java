@@ -59,13 +59,21 @@ public class SqlUtils {
 		//不缓存查询语句
 		if("SELECT LAST_INSERT_ID()".compareToIgnoreCase(boundSql.getSql()) == 0) {
 			return "";
-		}
+		}		
 		String rs = "{";
-		rs+="["+boundSql.getSql()+"],";
-		rs+="["+shortParameterMappings(boundSql.getParameterMappings())+"],";
-		rs+="["+JsonUtils.objectToJson(boundSql.getParameterObject())+"],";
-		rs+="}";
-		rs = Redis.CACH_PREFIX+MD5Utils.md5Hex(rs);
+		try {
+			long st = System.currentTimeMillis();
+			String json = JsonUtils.objectToJsonForRedisKey(boundSql.getParameterObject());
+			System.out.println((System.currentTimeMillis()-st)+"ms，fastjson装换为redis key："+json);
+			rs+="["+boundSql.getSql()+"],";
+			rs+="["+shortParameterMappings(boundSql.getParameterMappings())+"],";
+			rs+="["+json+"],";
+			rs+="}";
+			rs = Redis.CACH_PREFIX+MD5Utils.md5Hex(rs);
+		} catch (Exception e) {			
+			e.printStackTrace();
+			return null;
+		}
 		return rs;
 		
 	}
