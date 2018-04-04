@@ -124,4 +124,10 @@ public class ConstantController {
 		return cs.cachAllConstant();
 	}
 	
+	@GetMapping("kindConstant")
+	@ResponseBody
+	public JsonResult kindConstant(String kind) {
+		return cs.kindConstant(kind);
+	}
+	
 }

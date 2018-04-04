@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.zhuwenshen.mapper.ConstantMapperCustom;
 import com.zhuwenshen.mapper.TGlobalConstantMapper;
 import com.zhuwenshen.mapper.TGlobalConstantMapperCustom;
 import com.zhuwenshen.model.TGlobalConstant;
@@ -39,6 +40,9 @@ public class ConstantService {
 	
 	@Autowired
 	private RedisService redisService;
+	
+	@Autowired
+	private ConstantMapperCustom constantMapperCustom;
 
 	/**
 	 * 根据kind获取kindName
@@ -99,10 +103,10 @@ public class ConstantService {
 			return JsonResult.fail("分类(中文)与已存在的不一致，应为 " + s);
 		}
 
-		// 检查是否存在相同的记录，即kind，name相同
+		// 检查是否存在相同的记录，即kind，value相同
 		TGlobalConstant record = new TGlobalConstant();
 		record.setKind(gc.getKind());
-		record.setName(gc.getName());
+		record.setValue1(gc.getValue1());
 		record.setDeleted(false);
 
 		int num = gcm.selectCount(record);
@@ -126,7 +130,7 @@ public class ConstantService {
 	 */
 	public JsonResult getConstantChangedLately() {
 		Example example = new Example(TGlobalConstant.class);
-		example.setCountProperty("15");
+		example.setCountProperty("10");
 		example.setOrderByClause("update_time DESC");
 		Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("deleted", false).andGreaterThan("updateTime",
@@ -144,8 +148,7 @@ public class ConstantService {
 	 * @param qc
 	 * @return
 	 */
-	public String queryConstant(QueryConstant qc) {
-		System.out.println(qc);
+	public String queryConstant(QueryConstant qc) {		
 
 		if (qc == null) {
 			qc = new QueryConstant();
@@ -247,11 +250,11 @@ public class ConstantService {
 			return JsonResult.fail("分类(中文)与已存在的不一致，应为 " + s);
 		}
 
-		// 检查是否存在相同的记录，即kind，name相同，但是id不同
+		// 检查是否存在相同的记录，即kind，value相同，但是id不同
 		Example example = new Example(TGlobalConstant.class);
 		Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("kind", gc.getKind());
-		criteria.andEqualTo("name",gc.getName());
+		criteria.andEqualTo("value1",gc.getValue1());
 		criteria.andEqualTo("deleted", false);
 		criteria.andNotEqualTo("id", gc.getId());		
 
@@ -374,6 +377,20 @@ public class ConstantService {
 		return value.toString();
 	}
 	
+	public String getConstantvalueWithNoCach(String kind, String name) {
+		TGlobalConstant gc = new TGlobalConstant();
+		gc.setDeleted(false);
+		gc.setKind(kind);
+		gc.setUseful(true);
+		gc.setName(name);
+		
+		List<TGlobalConstant> list = gcm.select(gc);
+		if(list!=null && !list.isEmpty()) {
+			return list.get(0).getValue1();
+		}
+		return null;
+	}
+	
 	/**
 	 * 获取一类常量
 	 * @param kind
@@ -411,6 +428,35 @@ public class ConstantService {
 	public JsonResult cachAllConstant() {
 		redisService.cachAllConstant();
 		return JsonResult.ok("redis缓存所有常量成功");
+	}
+
+	public void updateConstant(String kind, String name ,String value) {
+		TGlobalConstant gc = new TGlobalConstant();
+		gc.setValue1(value);
+		
+		Example ex = new Example(TGlobalConstant.class);
+		ex.createCriteria().andEqualTo("kind", kind).andEqualTo("name", name);
+		
+		gcm.updateByExampleSelective(gc, ex);
+	}
+	
+	public String getNameByKindAndValue(String kind , String value) {
+		TGlobalConstant gc = new TGlobalConstant();
+		gc.setKind(kind);
+		gc.setValue1(value);
+		
+		List<TGlobalConstant> list = gcm.select(gc);
+		if(list.size()>0) {
+			return list.get(0).getNameCn();
+		}
+		return "";
+	}
+
+	public JsonResult kindConstant(String kind) {		
+		
+		List<Constant> list = constantMapperCustom.kindConstant(kind);		
+		
+		return JsonResult.ok("", list);
 	}
 
 }

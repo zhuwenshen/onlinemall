@@ -7,7 +7,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class JsonUtils {
+public class JsonUtils {	
+
 
 	// 定义jackson对象
 	private static final ObjectMapper MAPPER = new ObjectMapper();

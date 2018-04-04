@@ -22,13 +22,19 @@ public class TIdentifiedInforOfMerchant {
     private String merchantInformationId;
 
     /**
-     * 认证流程;1用户申请 2管理员审批 3通过 4失败
+     * 认证流程;1用户申请 2管理员审批 
      */
     @Column(name = "certification_workflow")
     private Integer certificationWorkflow;
 
     /**
-     * 审批结果类型;1通过 2失败
+     * 申请时间
+     */
+    @Column(name = "apply_time")
+    private Date applyTime;
+
+    /**
+     * 审批结果类型;0未审核1通过 2失败
      */
     @Column(name = "approval_type")
     private Integer approvalType;
@@ -36,7 +42,7 @@ public class TIdentifiedInforOfMerchant {
     /**
      * 审批结果;对审批的结果描述
      */
-    @Column(name = "`approval_ result`")
+    @Column(name = "approval_result")
     private String approvalResult;
 
     /**
@@ -145,6 +151,24 @@ public class TIdentifiedInforOfMerchant {
      */
     public void setCertificationWorkflow(Integer certificationWorkflow) {
         this.certificationWorkflow = certificationWorkflow;
+    }
+
+    /**
+     * 获取申请时间
+     *
+     * @return apply_time - 申请时间
+     */
+    public Date getApplyTime() {
+        return applyTime;
+    }
+
+    /**
+     * 设置申请时间
+     *
+     * @param applyTime 申请时间
+     */
+    public void setApplyTime(Date applyTime) {
+        this.applyTime = applyTime;
     }
 
     /**

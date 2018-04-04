@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>审核商家</title>
+
+
+<!-- Bootstrap Core CSS -->
+<link href="/onlinemall/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- MetisMenu CSS -->
+<link href="/onlinemall/static/vendor/metisMenu/metisMenu.min.css"
+	rel="stylesheet">
+<link
+	href="https://cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.min.css"
+	rel="stylesheet">
+
+<!-- Custom CSS -->
+<link href="/onlinemall/static/dist/css/sb-admin-2.css" rel="stylesheet">
+
+<!-- Custom Fonts -->
+<link
+	href="/onlinemall/static/vendor/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css">
+
+<!-- Morris Charts CSS -->
+<link href="/onlinemall/static/vendor/morrisjs/morris.css"
+	rel="stylesheet">
+
+</head>
+
+<body>
+
+	<div id="wrapper">
+
+		<!-- Navigation -->
+		<nav class="navbar navbar-default navbar-static-top" role="navigation"
+			style="margin-bottom: 0">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">管理员管理</a>
+			</div>
+			<!-- /.navbar-header -->
+
+			<ul class="nav navbar-top-links navbar-right">
+
+			</ul>
+			<!-- /.navbar-top-links -->
+
+			<!-- 目录菜单 -->
+			<div class="navbar-default sidebar" role="navigation">
+				<div class="sidebar-nav navbar-collapse" id="m_side-memu_div">
+					<ul class="nav" id="side-menu">
+						<li><a href="index"><i class="fa fa-dashboard fa-fw"></i>主页</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- 目录菜单  end-->
+
+			<!-- /.navbar-static-side -->
+		</nav>
+
+		<div id="page-wrapper">
+			<div class="row">
+				<div class="col-lg-12">
+					<h2 class="page-header">审核商家</h2>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- /.row -->
+
+			<!-- 信息提示 -->
+			<div class="row">
+				<div class="col-lg-12" id="msg_alert_div"></div>
+			</div>
+			<!-- 信息提示 end -->
+			<!-- 查询提交表单 -->
+			<div class="row">
+				<div class="col-lg-12">
+					<form class="form-inline" id="query_form">
+						<div class="form-group">
+							<label for="realName">商家姓名</label> <input type="text"
+								class="form-control" id="realName" name="realName" placeholder="商家姓名">
+						</div>
+						<div class="form-group">
+							<label for="merchantNum">商家编号</label> <input type="text"
+								class="form-control" id="merchantNum" name="merchantNum"
+								placeholder="商家编号">
+						</div>
+						<div class="form-group">
+							<label for="merchantName">商家名</label> <input type="text"
+								class="form-control" id="merchantName" name="merchantName" placeholder="商家名">
+						</div>
+						<div class="form-group">
+							<label for="certificationWorkflow">认证流程</label> 
+							<select class="form-control" id="certificationWorkflow" name="certificationWorkflow">
+                                                <option></option>                                              
+                             </select>							
+						</div>
+						<br />
+						<div class="form-group">
+							<label for="approvalType">审批结果</label> 
+							<select class="form-control" id="approvalType" name="approvalType">
+                                                <option></option>                                              
+                             </select>
+						</div>
+						<div class="form-group">
+							<label>申请时间</label> 
+							<input type="date"	class="form-control" id="applyTimeStart" name="applyTimeStart">~
+							<input type="date"	class="form-control" id="applyTimeEnd" name="applyTimeEnd">
+						</div>
+						<div class="form-group">
+							<label>审核时间</label> 
+							<input type="date"	class="form-control" id="approvalTimeStart" name="approvalTimeStart">~
+							<input type="date"	class="form-control" id="approvalTimeEnd" name="approvalTimeEnd">
+						</div>						
+						
+						<input type="text" hidden="true" id="pageSize" name="pageSize" value="10">
+						<input type="button" class="btn btn-primary" id="search_btn" value="查询" />
+					</form>
+					<input type="text" hidden="true" id="pageNum" name="pageNum" value="1">
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- 查询提交表单  end-->
+			<hr />
+			<!-- 查询提交表单 结果  -->
+			<div class="row">
+				<!-- /.col-lg-12 -->
+				<div class="col-lg-12">
+					<div class="panel panel-primary">
+						<div class="panel-heading">查看全局常量</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="table-responsive">
+										<table class="table table-striped table-bordered table-hover">
+											<thead>
+												<tr>
+													<!-- <td><input type="checkbox" id="all_checkbox"></td> -->
+													<th>商家姓名</th>
+													<th>商家编号</th>
+													<th>商家名</th>
+													<th>认证流程</th>
+													<th>审批结果</th>
+													<th>申请时间</th>
+													<th>审核时间</th>
+													<th>操作</th>
+												</tr>
+											</thead>
+											<tbody id="query_tbody">
+												<!-- ajxa获取数据      -->
+												<!-- <tr >
+													<td><input type="checkbox"></td>
+													<td>分类(英)</td>
+													<td>分类(中)</td>
+													<td>变量名(英)</td>
+													<td>变量名(中)</td>
+													<td>变量值</td>
+													<td>有效</td>
+													<td><a href="#" style="color: #337ab7;"
+														onclick="detailsConstant('12346')"> <span
+															class="glyphicon glyphicon-plus-sign" title="详情">
+														</span>
+													</a> &nbsp; <a href="#" style="color: #5cb85c;"><span
+															class="glyphicon glyphicon-edit" title="修改"></span></a>
+														&nbsp; <a href="#" style="color: #FF0000;"><span
+															class="glyphicon glyphicon-remove-circle" title="删除"></span></a>
+													</td>
+												</tr> -->
+											</tbody>
+										</table>
+
+									</div>
+									<!-- /.table-responsive -->
+								</div>
+							</div>
+							<!-- /.row (nested) -->
+
+							<!-- 分析信息和分页按钮 -->
+							<div class="row">
+								<div class="col-sm-12">
+									<span class="pull-right"> 每页10条</span>
+								</div>
+								<div class="col-sm-12">
+									<nav aria-label="查询结果分页" class="">
+										<ul class="pagination" id="m_nav_ul">
+
+										</ul>
+
+									</nav>
+									<div></div>
+								</div>
+
+
+
+							</div>
+							<!-- 分析信息和分页按钮 end -->
+
+
+						</div>
+						<!-- /.panel-body -->
+					</div>
+					<!-- /.panel -->
+				</div>
+				<!-- /.col-lg-12 -->
+
+			</div>
+			<!-- /.row -->
+			<!-- 查询提交表单 结果  end-->
+		</div>
+		<!-- /#page-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+	<!-- 弹出框 -->
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">审核</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-sm-12">
+
+							<!-- 信息提示 -->
+							<div class="row">
+								<div class="col-lg-12" id="msg_alert_myModal"></div>
+							</div>
+							<!-- 信息提示 end -->
+
+
+							<form role="form" id="modal_body_form" class="form-horizontal">
+								<div class="form-group">
+									<label for="approvalTypeU" class="col-sm-3 control-label">审批结果<font
+										color="red">*</font></label>
+									<div class="col-sm-9">										
+											<select class="form-control" id="approvalTypeU" name="approvalTypeU" required="required">
+                                                <option></option>                                                
+                             				</select>
+									</div>						
+								</div>
+								<div class="form-group">
+									<label for="certificationLevelU" class="col-sm-3 control-label">认证等级<font
+										color="red">*</font></label>
+									<div class="col-sm-9">										
+											<select class="form-control" id="certificationLevelU" name="certificationLevelU" required="required">
+                                                <option></option>                                                
+                             				</select>
+									</div>						
+								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-3 control-label">审批结果原因 <font
+										color="red">*</font></label>
+									<div class="col-sm-9">
+										<textarea class="form-control" rows="2" name="approvalResultU"
+											id="approvalResultU" required="required"></textarea>
+									</div>
+								</div>	
+								<input type="text" hidden="true" id="idU" name="idU" value="">
+							</form>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary"
+						id="model_update_btn">保存</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- 弹出框 -->
+
+	<!-- jQuery -->
+	<script src="/onlinemall/static/vendor/jquery/jquery.min.js"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="/onlinemall/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+	<script
+		src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
+
+	<!-- Morris Charts JavaScript -->
+	<!-- <script src="../static/vendor/raphael/raphael.min.js"></script>
+		<script src="../static/vendor/morrisjs/morris.min.js"></script>
+		<script src="../static/data/morris-data.js"></script> -->
+
+	<script src="/onlinemall/static/js/common.js"></script>
+
+	<script src="/onlinemall/static/js/a/admin.js"></script>
+	<script src="approvalMerchant.js"></script>
+
+</body>
+
+</html>

@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.zhuwenshen.mapper.TestMapper;
-import com.zhuwenshen.model.Test;
+import com.zhuwenshen.service.admin.ApprovalMerchantService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -40,10 +39,10 @@ public class MysqlTest {
 	}*/
 	
 	
-	@Autowired
-	private TestMapper testmaper;
 /*	@Autowired
-	private TestMapperCustom testMapperCustom;*/
+	private TestMapper testmaper;
+	@Autowired
+	private TestMapperCustom testMapperCustom;
 	
 	@org.junit.Test
 	public void testInterceptor() {
@@ -59,5 +58,13 @@ public class MysqlTest {
 		// t = testMapperCustom.selectTTTT("113", "1556");
 		//System.out.println(t);
 		testmaper.selectCount(t);
+	}*/
+	
+	@Autowired
+	private ApprovalMerchantService ams;
+	
+	@org.junit.Test
+	public void testPage() {
+		ams.queryApprovalMerchant(null);
 	}
 }

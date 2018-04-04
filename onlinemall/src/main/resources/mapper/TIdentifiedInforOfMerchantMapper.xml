@@ -9,8 +9,9 @@
     <result column="user_id" jdbcType="CHAR" property="userId" />
     <result column="merchant_information_id" jdbcType="CHAR" property="merchantInformationId" />
     <result column="certification_workflow" jdbcType="INTEGER" property="certificationWorkflow" />
+    <result column="apply_time" jdbcType="TIMESTAMP" property="applyTime" />
     <result column="approval_type" jdbcType="INTEGER" property="approvalType" />
-    <result column="approval_ result" jdbcType="VARCHAR" property="approvalResult" />
+    <result column="approval_result" jdbcType="VARCHAR" property="approvalResult" />
     <result column="approval_time" jdbcType="TIMESTAMP" property="approvalTime" />
     <result column="remake" jdbcType="VARCHAR" property="remake" />
     <result column="deleted" jdbcType="BIT" property="deleted" />

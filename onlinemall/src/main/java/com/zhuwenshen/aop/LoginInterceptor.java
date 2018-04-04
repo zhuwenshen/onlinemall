@@ -39,10 +39,22 @@ public class LoginInterceptor extends WebApplicationObjectSupport implements Han
 			uri = "";
 		} else {
 			uri = uri.substring(u2);
-		}
+		}		
 
 		System.out.println("ip："+ip+"，uri:" + uri + "?" + (request.getQueryString() == null ? "" : request.getQueryString()));
 
+		if (uri.endsWith(".js")) {				
+			return true;
+		}
+		if (uri.endsWith(".css")) {			
+			return true;
+		}
+		
+		//获取常量
+		if (uri.equals("/kindConstant")) {			
+			return true;
+		}
+		
 		//查询系统常量
 		if (uri.startsWith("/c/")) {			
 			return true;

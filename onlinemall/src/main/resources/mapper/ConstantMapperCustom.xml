@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhuwenshen.mapper.ConstantMapperCustom">
+
+	<resultMap id="kindConstantList" type="com.zhuwenshen.model.custom.Constant">
+		<result column="kind" jdbcType="VARCHAR" property="kind" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="name_cn" jdbcType="VARCHAR" property="nameCn" />
+		<result column="value_1" jdbcType="VARCHAR" property="value" />		
+	</resultMap>
+
+	<select id="kindConstant" resultMap="kindConstantList">
+		SELECT
+			kind,name,name_cn,value_1
+		FROM
+			t_global_constant			
+		WHERE		
+			deleted = '0'			
+			and kind = #{kind}
+	</select>
+
+</mapper>

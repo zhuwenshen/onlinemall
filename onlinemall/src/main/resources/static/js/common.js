@@ -131,3 +131,52 @@ ms.append_alert = function(type, closed, msg, divId) {
 	
 	$("#"+divId).append(ms_htm);
 }
+
+ms.tlEmpty = function(val){
+	if(val) {
+		return val;
+	}else{
+		return "";
+	}
+}
+//初始化下拉框
+ms.initSelect = function (id,kind,val){
+	$.ajax({
+		type: "GET", // 方法类型
+		dataType: "json", // 预期服务器返回的数据类型
+		url: ms.path + "/kindConstant?kind="+kind, // url		
+		success: function(result) {
+			console.log(result); // 打印服务端返回的数据(调试用)
+			if(result.status) {
+				console.log(result.data);
+				var selectHtml = "";
+				var list = result.data;
+				var i = 0;
+				var selected = ""
+				
+				selectHtml = selectHtml + "<option value=''></option>";
+				for(i = 0; i < list.length; i++) {
+					if(val == list[i].value){
+						selected = "selected='selected'";
+					}else {
+						selected ="";
+					}
+					selectHtml = selectHtml + 
+					"<option value='"+list[i].value+"'  "+selected+" >"+list[i].nameCn+"</option>" 
+					
+				}
+
+				$("#"+id).html(selectHtml);				
+				
+			} else {
+				//alert(result.msg);
+				ms.append_alert("danger",true,result.msg,"msg_alert_div");
+
+			}
+		},
+		error: function() {				
+			ms.append_alert("danger",true,"服务器异常！","msg_alert_div");
+
+		}
+	});
+}

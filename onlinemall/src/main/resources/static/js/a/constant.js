@@ -36,7 +36,7 @@ function queryConstant(pageNum) {
 						"<td>" + list[i].name + "</td>" +
 						"<td>" + list[i].nameCn + "</td>" +
 						"<td>" + list[i].value1 + "</td>" +
-						"<td>" + list[i].useful + "</td>" +
+						"<td>" + ms.translate(list[i].useful) + "</td>" +
 						"<td>" +
 //						"<a href='#' style='color:#337ab7;' onclick=detailsConstant("+"'"+ list[i].id + "'"+")>" +
 //						"	<span class='glyphicon glyphicon-plus-sign' title='详情'>" +

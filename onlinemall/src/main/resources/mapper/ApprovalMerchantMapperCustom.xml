@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.zhuwenshen.mapper.ApprovalMerchantMapperCustom">
+	
+	<resultMap id="approvalMerchantList" type="com.zhuwenshen.model.custom.QueryApprovalMerchant">    
+      <id column="id" jdbcType="CHAR" property="id" />
+     <result column="userId" jdbcType="CHAR" property="userId" />
+     <result column="realName" jdbcType="VARCHAR" property="realName" />     
+     <result column="merchantInformationId" jdbcType="CHAR" property="merchantInformationId" />
+     <result column="merchantNum" jdbcType="BIGINT" property="merchantNum" />
+     <result column="merchantName" jdbcType="VARCHAR" property="merchantName" />     
+     <result column="certificationWorkflow" jdbcType="INTEGER" property="certificationWorkflow" />          
+    <result column="applyTime" jdbcType="TIMESTAMP" property="applyTime" />
+    <result column="approvalType" jdbcType="INTEGER" property="approvalType" />
+    <result column="approvalResult" jdbcType="VARCHAR" property="approvalResult" />
+    <result column="approvalTime" jdbcType="TIMESTAMP" property="approvalTime" />   
+  </resultMap> 
+
+	<select id="selectApprovalMerchant"
+		resultMap="approvalMerchantList"
+		parameterType="com.zhuwenshen.model.custom.QueryApprovalMerchantParam">
+		SELECT
+			i.id ,
+			u.id AS "userId" ,
+			u.real_name AS "realName",
+			m.id AS "merchantInformationId",
+			m.num AS "merchantNum",
+			m.name_cn AS "merchantName",
+			i.certification_workflow AS "certificationWorkflow",
+			i.create_time AS "applyTime",
+			i.approval_type AS "approvalType",
+			i.`approval_result` AS "approvalResult",
+			i.approval_time AS "approvalTime"			
+		FROM
+			`t_identified_infor_of_ merchant` i,
+			t_user u,
+			t_merchant_information m
+		WHERE
+			i.user_id = u.id
+		AND i.merchant_information_id = m.id
+		and i.deleted = '0'
+		and u.deleted = '0'
+		and m.deleted = '0'
+		<if test="realName != null">
+	      and u.real_name like concat('%', #{realName},'%')
+	    </if>
+	    <if test="merchantNum != null">
+	      and m.num like concat('%', #{merchantNum},'%')
+	    </if>
+	    <if test="merchantName != null">
+	      and m.name_cn like concat('%', #{merchantName},'%')
+	    </if>
+	    <if test="certificationWorkflow != null">
+	      and i.certification_workflow = #{certificationWorkflow}
+	    </if>
+	    <if test="applyTimeStart != null">
+	     <![CDATA[  and i.create_time >= #{applyTimeStart} ]]> 
+	    </if>
+	    <if test="applyTimeEnd != null">
+	      <![CDATA[ and i.create_time <= #{applyTimeEnd} ]]> 
+	    </if>
+	    <if test="approvalType != null">
+	      and i.approval_type = #{approvalType}
+	    </if>
+	    <if test="approvalTimeStart != null">
+	     <![CDATA[  and i.approval_time >= #{approvalTimeStart} ]]> 
+	    </if>
+	    <if test="approvalTimeEnd != null">
+	    <![CDATA[  and i.approval_time <= #{approvalTimeEnd} ]]>
+	    </if>	    
+	</select>
+
+
+</mapper>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhuwenshen.mapper.TMerchantInformationMapperCustom">
+  <resultMap id="merchantInformationList" type="com.zhuwenshen.model.custom.admin.QueryMerchantInformation">  
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="userName" jdbcType="CHAR" property="userName" />
+    <result column="num" jdbcType="BIGINT" property="num" />
+    <result column="name_cn" jdbcType="VARCHAR" property="nameCn" />
+    <result column="name_en" jdbcType="VARCHAR" property="nameEn" />
+    <result column="detailed_address" jdbcType="VARCHAR" property="detailedAddress" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="integral" jdbcType="DECIMAL" property="integral" />
+    <result column="all_integral" jdbcType="DECIMAL" property="allIntegral" />
+    <result column="merchant_portrait_url" jdbcType="VARCHAR" property="merchantPortraitUrl" />
+    <result column="certification_level" jdbcType="INTEGER" property="certificationLevel" />
+    <result column="fund" jdbcType="DECIMAL" property="fund" />
+    <result column="describing_img1_url" jdbcType="VARCHAR" property="describingImg1Url" />
+    <result column="describing_img2_url" jdbcType="VARCHAR" property="describingImg2Url" />
+    <result column="describing_img3_url" jdbcType="VARCHAR" property="describingImg3Url" />
+    <result column="describing_img4_url" jdbcType="VARCHAR" property="describingImg4Url" />
+    <result column="business_license" jdbcType="VARCHAR" property="businessLicense" />
+    <result column="business_license_url" jdbcType="VARCHAR" property="businessLicenseUrl" />   
+  </resultMap>
+  
+  <select id="selectMerchantInformation"
+		resultMap="merchantInformationList"
+		parameterType="com.zhuwenshen.model.TMerchantInformation">
+		SELECT
+			m.id ,
+			u.real_name AS "userName" ,
+			m.num ,
+			m.name_cn ,
+			m.name_en ,
+			m.detailed_address ,
+			m.phone ,
+			m.integral ,
+			m.all_integral ,
+			m.merchant_portrait_url ,
+			m.certification_level ,
+			m.fund ,
+			m.describing_img1_url ,
+			m.describing_img2_url ,
+			m.describing_img3_url ,
+			m.describing_img4_url ,
+			m.business_license ,
+			m.business_license_url 					
+		FROM			
+			t_user u,
+			t_merchant_information m
+		WHERE
+			m.user_id = u.id
+		and u.deleted = '0'
+		and m.deleted = '0'
+		<if test="num != null">
+	      and m.num = #{num}
+	    </if>		   
+	    <if test="nameCn != null and nameCn !=''">
+	      and m.name_cn like concat('%', #{nameCn},'%')
+	    </if>
+	    <if test="nameEn != null and nameEn !=''">
+	      and m.name_en like concat('%', #{nameEn},'%')
+	    </if>
+	    <if test="phone != null and phone !=''">
+	      and m.phone like concat(#{phone},'%')
+	    </if>
+	    <if test="certificationLevel != null">
+	      and m.certification_level = #{certificationLevel}
+	    </if>
+	    <if test="businessLicense != null and businessLicense !=''">
+	      and m.business_license like concat(#{businessLicense},'%')
+	    </if>
+	    order by num asc	    
+	   	    
+	</select>
+</mapper>

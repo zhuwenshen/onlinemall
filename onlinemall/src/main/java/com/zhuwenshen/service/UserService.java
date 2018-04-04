@@ -24,6 +24,7 @@ import com.zhuwenshen.model.TLoginHistory;
 import com.zhuwenshen.model.TUser;
 import com.zhuwenshen.model.custom.JsonResult;
 import com.zhuwenshen.model.custom.User;
+import com.zhuwenshen.util.ConstantUtils;
 import com.zhuwenshen.util.ContextUtils;
 import com.zhuwenshen.util.MySid;
 import com.zhuwenshen.util.ValidResultUtils;
@@ -110,7 +111,7 @@ public class UserService {
 		user.setName("用户" + MySid.nextInt());
 		user.setPhone(phone);
 		// 设置默认头像
-		user.setHeadPortraitUrl("");
+		user.setHeadPortraitUrl(ConstantUtils.HEAD_PORTRAIT_DEFAULT_URL());
 		user.setIntegral(new BigDecimal(0));
 		user.setAllIntegral(new BigDecimal(0));
 		user.setFund(new BigDecimal(0));

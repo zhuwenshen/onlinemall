@@ -6,6 +6,7 @@ public class Constant {
 
 	private String kind;
 	private String name;
+	private String nameCn;
 	private String value;
 	
 	
@@ -33,6 +34,7 @@ public class Constant {
 		this.kind = tGlobalConstant.getKind();
 		this.name = tGlobalConstant.getName();
 		this.value = tGlobalConstant.getValue1();
+		this.nameCn = tGlobalConstant.getNameCn();
 	}
 
 
@@ -54,10 +56,18 @@ public class Constant {
 	public void setValue(String value) {
 		this.value = value;
 	}
+	public String getNameCn() {
+		return nameCn;
+	}
+	public void setNameCn(String nameCn) {
+		this.nameCn = nameCn;
+	}
+	
 	@Override
 	public String toString() {
-		return "Constant [kind=" + kind + ", name=" + name + ", value=" + value + "]";
+		return "Constant [kind=" + kind + ", name=" + name + ", nameCn=" + nameCn + ", value=" + value + "]";
 	}
+	
 	
 	
 	

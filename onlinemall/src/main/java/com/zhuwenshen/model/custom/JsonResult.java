@@ -1,9 +1,13 @@
 package com.zhuwenshen.model.custom;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.github.pagehelper.Page;
-import com.zhuwenshen.util.JsonUtils;
+import com.zhuwenshen.aop.ConstantTranslateFilter;
 
 public class JsonResult {
+	
+	private static ConstantTranslateFilter ctFilter = new ConstantTranslateFilter();
 
 	private boolean status;
 	
@@ -49,6 +53,16 @@ public class JsonResult {
 		return new JsonResult(false, msg);
 	}
 	
+	
+	/**
+	 * 通过fastjson装换
+	 * @param o
+	 * @return
+	 */
+	private static String tlToSting(Object o) {
+		return JSON.toJSONString(o,ctFilter,  SerializerFeature.WriteMapNullValue);
+	}
+	
 	public static String okToPageList(Page<?> page) {
 		StringBuilder json = new StringBuilder();
 		if(page != null) {
@@ -65,7 +79,8 @@ public class JsonResult {
 				.append(",\"total\":"+page.getTotal())
 				.append(",\"pages\":"+page.getPages())
 				.append(",\"pageSizeZero\":"+page.getPageSizeZero())
-				.append(",\"list\":"+JsonUtils.objectToJson(page.getResult()))
+				.append(",\"list\":"+tlToSting(page.getResult()))
+//				.append(",\"list\":"+JsonUtils.objectToJson(page.getResult()))
 				.append("}");
 			
 			

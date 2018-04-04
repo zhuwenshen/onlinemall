@@ -14,6 +14,11 @@ public class TMerchantInformation {
     private String userId;
 
     /**
+     * 商家编号
+     */
+    private Long num;
+
+    /**
      * 店名
      */
     @Column(name = "name_cn")
@@ -155,6 +160,24 @@ public class TMerchantInformation {
      */
     public void setUserId(String userId) {
         this.userId = userId == null ? null : userId.trim();
+    }
+
+    /**
+     * 获取商家编号
+     *
+     * @return num - 商家编号
+     */
+    public Long getNum() {
+        return num;
+    }
+
+    /**
+     * 设置商家编号
+     *
+     * @param num 商家编号
+     */
+    public void setNum(Long num) {
+        this.num = num;
     }
 
     /**
