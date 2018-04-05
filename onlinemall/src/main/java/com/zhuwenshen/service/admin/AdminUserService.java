@@ -129,6 +129,8 @@ public class AdminUserService {
 		userMapper.updateByPrimaryKey(tuser);
 		System.out.println("tuser:"+tuser);
 		
+		//TODO 强制正在上线的用户下线
+		
 		return JsonResult.ok("昵称："+tuser.getName()+" 冻结成功，解封时间为"+DateFormatUtils.formatToDateAndTime(qaup.getUnfreezingTimeU()));
 	}
 

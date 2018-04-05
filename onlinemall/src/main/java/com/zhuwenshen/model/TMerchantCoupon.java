@@ -13,8 +13,8 @@ public class TMerchantCoupon {
     /**
      * 商品id
      */
-    @Column(name = "goods_id")
-    private String goodsId;
+    @Column(name = "merchant_id")
+    private String merchantId;
 
     /**
      * 名称
@@ -112,19 +112,19 @@ public class TMerchantCoupon {
     /**
      * 获取商品id
      *
-     * @return goods_id - 商品id
+     * @return merchant_id - 商品id
      */
-    public String getGoodsId() {
-        return goodsId;
+    public String getMerchantId() {
+        return merchantId;
     }
 
     /**
      * 设置商品id
      *
-     * @param goodsId 商品id
+     * @param merchantId 商品id
      */
-    public void setGoodsId(String goodsId) {
-        this.goodsId = goodsId == null ? null : goodsId.trim();
+    public void setMerchantId(String merchantId) {
+        this.merchantId = merchantId == null ? null : merchantId.trim();
     }
 
     /**
