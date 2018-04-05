@@ -59,6 +59,8 @@ public class QueryAdminUser {
      * 1男 2女 3隐藏
      */
     private Integer sex;
+    @ConstantTranslate(kind="sex",valueMethod="getUserType")
+    private String sexTL;
 
     /**
      * 出生日期 格式YYYY-MM-DD
@@ -70,8 +72,8 @@ public class QueryAdminUser {
      * 用户类型；1游客 2普通用户 3商家 4商家服务员 5管理员 6超级管理员
      */
     private Integer userType;
-    @ConstantTranslate(kind="user_type",valueMethod="getUserType")
-    private Integer userTypeTL;
+    @ConstantTranslate(kind="user_type",valueMethod="getSex")
+    private String userTypeTL;
 
     /**
      * 登录账号；用于登录账号，默认手机号，不可以更改
@@ -193,11 +195,11 @@ public class QueryAdminUser {
 		this.userType = userType;
 	}
 
-	public Integer getUserTypeTL() {
+	public String getUserTypeTL() {
 		return userTypeTL;
 	}
 
-	public void setUserTypeTL(Integer userTypeTL) {
+	public void setUserTypeTL(String userTypeTL) {
 		this.userTypeTL = userTypeTL;
 	}
 
@@ -224,4 +226,13 @@ public class QueryAdminUser {
 	public void setUnfreezingTime(Date unfreezingTime) {
 		this.unfreezingTime = unfreezingTime;
 	}
+
+	public String getSexTL() {
+		return sexTL;
+	}
+
+	public void setSexTL(String sexTL) {
+		this.sexTL = sexTL;
+	}
+	
 }

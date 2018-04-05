@@ -26,4 +26,15 @@ public class FrozenInformationService {
 		}
 		return f.getUnfreezingTime();
 	}
+	
+	/**
+	 * 判断用户是否被冻结
+	 * @param userId
+	 * @return
+	 */
+	public TFrozenInformation frozenInformation(String userId) {
+		TFrozenInformation f = fronzenMapperCustom.selectFrozenInforByUserId(userId, new Date());
+		
+		return f;
+	}
 }

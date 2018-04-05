@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhuwenshen.mapper.AdminUserMapperCustom">
+  <resultMap id="adminUserList" type="com.zhuwenshen.model.custom.admin.QueryAdminUser">   
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="ID_number" jdbcType="CHAR" property="idNumber" />
+    <result column="head_portrait_url" jdbcType="VARCHAR" property="headPortraitUrl" />
+    <result column="integral" jdbcType="DECIMAL" property="integral" />
+    <result column="all_integral" jdbcType="DECIMAL" property="allIntegral" />
+    <result column="fund" jdbcType="DECIMAL" property="fund" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="birthdate" jdbcType="DATE" property="birthdate" />
+    <result column="user_type" jdbcType="INTEGER" property="userType" />
+    <result column="login_ID" jdbcType="VARCHAR" property="loginId" />
+    <result column="frozen" jdbcType="BIT" property="frozen" />
+    <result column="unfreezing_time" jdbcType="TIMESTAMP" property="unfreezingTime" />
+  </resultMap>
+  
+  <select id="selectAdminUser"
+		resultMap="adminUserList"
+		parameterType="com.zhuwenshen.model.custom.admin.QueryAdminUserParam">
+		SELECT
+			u.id ,
+			u.name ,
+			u.phone ,
+			u.email ,
+			u.real_name ,
+			u.ID_number ,
+			u.head_portrait_url ,
+			u.all_integral ,
+			u.fund ,
+			u.sex ,
+			u.birthdate ,
+			u.user_type ,
+			u.login_ID ,
+			u.frozen ,
+			u.unfreezing_time 		
+		FROM
+			t_user u
+		WHERE
+			 u.deleted = '0'
+		<if test="id != null and id != ''">
+	      and u.id = #{id}
+	    </if>
+	    <if test="name != null and name != ''">
+	      and u.name like concat('%', #{name},'%')
+	    </if>
+	    <if test="phone != null and phone != ''">
+	      and u.phone like concat(#{phone},'%')
+	    </if>
+	    <if test="email != null and email != ''">
+	      and u.email like concat(#{email},'%')
+	    </if>
+	    <if test="realName != null and realName != ''">
+	      and u.real_name like concat('%', #{realName},'%')
+	    </if>
+	    <if test="idNumber != null and idNumber != ''">
+	      and u.ID_number like concat('%', #{idNumber},'%')
+	    </if>
+	    <if test="sex != null and sex != ''">
+	      and u.sex = #{sex}
+	    </if>
+	    <if test="userType != null and userType != ''">
+	      and u.user_type = #{userType}
+	    </if>
+	    <if test="loginId != null and loginId != ''">
+	      and u.login_ID like concat(#{loginId},'%')
+	    </if>
+	    <if test="frozen != null and frozen != ''">
+	      and u.frozen = #{frozen}
+	    </if>
+	     <if test="unfreezingTimeStart != null and unfreezingTimeStart != ''">
+	     <![CDATA[  and u.unfreezing_time >= #{unfreezingTimeStart} ]]> 
+	    </if>
+	    <if test="unfreezingTimeEnd != null and unfreezingTimeEnd != ''">
+	      <![CDATA[ and u.unfreezing_time <= #{unfreezingTimeEnd} ]]> 
+	    </if>	       
+	</select>
+</mapper>

@@ -26,6 +26,7 @@ import com.zhuwenshen.model.custom.JsonResult;
 import com.zhuwenshen.model.custom.User;
 import com.zhuwenshen.util.ConstantUtils;
 import com.zhuwenshen.util.ContextUtils;
+import com.zhuwenshen.util.DateFormatUtils;
 import com.zhuwenshen.util.MySid;
 import com.zhuwenshen.util.ValidResultUtils;
 
@@ -172,7 +173,7 @@ public class UserService {
 		if (tuser.getFrozen()) {
 			Date date = frozenInformationService.isFrozen(tuser.getId());
 			if (date != null) {
-				return JsonResult.fail("账号 " + loginId + " 已被冻结，解封时间为 " + date);
+				return JsonResult.fail("账号 " + loginId + " 已被冻结，解封时间为 " + DateFormatUtils.formatToDateAndTime(date));
 			} else {
 				TUser u2 = new TUser();
 				u2.setId(tuser.getId());

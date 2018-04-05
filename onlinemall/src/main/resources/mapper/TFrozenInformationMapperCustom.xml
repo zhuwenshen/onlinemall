@@ -2,17 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="com.zhuwenshen.mapper.TFrozenInformationMapperCustom">
+	<resultMap id="BaseResultMap" type="com.zhuwenshen.model.TFrozenInformation">    
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="frozen_user_id" jdbcType="CHAR" property="frozenUserId" />
+    <result column="operating_user_id" jdbcType="CHAR" property="operatingUserId" />
+    <result column="frozen_time" jdbcType="TIMESTAMP" property="frozenTime" />
+    <result column="frozen_reason" jdbcType="VARCHAR" property="frozenReason" />
+    <result column="unfreezing_time" jdbcType="TIMESTAMP" property="unfreezingTime" />
+    <result column="remake" jdbcType="VARCHAR" property="remake" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_userid" jdbcType="CHAR" property="createUserid" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_userid" jdbcType="CHAR" property="updateUserid" />
+  </resultMap>
 
-	<select id="selectFrozenInforByUserId"
-		resultType="com.zhuwenshen.model.TFrozenInformation">
+	<select id="selectFrozenInforByUserId" resultMap="BaseResultMap">
 		SELECT
-			id,
-			frozen_user_id,
-			operating_user_id,
-			frozen_time,
-			frozen_reason,
-			unfreezing_time,
-			remake
+			*
 		FROM
 			t_frozen_information
 		WHERE

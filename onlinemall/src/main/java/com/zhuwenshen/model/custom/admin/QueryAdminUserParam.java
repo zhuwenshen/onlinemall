@@ -78,6 +78,14 @@ public class QueryAdminUserParam {
      */
     private Date unfreezingTimeStart;
     private Date unfreezingTimeEnd;
+    
+    
+    private Date unfreezingTimeU;
+    private String idU;
+    private String frozenReasonU;
+    
+    
+    
 	public Integer getPageNum() {
 		return pageNum;
 	}
@@ -179,6 +187,33 @@ public class QueryAdminUserParam {
 	}
 	public void setUnfreezingTimeEnd(Date unfreezingTimeEnd) {
 		this.unfreezingTimeEnd = unfreezingTimeEnd;
+	}
+	public Date getUnfreezingTimeU() {
+		return unfreezingTimeU;
+	}
+	public void setUnfreezingTimeU(Date unfreezingTimeU) {
+		this.unfreezingTimeU = unfreezingTimeU;
+	}
+	public String getIdU() {
+		return idU;
+	}
+	public void setIdU(String idU) {
+		this.idU = idU;
+	}
+	public String getFrozenReasonU() {
+		return frozenReasonU;
+	}
+	public void setFrozenReasonU(String frozenReasonU) {
+		this.frozenReasonU = frozenReasonU;
+	}
+	@Override
+	public String toString() {
+		return "QueryAdminUserParam [pageNum=" + pageNum + ", pageSize=" + pageSize + ", id=" + id + ", name=" + name
+				+ ", phone=" + phone + ", email=" + email + ", realName=" + realName + ", idNumber=" + idNumber
+				+ ", integral=" + integral + ", allIntegral=" + allIntegral + ", fund=" + fund + ", sex=" + sex
+				+ ", userType=" + userType + ", loginId=" + loginId + ", frozen=" + frozen + ", unfreezingTimeStart="
+				+ unfreezingTimeStart + ", unfreezingTimeEnd=" + unfreezingTimeEnd + ", unfreezingTimeU="
+				+ unfreezingTimeU + ", idU=" + idU + ", frozenReasonU=" + frozenReasonU + "]";
 	}
     
     

@@ -3,7 +3,7 @@ package com.zhuwenshen.model;
 import java.util.Date;
 import javax.persistence.*;
 
-@Table(name = "`t_identified_infor_of_ merchant`")
+@Table(name = "t_identified_infor_of_merchant")
 public class TIdentifiedInforOfMerchant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

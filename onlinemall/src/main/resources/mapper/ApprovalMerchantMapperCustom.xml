@@ -33,7 +33,7 @@
 			i.`approval_result` AS "approvalResult",
 			i.approval_time AS "approvalTime"			
 		FROM
-			`t_identified_infor_of_ merchant` i,
+			`t_identified_infor_of_merchant` i,
 			t_user u,
 			t_merchant_information m
 		WHERE
@@ -46,7 +46,7 @@
 	      and u.real_name like concat('%', #{realName},'%')
 	    </if>
 	    <if test="merchantNum != null">
-	      and m.num like concat('%', #{merchantNum},'%')
+	      and m.num = #{merchantNum}
 	    </if>
 	    <if test="merchantName != null">
 	      and m.name_cn like concat('%', #{merchantName},'%')
