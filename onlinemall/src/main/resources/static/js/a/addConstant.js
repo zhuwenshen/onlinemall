@@ -144,7 +144,7 @@ $(function() {
 							" <td>" + list[i].name + "</td>" +
 							" <td>" + list[i].nameCn + "</td>" +
 							"<td>" + list[i].value1 + "</td>" +
-							"<td>" + ms.translate(list[i].useful) + "</td>" +
+							"<td>" + ms.translateIcon(list[i].useful) + "</td>" +
 							"</tr>";
 						$("#constant_tbody").html(htm);
 					}

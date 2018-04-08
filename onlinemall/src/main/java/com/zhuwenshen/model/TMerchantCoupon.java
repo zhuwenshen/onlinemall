@@ -11,7 +11,7 @@ public class TMerchantCoupon {
     private String id;
 
     /**
-     * 商品id
+     * 商家id
      */
     @Column(name = "merchant_id")
     private String merchantId;

@@ -1,22 +1,21 @@
 $(function() {
 	
 	$("#search_btn").click(function(){
-		queryMerchantInformation(1);	
+		queryMerchantWaiter(1);	
 	});	
 	
-	ms.initSelect("certificationLevel","certification_level_of_merchant","");
-	queryMerchantInformation(1);	
+	queryMerchantWaiter(1);	
 
 });
 
-function queryMerchantInformation(pageNum){
+function queryMerchantWaiter(pageNum){
 	$.ajax({
 		type: "POST", // 方法类型
 		dataType: "json", // 预期服务器返回的数据类型
-		url: ms.path + "/a/merchant/queryMerchantInformation?pageNum="+pageNum, // url
+		url: ms.path + "/m/waiter/queryMerchantWaiter?pageNum="+pageNum, // url
 		data: $('#query_form').serialize(),
 		success: function(result) {
-			//console.log(result); // 打印服务端返回的数据(调试用)
+			console.log(result); // 打印服务端返回的数据(调试用)
 			if(result.status) {
 				var tbodyHtml = "";
 				var list = result.data.list;
@@ -24,16 +23,11 @@ function queryMerchantInformation(pageNum){
 				
 				for(i = 0; i < list.length; i++) {
 					tbodyHtml = tbodyHtml + "<tr>" +
-						"<td>" + ms.tlEmpty(list[i].num) + "</td>" +
-						"<td>" + ms.tlEmpty(list[i].userName)  + "</td>" +
-						"<td>" + ms.tlEmpty(list[i].nameCn)  + "</td>" +
-						"<td>" + ms.tlEmpty(list[i].nameEn)  + "</td>" +
-						"<td>" + ms.tlEmpty(list[i].certificationLevelTL) + "</td>" +
-						"<td>" + ms.tlEmpty(list[i].detailedAddress)  + "</td>" +
-						"<td>" + ms.tlEmpty(list[i].phone) + "</td>" +
-						"<td>" + list[i].integral  + "</td>" +
-						"<td>" + ms.tlEmpty(list[i].businessLicense)  + "</td>" ;	
-					
+						"<td>" + ms.tlEmpty(list[i].name) + "</td>" +
+						"<td>" + ms.tlEmpty(list[i].loginId)  + "</td>" +
+						"<td>" + ms.translateText(list[i].frozen)  + "</td>" +
+						"<td>" + ms.tlEmpty(list[i].unfreezingTime)  + "</td>" ;	
+					//TODO 加上重置密码按钮
 					
 					tbodyHtml = tbodyHtml +						
 							"</tr>";
@@ -58,7 +52,7 @@ function queryMerchantInformation(pageNum){
 }
 
 function goPage(p){	
-	queryApprovalMerchant(p);	
+	queryMerchantWaiter(p);	
 }
 
 

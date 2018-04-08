@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.zhuwenshen.mapper.MerchantWaiterMapperCustom">
+	
+	<resultMap id="merchantWaiterList" type="com.zhuwenshen.model.custom.merchant.QueryMerchantWaiter">    
+      <id column="id" jdbcType="CHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="login_ID" jdbcType="VARCHAR" property="loginId" />
+    <result column="frozen" jdbcType="BIT" property="frozen" />
+    <result column="unfreezing_time" jdbcType="TIMESTAMP" property="unfreezingTime" />    
+  </resultMap> 
+
+	<select id="selectMerchantWaiter"
+		resultMap="merchantWaiterList"
+		parameterType="com.zhuwenshen.model.custom.merchant.QueryMerchantWaiterParam">
+		SELECT
+			u.id ,
+			u.name ,
+			u.login_ID ,
+			u.frozen ,
+			u.unfreezing_time			
+		FROM			
+			t_user u,
+			t_merchant_information m,
+			t_merchant_waiter w
+		WHERE
+			w.user_id = u.id
+		and w.merchant_id = m.id
+		and u.deleted = '0'
+		and m.deleted = '0'
+		and w.deleted = '0'
+		<if test="id != null and id != ''">
+	      and u.id  =  #{id}
+	    </if>
+	    <if test="name != null and name!=''">
+	      and u.name like concat('%', #{name},'%')
+	    </if>
+	    <if test="loginId != null and loginId!=''">
+	      and u.login_ID like concat('%', #{loginId},'%')
+	    </if>	    
+	    <if test="frozen != null and frozen !=''">
+	      and u.frozen = #{frozen}
+	    </if>	    
+	    <if test="unfreezingTimeStart != null and unfreezingTimeStart!=''">
+	     <![CDATA[  and u.unfreezing_time >= #{unfreezingTimeStart} ]]> 
+	    </if>	    
+	    <if test="unfreezingTimeEnd != null and unfreezingTimeEnd !=''">
+	      <![CDATA[ and u.unfreezing_time <= #{unfreezingTimeEnd} ]]> 
+	    </if>	        
+	</select>
+	
+	<select id="selectChangedrecently"
+		resultMap="merchantWaiterList">
+		SELECT
+			u.id ,
+			u.name ,
+			u.login_ID ,
+			u.frozen ,
+			u.unfreezing_time			
+		FROM			
+			t_user u,
+			t_merchant_information m,
+			t_merchant_waiter w
+		WHERE
+			w.user_id = u.id
+		and w.merchant_id = m.id
+		and u.deleted = '0'
+		and m.deleted = '0'
+		and w.deleted = '0'
+		and w.merchant_id = #{merchantId}
+		order by w.create_time desc      
+	</select>
+
+
+</mapper>

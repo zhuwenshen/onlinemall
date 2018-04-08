@@ -2,10 +2,16 @@ var ms = {
 		path : "/onlinemall"
 }
 
-//对boolean翻译，true->是，false->否
-ms.translate = function(status){
+//对boolean翻译，true->是，false->否（图标）
+ms.translateIcon = function(status){
 	if(status) return "<span class='glyphicon glyphicon-ok ' style='color:#5cb85c;'><span>";
 	else return "<span class='glyphicon glyphicon-remove' style='color:#FF0000;' ><span>";
+}
+
+//对boolean翻译，true->是，false->否（文字）
+ms.translateText = function(status){
+	if(status) return "是";
+	else return "否";
 }
 
 /**

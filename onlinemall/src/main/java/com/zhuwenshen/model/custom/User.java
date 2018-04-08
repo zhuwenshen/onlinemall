@@ -15,6 +15,12 @@ public class User {
 	
 	private String email;
 	
+	private String merchantId;
+	
+	private String merchantName;
+	
+	private Long merchantNum;
+	
 	/**
      * 积分,单位分
      */
@@ -127,15 +133,36 @@ public class User {
 		this.urls = urls;
 	}
 
+	public String getMerchantId() {
+		return merchantId;
+	}
+
+	public void setMerchantId(String merchantId) {
+		this.merchantId = merchantId;
+	}
+
+	public String getMerchantName() {
+		return merchantName;
+	}
+
+	public void setMerchantName(String merchantName) {
+		this.merchantName = merchantName;
+	}
+
+	public Long getMerchantNum() {
+		return merchantNum;
+	}
+
+	public void setMerchantNum(Long long1) {
+		this.merchantNum = long1;
+	}
+
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", phone=" + phone + ", name=" + name + ", email="
-				+ email + ", integral=" + integral + ", allIntegral=" + allIntegral + ", fund=" + fund + ", userType="
-				+ userType + ", urls=" + urls + "]";
+		return "User [id=" + id + ", phone=" + phone + ", name=" + name + ", email=" + email + ", merchantId="
+				+ merchantId + ", merchantName=" + merchantName + ", merchantNum=" + merchantNum + ", integral="
+				+ integral + ", allIntegral=" + allIntegral + ", fund=" + fund + ", userType=" + userType + ", urls="
+				+ urls + "]";
 	}
-	
-	
-	
-	
 	
 }

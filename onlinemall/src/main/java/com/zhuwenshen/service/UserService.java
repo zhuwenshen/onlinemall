@@ -18,9 +18,13 @@ import org.springframework.util.StringUtils;
 import com.zhuwenshen.exception.RedisException;
 import com.zhuwenshen.mapper.TLoginHistoryMapper;
 import com.zhuwenshen.mapper.TLoginHistoryMapperCustom;
+import com.zhuwenshen.mapper.TMerchantInformationMapper;
+import com.zhuwenshen.mapper.TMerchantWaiterMapper;
 import com.zhuwenshen.mapper.TUserMapper;
 import com.zhuwenshen.mapper.TUserMapperCustom;
 import com.zhuwenshen.model.TLoginHistory;
+import com.zhuwenshen.model.TMerchantInformation;
+import com.zhuwenshen.model.TMerchantWaiter;
 import com.zhuwenshen.model.TUser;
 import com.zhuwenshen.model.custom.JsonResult;
 import com.zhuwenshen.model.custom.User;
@@ -44,19 +48,24 @@ public class UserService {
 	@Autowired
 	private TUserMapper userMapper;
 
-	//@Autowired
-	//private RedisService redisService;
+	// @Autowired
+	// private RedisService redisService;
 
 	@Autowired
 	private FrozenInformationService frozenInformationService;
 
 	@Autowired
 	private TLoginHistoryMapper loginHistoryMapper;
-	
+
 	@Autowired
 	private TLoginHistoryMapperCustom loginHistoryMC;
+
+	@Autowired
+	private TMerchantInformationMapper merchantInformationMapper;
 	
-	
+	@Autowired
+	private TMerchantWaiterMapper merchantWaiterMapper;
+
 	private String contextPath = "";
 
 	/**
@@ -131,7 +140,8 @@ public class UserService {
 
 	/**
 	 * 登录
-	 * @param session 
+	 * 
+	 * @param session
 	 * @param loginId
 	 * @param password
 	 * @param client_type
@@ -139,7 +149,9 @@ public class UserService {
 	 * @param location
 	 * @return
 	 */
-	public JsonResult login(HttpSession session, String loginId, String password, String clientType, String ip, String location) {
+	@Transactional
+	public JsonResult login(HttpSession session, String loginId, String password, String clientType, String ip,
+			String location) {
 
 		if (StringUtils.isEmpty(loginId)) {
 			return JsonResult.fail("账号不能为空");
@@ -183,41 +195,32 @@ public class UserService {
 		}
 
 		User u = getUserByTUser(tuser);
-				
+
 		// TODO 这是权限url
 		// u.setUrls( );
 
-		String token = MySid.nextLong();		
-		
-				
-		/*//检查该用户是否存在有用的token
-		TLoginHistory l2 = loginHistoryMapper.selectUsefulByUserIdAndClientType(u.getId(), Integer.valueOf(clientType));
-		if(l2!=null) {
-			//在redis中删除有用的token
-			redisService.deleteSession(l2.getToken());
-		}
-		
-		try {
-			token = redisService.setObjectLong(null, u, u.getClass(), RedisKind.SESSION).getToken();
-		} catch (RedisException e) {
-			//return JsonResult.fail("服务器异常，请联系管理员," + e.getMsg());
-			log.error("redis服务器异常");
-			token = MySid.nextLong();
-		}*/
-		
-		
-		//存放到session
-		session.setAttribute("user", u);
-		
-		
-		//更改以前的登录历史为无效
-		TLoginHistory lh= new TLoginHistory();
+		String token = MySid.nextLong();
+
+		/*
+		 * //检查该用户是否存在有用的token TLoginHistory l2 =
+		 * loginHistoryMapper.selectUsefulByUserIdAndClientType(u.getId(),
+		 * Integer.valueOf(clientType)); if(l2!=null) { //在redis中删除有用的token
+		 * redisService.deleteSession(l2.getToken()); }
+		 * 
+		 * try { token = redisService.setObjectLong(null, u, u.getClass(),
+		 * RedisKind.SESSION).getToken(); } catch (RedisException e) { //return
+		 * JsonResult.fail("服务器异常，请联系管理员," + e.getMsg()); log.error("redis服务器异常"); token
+		 * = MySid.nextLong(); }
+		 */
+
+		// 更改以前的登录历史为无效
+		TLoginHistory lh = new TLoginHistory();
 		lh.setUseful(false);
 		Example example = new Example(TLoginHistory.class);
-		Criteria criteria  = example.createCriteria();
+		Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("userId", u.getId());
 		criteria.andEqualTo("clientType", Integer.valueOf(clientType));
-		criteria.andEqualTo("useful", true);		
+		criteria.andEqualTo("useful", true);
 		loginHistoryMapper.updateByExampleSelective(lh, example);
 
 		// 插入登录历史
@@ -232,36 +235,61 @@ public class UserService {
 
 		loginHistoryMapper.insertSelective(loginHistory);
 		log.debug("登录成功");
-		
-		
-		
-		
+
 		Map<String, String> data = new HashMap<String, String>();
 		data.put("t", token);
 
 		contextPath = ContextUtils.contextPath;
-		String uri = contextPath+"/login";
+		String uri = contextPath + "/login";
+		
+		TMerchantInformation mi = null;
+		
 		switch (u.getUserType()) {
 		case (1):
-			uri = contextPath+"/index";
+			uri = contextPath + "/index";
 			break;
 		case (2):
-			uri = contextPath+"/index";
+			uri = contextPath + "/index";
 			break;
 		case (3):
-			uri = contextPath+"/m/index";
+			uri = contextPath + "/m/index";
+			mi = new TMerchantInformation();
+			mi.setUserId(tuser.getId());
+			mi.setDeleted(false);
+
+			mi = merchantInformationMapper.selectOne(mi);
+
+			u.setMerchantId(mi.getId());
+			u.setMerchantName(mi.getNameCn());
+			u.setMerchantNum(mi.getNum());
+
 			break;
+
 		case (4):
-			uri = contextPath+"/m/index";
+			uri = contextPath + "/m/index";
+			TMerchantWaiter merchantWaiter = new TMerchantWaiter();
+			merchantWaiter.setUserId(tuser.getId());
+			merchantWaiter.setDeleted(false);
+			
+			merchantWaiter = merchantWaiterMapper.selectOne(merchantWaiter);			
+
+			mi = merchantInformationMapper.selectByPrimaryKey(merchantWaiter.getMerchantId());
+
+			u.setMerchantId(mi.getId());
+			u.setMerchantName(mi.getNameCn());
+			u.setMerchantNum(mi.getNum());
+
 			break;
 		case (5):
-			uri = contextPath+"/a/index";
+			uri = contextPath + "/a/index";
 			break;
 		default:
-			uri = contextPath+"/a/index";
+			uri = contextPath + "/a/index";
 			break;
 		}
 		data.put("uri", uri);
+		// 存放到session
+		session.setAttribute("user", u);
 
 		return JsonResult.ok("登录成功", data);
 	}
@@ -270,21 +298,21 @@ public class UserService {
 	 * 获取登陆对象User
 	 * 
 	 * @param token
-	 * @param ip 
-	 * @param httpSession 
+	 * @param ip
+	 * @param httpSession
 	 * @return
 	 * @throws RedisException
 	 */
 	public User getSession(String token, HttpSession session, String ip) {
-		User u = null;	
-		
+		User u = null;
+
 		// 到登录历史中查询最新登录
-		TLoginHistory loginHistory = loginHistoryMC.selectByUsefulTokenAndIp(token,ip);
-		if(loginHistory!=null) {
+		TLoginHistory loginHistory = loginHistoryMC.selectByUsefulTokenAndIp(token, ip);
+		if (loginHistory != null) {
 			u = getUserByTUser(userMapper.selectByPrimaryKey(loginHistory.getUserId()));
 		}
-		//将u放到session中		
-		if(u!=null) {
+		// 将u放到session中
+		if (u != null) {
 			session.setAttribute("user", u);
 		}
 

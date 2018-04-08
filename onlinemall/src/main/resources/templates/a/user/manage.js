@@ -41,7 +41,7 @@ function queryAdminUser(pageNum){
 						"<td>" + ms.tlEmpty(list[i].sexTL)  + "</td>" +	
 						"<td>" + ms.tlEmpty(list[i].userTypeTL)  + "</td>" +	
 						"<td>" + ms.tlEmpty(list[i].loginId)  + "</td>" +	
-						"<td>" +ms.translate(list[i].frozen)  + "</td>" +	
+						"<td>" +ms.translateText(list[i].frozen)  + "</td>" +	
 						"<td>" + ms.tlEmpty(list[i].unfreezingTime)  + "</td>" ;	
 						
 					if(list[i].frozen) {
