@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>商家管理</title>
+
+<!-- Bootstrap Core CSS -->
+<link href="/onlinemall/static/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<!-- MetisMenu CSS -->
+<link href="/onlinemall/static/vendor/metisMenu/metisMenu.min.css"
+	rel="stylesheet">
+<link
+	href="https://cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.min.css"
+	rel="stylesheet">
+
+<!-- Custom CSS -->
+<link href="/onlinemall/static/dist/css/sb-admin-2.css" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="/onlinemall/static/zeroModal/zeroModal.css" />
+
+<!-- Custom Fonts -->
+<link
+	href="/onlinemall/static/vendor/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css">
+
+<link href="/onlinemall/static/css/common.css"
+	rel="stylesheet">
+
+
+
+</head>
+
+<body>
+	
+	<div id="wrapper">
+
+		<!-- Navigation -->
+		<nav class="navbar navbar-default navbar-static-top" role="navigation"
+			style="margin-bottom: 0">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">商家管理</a>
+			</div>
+			<!-- /.navbar-header -->
+
+			<ul class="nav navbar-top-links navbar-right">
+
+			</ul>
+			<!-- /.navbar-top-links -->
+
+			<!-- 目录菜单 -->
+			<div class="navbar-default sidebar" role="navigation">
+				<div class="sidebar-nav navbar-collapse" id="m_side-memu_div">
+					<ul class="nav" id="side-menu">
+						<li><a href="#"><i class="fa fa-dashboard fa-fw"></i>主页</a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- 目录菜单  end-->
+
+			<!-- /.navbar-static-side -->
+		</nav>
+
+		<div id="page-wrapper">
+			<div class="row">
+				<div class="col-lg-12">
+					<h2 class="page-header">商家详细信息</h2>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- /.row -->
+
+			<!-- 信息提示 -->
+			<div class="row">
+				<div class="col-lg-12" id="msg_alert_div"></div>
+			</div>
+			<!-- 信息提示 end -->
+
+
+			<div class="row">				
+					
+						<div class="col-lg-3 col-sm-6">
+							<img src="/onlinemall/static/img/myloading.png" id="merchantPortraitUrl" class="img-responsive img-rounded" alt="Responsive image">
+							<button type="button" id="update_merchantPortraitUrl_btn" class="btn btn-primary">更换头像</button>
+						</div>
+						
+					<form class="form-horizontal col-lg-8 col-sm-6 m_panel_bodder_left" id="infor_form">
+						<div class="form-group col-lg-6 col-sm-12">
+							<label class="col-sm-4 m_label_r">商家编号：</label> 
+							<div class="col-sm-8 m_imput_l">
+								<input type="text" class="form-control" id="num"  disabled="disabled"	>
+							</div>							
+						</div>													
+						<div class="form-group col-lg-7 col-sm-12">
+							<label class="col-sm-4 m_label_r">店名：</label> 
+							<div class="col-sm-8 m_imput_l">
+								<input type="text"class="form-control" id="nameCn"	  disabled="disabled">
+							</div>							
+						</div>
+						<div class="form-group col-lg-6 col-sm-12">
+							<label class="col-sm-4 m_label_r">联系电话：</label> 
+							<div class="col-sm-8 m_imput_l">
+								<input type="text"class="form-control" id="phone"	name="phone"  disabled="disabled">
+							</div>							
+						</div>
+						<div class="form-group col-lg-7 col-sm-12">
+							<label class="col-sm-4 m_label_r">资金：</label> 
+							<div class="col-sm-8 m_imput_l">
+								<input type="text"class="form-control" id="fund"  disabled="disabled">
+							</div>							
+						</div>
+						<div class="form-group col-lg-6 col-sm-12">
+							<label class="col-sm-4 m_label_r">积分：</label> 
+							<div class="col-sm-8 m_imput_l">
+								<input type="text"class="form-control" id="integral"	  disabled="disabled">
+							</div>							
+						</div>
+						<div class="form-group col-lg-7 col-sm-12">
+							<label class="col-sm-4 m_label_r">总积分：</label> 
+							<div class="col-sm-8 m_imput_l">
+								<input type="text"class="form-control" id="allIntegral"	  disabled="disabled">
+							</div>							
+						</div>						
+						
+						<div class="form-group col-lg-6 col-sm-12">
+							<label class="col-sm-4 m_label_r">认证等级：</label> 
+							<div class="col-sm-8 m_imput_l">
+								<input type="text"class="form-control" id="certificationLevel"	 disabled="disabled">
+							</div>							
+						</div>
+						<div class="form-group col-lg-12 col-sm-12">
+							<label class="col-sm-2 m_label_r">详细地址：</label> 
+							<div class="col-sm-10 m_imput_l">
+								<input type="text" class="form-control "id="detailedAddress"	name="detailedAddress" disabled="disabled" >
+							</div>							
+						</div>	
+						<div class="col-lg-12 col-sm-12">
+						<button type="button" class="btn btn-primary" id="updateImformation_btn" >修改商家信息</button>	
+						<button type="button" class="btn btn-primary" id="sumbit_updateImformation_btn" hidden="hidden">确认修改</button>	</div>
+												
+				</form>			
+
+			</div>
+			<!-- /.row -->
+			<hr/>
+			<div class="row">
+				<div class="col-lg-12 col-sm-12 m_add_margin"><h3>描述图片</h3> </div>				
+					<form id="img_des_form">
+					
+					<!-- <div class="col-lg-3 col-sm-6 m_add_margin m_panel_bodder_right">
+							<img src="/onlinemall/static/img/myloading.png" class="img-responsive img-rounded" alt="无法加载图片">
+							<input type="hidden" name="" value="" >
+							<button type="button" class="btn btn-primary">更换</button>
+							<button type="button" class="btn btn-primary">删除</button>
+					</div>
+					<div class="col-lg-3 col-sm-6 m_add_margin m_panel_bodder_right">
+							<img src="/onlinemall/static/img/myloading.png" class="img-responsive img-rounded" alt="无法加载图片">
+							<button type="button" class="btn btn-primary">更换</button>
+							<button type="button" class="btn btn-primary">删除</button>
+					</div>					
+					<div class="col-lg-3 col-sm-6 m_add_margin m_panel_bodder_right">
+							<img src="/onlinemall/static/img/add.png" class="img-responsive img-rounded" alt="无法加载图片">
+							
+					</div> -->
+				
+				
+				
+				</form>
+			</div>
+			
+		</div>
+		<!-- /#page-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+	
+	<!-- jQuery -->
+	<script src="/onlinemall/static/vendor/jquery/jquery.min.js"></script>	
+	
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="/onlinemall/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+	<script
+		src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
+	<script src="/onlinemall/static/zeroModal/zeroModal.min.js"></script>
+
+	<script src="/onlinemall/static/js/common.js"></script>
+
+	<script src="/onlinemall/static/js/m/merchant.js"></script>
+	<script src="manage.js"></script>
+
+</body>
+
+</html>

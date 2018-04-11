@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.zhuwenshen.model.custom.JsonResult;
 import com.zhuwenshen.model.custom.User;
 import com.zhuwenshen.model.custom.merchant.QueryMerchantWaiterParam;
 import com.zhuwenshen.service.merchant.MerchantWaiterService;
@@ -36,13 +37,27 @@ public class MerchantWaiterController {
 	
 	@PostMapping("m/waiter/add")
 	@ResponseBody
-	public String addMerchantWaiter(QueryMerchantWaiterParam mwp, @SessionAttribute("user") User user) {
+	public JsonResult addMerchantWaiter(QueryMerchantWaiterParam mwp, @SessionAttribute("user") User user) {
 		return mws.addMerchantWaiter( mwp, user);
 	}
 	
-	@PostMapping("m/waiter/queryChangedrecently")
+	@GetMapping("m/waiter/queryChangedrecently")
 	@ResponseBody
 	public String queryChangedrecently( @SessionAttribute("user") User user) {
 		return mws.queryChangedrecently(user);
 	}
+	
+	@GetMapping("m/waiter/resetPassword")
+	@ResponseBody
+	public JsonResult resetPassword( String id, @SessionAttribute("user") User user) {
+		return mws.resetPassword(id, user);
+	}
+	
+	@GetMapping("m/waiter/delete")
+	@ResponseBody
+	public JsonResult delete( String id, @SessionAttribute("user") User user) {
+		return mws.delete(id, user);
+	}
+	
+	
 }

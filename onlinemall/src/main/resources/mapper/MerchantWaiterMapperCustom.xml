@@ -10,6 +10,32 @@
     <result column="frozen" jdbcType="BIT" property="frozen" />
     <result column="unfreezing_time" jdbcType="TIMESTAMP" property="unfreezingTime" />    
   </resultMap> 
+  
+   <resultMap id="waiterList" type="com.zhuwenshen.model.TUser">   
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="ID_number" jdbcType="CHAR" property="idNumber" />
+    <result column="head_portrait_url" jdbcType="VARCHAR" property="headPortraitUrl" />
+    <result column="integral" jdbcType="DECIMAL" property="integral" />
+    <result column="all_integral" jdbcType="DECIMAL" property="allIntegral" />
+    <result column="fund" jdbcType="DECIMAL" property="fund" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="birthdate" jdbcType="DATE" property="birthdate" />
+    <result column="user_type" jdbcType="INTEGER" property="userType" />
+    <result column="login_ID" jdbcType="VARCHAR" property="loginId" />
+    <result column="login_passworld" jdbcType="VARCHAR" property="loginPassworld" />
+    <result column="pay_passworld" jdbcType="VARCHAR" property="payPassworld" />
+    <result column="frozen" jdbcType="BIT" property="frozen" />
+    <result column="unfreezing_time" jdbcType="TIMESTAMP" property="unfreezingTime" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_userid" jdbcType="CHAR" property="createUserid" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_userid" jdbcType="CHAR" property="updateUserid" />
+  </resultMap>
 
 	<select id="selectMerchantWaiter"
 		resultMap="merchantWaiterList"
@@ -70,6 +96,48 @@
 		and w.deleted = '0'
 		and w.merchant_id = #{merchantId}
 		order by w.create_time desc      
+	</select>
+	
+	<select id="selectCountMerchantWaiter"
+		resultType="java.lang.Integer">
+		SELECT
+			count(*)		
+		FROM			
+			t_user u,
+			t_merchant_information m,
+			t_merchant_waiter w
+		WHERE
+			w.user_id = u.id
+		and w.merchant_id = m.id
+		and u.deleted = '0'
+		and m.deleted = '0'
+		and w.deleted = '0'
+		and w.merchant_id = #{merchantId}     
+	</select>
+	
+	<select id="selectWaiterByWaiterId"
+		resultMap="waiterList">
+		SELECT
+			u.id as "id",
+			u.name as "name",
+			u.phone as "phone",
+			u.email as "email",
+			u.real_name as "real_name",
+			u.ID_number as "ID_number",
+			u.login_ID as "login_ID",	
+			u.deleted as "deleted"				
+		FROM			
+			t_user u,
+			t_merchant_information m,
+			t_merchant_waiter w
+		WHERE
+			w.user_id = u.id
+		and w.merchant_id = m.id
+		and u.deleted = '0'
+		and m.deleted = '0'
+		and w.deleted = '0'
+		and w.merchant_id = #{merchantId}
+		and u.id = #{waiterId}     
 	</select>
 
 

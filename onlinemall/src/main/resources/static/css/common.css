@@ -1,0 +1,33 @@
+.m_label_r{
+	text-align: right;
+	margin-top: 3px;
+	margin-bottom: 2px;
+	padding-left: 30px;
+	padding-right: 0px;
+}
+
+.m_imput_l {
+	padding-left: 0px;
+	padding-right: 24px;
+}
+.m_add_margin{
+	margin-top: 15px;
+}
+
+.m_panel_bodder{
+	border-style: dashed;
+	border-width:1px;
+}
+
+.m_panel_bodder_right{
+	border-width:1px;
+	border-right-style: solid;
+}
+
+.m_img_small{
+	width:170px;
+	height: 170px;
+}
+.m_img_sdes{
+	width:170px;
+}

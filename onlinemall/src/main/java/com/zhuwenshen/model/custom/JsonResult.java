@@ -1,13 +1,15 @@
 package com.zhuwenshen.model.custom;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializeFilter;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.github.pagehelper.Page;
 import com.zhuwenshen.aop.ConstantTranslateFilter;
+import com.zhuwenshen.aop.PicUrlFilter;
 
-public class JsonResult {
+public class JsonResult {		
 	
-	private static ConstantTranslateFilter ctFilter = new ConstantTranslateFilter();
+	private static SerializeFilter[] filters = {new ConstantTranslateFilter(), new PicUrlFilter()};
 
 	private boolean status;
 	
@@ -60,7 +62,7 @@ public class JsonResult {
 	 * @return
 	 */
 	private static String tlToSting(Object o) {
-		return JSON.toJSONString(o,ctFilter,  SerializerFeature.WriteMapNullValue);
+		return JSON.toJSONString(o, filters,  SerializerFeature.WriteMapNullValue);
 	}
 	
 	public static String okToPageList(Page<?> page) {
@@ -114,5 +116,12 @@ public class JsonResult {
 	public void setData(Object data) {
 		this.data = data;
 	}
+
+	@Override
+	public String toString() {
+		return tlToSting(this);
+	}
+	
+	
 	
 }

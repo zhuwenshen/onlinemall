@@ -1,6 +1,16 @@
+
+$(function(){
+//	$("body").prepend("<div id='my_css'><div>");
+//	$("#my_css").load(ms.path+"/adminCss");
+});
+
 var ms = {
-		path : "/onlinemall"
+		path : "/onlinemall",
+		picIp: "http://39.106.107.122",
+		picPath: "http://39.106.107.122/pic/uploadimg"
+//		picPath: "http://127.0.0.1:8100/pic/uploadimg"
 }
+
 
 //对boolean翻译，true->是，false->否（图标）
 ms.translateIcon = function(status){
@@ -12,6 +22,12 @@ ms.translateIcon = function(status){
 ms.translateText = function(status){
 	if(status) return "是";
 	else return "否";
+}
+
+//对boolean翻译，true->是，false->否（文字）
+ms.translateZero = function(num){
+	if(num) return num;
+	else return "0";
 }
 
 /**
@@ -182,6 +198,117 @@ ms.initSelect = function (id,kind,val){
 		},
 		error: function() {				
 			ms.append_alert("danger",true,"服务器异常！","msg_alert_div");
+
+		}
+	});
+}
+
+/**
+ *上传头像
+ */
+ms.uploadPortrait = function(formId, callback){
+	//加载模态
+	var dataForm = new FormData(document.getElementById(formId));
+	var loadingUnique = zeroModal.loading(3);
+	$.ajax({
+		processData: false,//这个必须有，不然会报错
+        contentType: false,//这个必须有，不然会报错
+		type: "POST", // 方法类型
+		dataType: "json", // 预期服务器返回的数据类型
+		url:  ms.picPath, // url
+		data: dataForm,
+		success: function(result) {
+			if(result.status) {
+				//赋值	
+				
+				zeroModal.close(loadingUnique);
+				callback(result.data);
+				
+			} else {
+				zeroModal.close(loadingUnique);
+				zeroModal.error(result.msg);
+
+			}
+		},
+		error: function() {	
+			zeroModal.close(loadingUnique);
+			zeroModal.error("服务器异常！");
+
+		}
+	});
+}
+
+/**
+ * 剪掉图片url的服务器ip
+ */
+ms.cutUrlIp = function(str){
+	if(str.indexOf(ms.picIp) >=0) {
+		return str.substring(ms.picIp.length,str.length);
+	}else {
+		return str;
+	}
+}
+
+/**
+ * 上传图片弹框
+ */
+ms.uploadImgModal = function(okFn, title,okTitle,url){
+	if(!url) {
+		url = "/uploadImg";
+	}
+	
+	if(!title) {
+		title = "上传图片";
+	}
+	
+	if(!okTitle){
+		okTitle = "保存"
+	}
+	zeroModal.show({
+        title: title,
+        url:ms.path +url,
+        width:"300px",
+        height:"300px",
+        max:true,
+        cancel:true,
+        cancelTitle:"取消",
+        ok:true,
+        okTitle: okTitle,
+        okFn:okFn        
+    });
+}
+
+/**
+ * 上传到图片服务器
+ */
+ms.uploadImg = function(formId, callback){
+	//加载模态
+	var dataForm = new FormData(document.getElementById(formId));
+	var loadingUnique = zeroModal.loading(3);
+	$.ajax({
+		processData: false,//这个必须有，不然会报错
+        contentType: false,//这个必须有，不然会报错
+		type: "POST", // 方法类型
+		dataType: "json", // 预期服务器返回的数据类型
+		url:  ms.picPath, // url
+		data: dataForm,
+		success: function(result) {
+			console.log(result); // 打印服务端返回的数据(调试用)			
+			if(result.status) {
+				//赋值	
+				
+				zeroModal.close(loadingUnique);
+				callback(result.data);
+				
+			} else {
+				zeroModal.close(loadingUnique);
+				zeroModal.error(result.msg);
+
+			}
+		},
+		error: function() {	
+			zeroModal.close(loadingUnique);
+			zeroModal.error("服务器异常！");
 
 		}
 	});

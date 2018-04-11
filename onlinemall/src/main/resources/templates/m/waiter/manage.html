@@ -74,7 +74,7 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h2 class="page-header">查看店员</h2>
+					<h2 class="page-header">店员管理</h2>
 				</div>
 				<!-- /.col-lg-12 -->
 			</div>
@@ -139,7 +139,7 @@
 													<th>操作</th>
 												</tr>
 											</thead>
-											<tbody id="constant_tbody">
+											<tbody id="query_tbody">
 												<!-- ajxa获取数据      -->
 												
 											</tbody>
@@ -154,7 +154,6 @@
 
 							<div class="row">
 									<div class="col-sm-12">
-										<input type="button" value="删除" class="btn btn-sm btn-warning pull-left" id="batch_delete_btn"/>
 										<span class="pull-right"> 每页10条</span>
 									</div>									
 								<div class="col-sm-12">									
@@ -189,20 +188,36 @@
 	<!-- /#wrapper -->	
 
 	<!-- 删除确认 modal -->
-<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="delete_constant_model">
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="delete_model">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       	<div class="modal-body">
-      		确认要删除该记录吗
+      		确认要删除该店员吗！
       	</div>
       	<div class="modal-footer">
 					<button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
-					<button type="button" class="btn btn-warning" id="delete_constant_btn">确认</button>
+					<button type="button" class="btn btn-warning" id="delete_model_btn">确认</button>
 		</div>
     </div>
   </div>
 </div>
 <!-- 删除确认 modal end -->
+
+	<!-- 重置确认 modal -->
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="reset_password_model">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      	<div class="modal-body">
+      		确认要重置密码吗！
+      	</div>
+      	<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-warning" id="reset_password_model_btn">确认</button>
+		</div>
+    </div>
+  </div>
+</div>
+<!-- 重置确认 modal end -->
 
 	<!-- jQuery -->
 	<script src="/onlinemall/static/vendor/jquery/jquery.min.js"></script>

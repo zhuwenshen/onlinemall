@@ -3,10 +3,12 @@ package com.zhuwenshen.model.custom.admin;
 import java.math.BigDecimal;
 
 import com.zhuwenshen.annotation.ConstantTranslate;
+import com.zhuwenshen.annotation.PicUrl;
 
 public class QueryMerchantInformation {
 
 	private String id;
+	private String userId;
 	private String userName;
 	/**
 	 * 商家编号
@@ -46,14 +48,15 @@ public class QueryMerchantInformation {
 	/**
 	 * 商家头像
 	 */
+	@PicUrl
 	private String merchantPortraitUrl;
 
 	/**
 	 * 认证等级;默认0(0未通过审核 1实名认证 2实体店认证)
 	 */
 	private Integer certificationLevel;
-	
-	@ConstantTranslate(kind="certification_level_of_merchant",valueMethod="getCertificationLevel")
+
+	@ConstantTranslate(kind = "certification_level_of_merchant", valueMethod = "getCertificationLevel")
 	private String certificationLevelTL;
 
 	/**
@@ -64,21 +67,25 @@ public class QueryMerchantInformation {
 	/**
 	 * 商家描述图片1
 	 */
+	@PicUrl
 	private String describingImg1Url;
 
 	/**
 	 * 商家描述图片2
 	 */
+	@PicUrl
 	private String describingImg2Url;
 
 	/**
 	 * 商家描述图片3
 	 */
+	@PicUrl
 	private String describingImg3Url;
 
 	/**
 	 * 商家描述图片4
 	 */
+	@PicUrl
 	private String describingImg4Url;
 
 	/**
@@ -89,6 +96,7 @@ public class QueryMerchantInformation {
 	/**
 	 * 营业执照图片
 	 */
+	@PicUrl
 	private String businessLicenseUrl;
 
 	public String getId() {
@@ -97,7 +105,7 @@ public class QueryMerchantInformation {
 
 	public void setId(String id) {
 		this.id = id;
-	}	
+	}
 
 	public Long getNum() {
 		return num;
@@ -233,7 +241,7 @@ public class QueryMerchantInformation {
 
 	public void setBusinessLicenseUrl(String businessLicenseUrl) {
 		this.businessLicenseUrl = businessLicenseUrl;
-	}	
+	}
 
 	public String getUserName() {
 		return userName;
@@ -243,6 +251,11 @@ public class QueryMerchantInformation {
 		this.userName = userName;
 	}
 
-	
+	public String getUserId() {
+		return userId;
+	}
 
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 }

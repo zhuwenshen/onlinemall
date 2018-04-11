@@ -61,8 +61,7 @@ function queryChangedrecently(){
 						"<td>" + ms.tlEmpty(list[i].name) + "</td>" +
 						"<td>" + ms.tlEmpty(list[i].loginId)  + "</td>" +
 						"<td>" + ms.translateText(list[i].frozen)  + "</td>" +
-						"<td>" + ms.tlEmpty(list[i].unfreezingTime)  + "</td>" ;	
-					//TODO 加上重置密码按钮
+						"<td>" + ms.tlEmpty(list[i].unfreezingTime)  + "</td>" ;					
 					
 					tbodyHtml = tbodyHtml +						
 							"</tr>";

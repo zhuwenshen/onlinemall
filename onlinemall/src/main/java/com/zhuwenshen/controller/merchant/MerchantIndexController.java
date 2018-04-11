@@ -15,11 +15,11 @@ public class MerchantIndexController {
 	public String index(@SessionAttribute("user") User user) {
 		System.out.println(user);
 		System.out.println("商家主页");
-		return "m/index";
+		return "/m/index";
 	}
 	
 	@GetMapping("memu")
 	public String menu() {
-		return "m/menu";
+		return "/m/menu";
 	}
 }
