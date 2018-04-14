@@ -1,7 +1,5 @@
 package com.zhuwenshen;
 
-import com.zhuwenshen.model.TUser;
-
 public class Test2 {
 	
 	/*public static void main(String[] args) {
@@ -23,16 +21,28 @@ public class Test2 {
        
 	}*/
 	
-	public static void main(String[] args) {
-		TUser u = new TUser();
-		Class<? extends TUser> clazz = u.getClass();
-		System.out.println(clazz.getSimpleName());
-		/*Annotation[] list = clazz.getAnnotations();
-		for (Annotation annotation : list) {
-			if(annotation instanceof Table) {
-				System.out.println(((Table) annotation).name());
-			}
-		}*/
+//	public static void main(String[] args) {
+//		TUser u = new TUser();
+//		Class<? extends TUser> clazz = u.getClass();
+//		System.out.println(clazz.getSimpleName());
+//		/*Annotation[] list = clazz.getAnnotations();
+//		for (Annotation annotation : list) {
+//			if(annotation instanceof Table) {
+//				System.out.println(((Table) annotation).name());
+//			}
+//		}*/
+//	}
+	
+	/*public static void main(String[] args) {
+		String  p = ".*\\.css$";
+		System.out.println(Pattern.matches(p, "/dqweqwe/dadaq /csss.css"));
+	}*/
+	
+	static void fun() {
+		System.out.println(123);
 	}
-
+	
+	public static void main(String[] args) {
+		Test2.fun();
+	}
 }

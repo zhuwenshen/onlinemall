@@ -13,7 +13,7 @@
     <result column="description_img2_url" jdbcType="VARCHAR" property="descriptionImg2Url" />
     <result column="description_img3_url" jdbcType="VARCHAR" property="descriptionImg3Url" />
     <result column="description_img4url" jdbcType="VARCHAR" property="descriptionImg4url" />
-    <result column="shelve _time" jdbcType="TIMESTAMP" property="shelveTime" />
+    <result column="shelve_time" jdbcType="TIMESTAMP" property="shelveTime" />
     <result column="unshelve_by_admin" jdbcType="BIT" property="unshelveByAdmin" />
     <result column="unshelve" jdbcType="BIT" property="unshelve" />
     <result column="unshelve_time" jdbcType="TIMESTAMP" property="unshelveTime" />

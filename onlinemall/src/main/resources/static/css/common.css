@@ -1,3 +1,7 @@
+.m_form_datetime_margin_left {
+	margin-left: 15px;
+}
+
 .m_label_r{
 	text-align: right;
 	margin-top: 3px;
@@ -30,4 +34,17 @@
 }
 .m_img_sdes{
 	width:170px;
+}
+.m_img_margin_bottom{
+	margin-bottom: 10px;
+}
+
+.m_label{
+	background-color: green;
+	color : white;
+	padding:3px;
+	border-style: solid;
+	border-width:1px;
+	display: inline-block; 
+	border-radius: 10px;
 }

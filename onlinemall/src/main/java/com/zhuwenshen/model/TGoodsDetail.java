@@ -45,8 +45,8 @@ public class TGoodsDetail {
     /**
      * 描述图片3
      */
-    @Column(name = "description_img3_ur")
-    private String descriptionImg3Ur;
+    @Column(name = "description_img3_url")
+    private String descriptionImg3Url;
 
     /**
      * 描述图片4
@@ -246,8 +246,8 @@ public class TGoodsDetail {
      *
      * @return description_img3_ur - 描述图片3
      */
-    public String getDescriptionImg3Ur() {
-        return descriptionImg3Ur;
+    public String getDescriptionImg3Url() {
+        return descriptionImg3Url;
     }
 
     /**
@@ -255,8 +255,8 @@ public class TGoodsDetail {
      *
      * @param descriptionImg3Ur 描述图片3
      */
-    public void setDescriptionImg3Ur(String descriptionImg3Ur) {
-        this.descriptionImg3Ur = descriptionImg3Ur == null ? null : descriptionImg3Ur.trim();
+    public void setDescriptionImg3Url(String descriptionImg3Url) {
+        this.descriptionImg3Url = descriptionImg3Url == null ? null : descriptionImg3Url.trim();
     }
 
     /**

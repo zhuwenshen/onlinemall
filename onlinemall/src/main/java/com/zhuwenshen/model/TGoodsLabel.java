@@ -3,35 +3,17 @@ package com.zhuwenshen.model;
 import java.util.Date;
 import javax.persistence.*;
 
-@Table(name = "t_goods_sort")
-public class TGoodsSort {
+@Table(name = "t_goods_label")
+public class TGoodsLabel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
-    /**
-     * 商品id
-     */
     @Column(name = "goods_id")
     private String goodsId;
 
-    /**
-     * 分类类别
-     */
-    @Column(name = "sort_name")
-    private String sortName;
-
-    /**
-     * 分类信息（用空格隔开）
-     */
-    @Column(name = "sort_detail")
-    private String sortDetail;
-
-    /**
-     * 分类排序
-     */
-    @Column(name = "sort_num")
-    private Integer sortNum;
+    @Column(name = "label_id")
+    private String labelId;
 
     /**
      * 是否删除；0否 1是
@@ -77,75 +59,31 @@ public class TGoodsSort {
     }
 
     /**
-     * 获取商品id
-     *
-     * @return goods_id - 商品id
+     * @return goods_id
      */
     public String getGoodsId() {
         return goodsId;
     }
 
     /**
-     * 设置商品id
-     *
-     * @param goodsId 商品id
+     * @param goodsId
      */
     public void setGoodsId(String goodsId) {
         this.goodsId = goodsId == null ? null : goodsId.trim();
     }
 
     /**
-     * 获取分类类别
-     *
-     * @return sort_name - 分类类别
+     * @return label_id
      */
-    public String getSortName() {
-        return sortName;
+    public String getLabelId() {
+        return labelId;
     }
 
     /**
-     * 设置分类类别
-     *
-     * @param sortName 分类类别
+     * @param labelId
      */
-    public void setSortName(String sortName) {
-        this.sortName = sortName == null ? null : sortName.trim();
-    }
-
-    /**
-     * 获取分类信息（用空格隔开）
-     *
-     * @return sort_detail - 分类信息（用空格隔开）
-     */
-    public String getSortDetail() {
-        return sortDetail;
-    }
-
-    /**
-     * 设置分类信息（用空格隔开）
-     *
-     * @param sortDetail 分类信息（用空格隔开）
-     */
-    public void setSortDetail(String sortDetail) {
-        this.sortDetail = sortDetail == null ? null : sortDetail.trim();
-    }
-
-    /**
-     * 获取分类排序
-     *
-     * @return sort_num - 分类排序
-     */
-    public Integer getSortNum() {
-        return sortNum;
-    }
-
-    /**
-     * 设置分类排序
-     *
-     * @param sortNum 分类排序
-     */
-    public void setSortNum(Integer sortNum) {
-        this.sortNum = sortNum;
+    public void setLabelId(String labelId) {
+        this.labelId = labelId == null ? null : labelId.trim();
     }
 
     /**

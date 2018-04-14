@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhuwenshen.mapper.MerchantGoodsMapperCustom">
+  <resultMap id="BaseResultMap" type="com.zhuwenshen.model.custom.merchant.QueryMerchantGoods">    
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="merchant_information_id" jdbcType="CHAR" property="merchantInformationId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="description_img1_url" jdbcType="VARCHAR" property="descriptionImg1Url" />
+    <result column="description_img2_url" jdbcType="VARCHAR" property="descriptionImg2Url" />
+    <result column="description_img3_url" jdbcType="VARCHAR" property="descriptionImg3Url" />
+    <result column="description_img4url" jdbcType="VARCHAR" property="descriptionImg4url" />
+    <result column="shelve_time" jdbcType="TIMESTAMP" property="shelveTime" />
+    <result column="unshelve_by_admin" jdbcType="BIT" property="unshelveByAdmin" />
+    <result column="unshelve" jdbcType="BIT" property="unshelve" />
+    <result column="unshelve_time" jdbcType="TIMESTAMP" property="unshelveTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  
+  <resultMap id="GoodsLabelResultMap" type="com.zhuwenshen.model.custom.merchant.QueryMerchantLabel">    
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />    
+  </resultMap>
+  
+  
+  <select id="selectMerchantGoodsList"
+		resultMap="BaseResultMap"
+		parameterType="com.zhuwenshen.model.custom.merchant.QueryMerchantGoodsParam">
+		SELECT
+			g.id ,
+			g.merchant_information_id ,
+			g.name ,
+			g.description ,
+			g.description_img1_url ,
+			g.description_img2_url ,
+			g.description_img3_url ,
+			g.description_img4url ,
+			g.shelve_time ,
+			g.unshelve_by_admin ,
+			g.unshelve ,
+			g.unshelve_time ,
+			g.create_time				
+		FROM
+			t_goods g				 		
+		WHERE
+			 g.deleted = '0'
+		<if test="id != null and id != ''">
+	      and g.id = #{id}
+	    </if>
+	    <if test="merchantInformationId != null and merchantInformationId != ''">
+	      and g.merchant_information_id = #{merchantInformationId}
+	    </if>	    
+	    <if test="name != null and name != ''">
+	      and g.name like concat('%', #{name},'%')
+	    </if>	    
+	     <if test="shelveTimeStart != null and shelveTimeStart != ''">
+	     <![CDATA[  and g.shelve_time >= #{shelveTimeStart} ]]> 
+	    </if>
+	    <if test="shelveTimeEnd != null and shelveTimeEnd != ''">
+	      <![CDATA[ and g.shelve_time <= #{shelveTimeEnd} ]]> 
+	    </if>	    
+	    <if test="unshelveByAdmin != null and unshelveByAdmin != ''">
+	      and g.unshelve_by_admin = #{unshelveByAdmin}
+	    </if>	    
+	    <if test="unshelveTimeStart != null and unshelveTimeStart != ''">
+	     <![CDATA[  and g.unshelve_time >= #{unshelveTimeStart} ]]> 
+	    </if>
+	    <if test="unshelveTimeEnd != null and unshelveTimeEnd != ''">
+	      <![CDATA[ and g.unshelve_time <= #{unshelveTimeEnd} ]]> 
+	    </if>	    
+	    <if test="createTimeStart != null and createTimeStart != ''">
+	     <![CDATA[  and g.create_time >= #{createTimeStart} ]]> 
+	    </if>
+	    <if test="createTimeEnd != null and createTimeEnd != ''">
+	      <![CDATA[ and g.create_time <= #{createTimeEnd} ]]> 
+	    </if>	    
+		 <if test="label != null and label.length >0 ">
+		 and g.id in (
+		 	select distinct
+		 		gl.goods_id 
+		 	FROM 		 						
+		     	t_goods_label gl,
+		     	t_label l  	
+		     where	  
+		     	gl.deleted = '0'
+		     	and l.deleted = '0'
+		     	and l.id = gl.label_id 
+		    	
+	    		<foreach item="item" open=" and l.name in ( " close=")" collection="label" separator=",">		          	
+				      	#{item}		          
+		  		</foreach>
+		    			 
+		 )		     	     
+		  </if>    	       
+	</select>
+	
+	<select id="selectChangedRecently"
+		resultMap="BaseResultMap">
+		SELECT
+			g.id ,
+			g.merchant_information_id ,
+			g.name ,
+			g.description ,
+			g.description_img1_url ,
+			g.description_img2_url ,
+			g.description_img3_url ,
+			g.description_img4url ,
+			g.shelve_time ,
+			g.unshelve_by_admin ,
+			g.unshelve ,
+			g.unshelve_time ,
+			g.create_time				
+		FROM
+			t_goods g
+		WHERE
+			 g.deleted = '0'
+		and g.merchant_information_id = #{merchantId}	
+		and g.create_time >= #{date}	
+		order by g.create_time desc      
+	</select>
+  	
+  	
+  	<select id="selectGoodsLabel"	resultMap="GoodsLabelResultMap">		
+ 	select distinct
+ 		l.id ,
+ 		l.name 		
+ 	FROM 		 						
+     	t_goods_label gl,
+     	t_label l,
+     	t_goods g  	
+     where	  
+     	gl.deleted = '0'
+     	and l.deleted = '0'
+     	and g.deleted = '0'
+     	and l.id = gl.label_id 
+     	and gl.goods_id = g.id
+     	<if test="merchantId != null and merchantId != ''">
+     		and g.merchant_information_id = #{merchantId}
+		</if> 
+		<if test="goodsId != null and goodsId != ''">
+     		and g.id = #{goodsId}
+		</if>    	
+	    	   	       
+	</select>
+  	
+  
+</mapper>

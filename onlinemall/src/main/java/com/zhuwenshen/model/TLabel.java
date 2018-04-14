@@ -1,36 +1,18 @@
 package com.zhuwenshen.model;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.*;
 
-@Table(name = "t_goods_sort_detail")
-public class TGoodsSortDetail {
+@Table(name = "t_label")
+public class TLabel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
-    /**
-     * 商家分类id
-     */
-    @Column(name = "goods_sort_id")
-    private String goodsSortId;
+    private String name;
 
-    /**
-     * 分类名称组合
-     */
-    @Column(name = "sort_detail_name")
-    private String sortDetailName;
-
-    /**
-     * 数量
-     */
-    private Integer num;
-
-    /**
-     * 单价
-     */
-    private BigDecimal price;
+    @Column(name = "p_id")
+    private String pId;
 
     /**
      * 是否删除；0否 1是
@@ -76,75 +58,31 @@ public class TGoodsSortDetail {
     }
 
     /**
-     * 获取商家分类id
-     *
-     * @return goods_sort_id - 商家分类id
+     * @return name
      */
-    public String getGoodsSortId() {
-        return goodsSortId;
+    public String getName() {
+        return name;
     }
 
     /**
-     * 设置商家分类id
-     *
-     * @param goodsSortId 商家分类id
+     * @param name
      */
-    public void setGoodsSortId(String goodsSortId) {
-        this.goodsSortId = goodsSortId == null ? null : goodsSortId.trim();
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 
     /**
-     * 获取分类名称组合
-     *
-     * @return sort_detail_name - 分类名称组合
+     * @return p_id
      */
-    public String getSortDetailName() {
-        return sortDetailName;
+    public String getpId() {
+        return pId;
     }
 
     /**
-     * 设置分类名称组合
-     *
-     * @param sortDetailName 分类名称组合
+     * @param pId
      */
-    public void setSortDetailName(String sortDetailName) {
-        this.sortDetailName = sortDetailName == null ? null : sortDetailName.trim();
-    }
-
-    /**
-     * 获取数量
-     *
-     * @return num - 数量
-     */
-    public Integer getNum() {
-        return num;
-    }
-
-    /**
-     * 设置数量
-     *
-     * @param num 数量
-     */
-    public void setNum(Integer num) {
-        this.num = num;
-    }
-
-    /**
-     * 获取单价
-     *
-     * @return price - 单价
-     */
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    /**
-     * 设置单价
-     *
-     * @param price 单价
-     */
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setpId(String pId) {
+        this.pId = pId == null ? null : pId.trim();
     }
 
     /**

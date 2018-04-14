@@ -1,18 +1,18 @@
-package com.zhuwenshen.model;
+package com.zhuwenshen.model.custom.merchant;
 
 import java.util.Date;
-import javax.persistence.*;
+import java.util.List;
 
-@Table(name = "t_goods")
-public class TGoods {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+import com.alibaba.fastjson.annotation.JSONField;
+import com.zhuwenshen.annotation.PicUrl;
+
+public class QueryMerchantGoods {
+	
     private String id;
 
     /**
      * 商家id
      */
-    @Column(name = "merchant_information_id")
     private String merchantInformationId;
 
     /**
@@ -28,37 +28,36 @@ public class TGoods {
     /**
      * 商品描述图片1
      */
-    @Column(name = "description_img1_url")
+    @PicUrl
     private String descriptionImg1Url;
 
     /**
      * 商品描述图片2
      */
-    @Column(name = "description_img2_url")
+    @PicUrl
     private String descriptionImg2Url;
 
     /**
      * 商品描述图片3
      */
-    @Column(name = "description_img3_url")
+    @PicUrl
     private String descriptionImg3Url;
 
     /**
      * 商品描述图片4
      */
-    @Column(name = "description_img4url")
+    @PicUrl
     private String descriptionImg4url;
 
     /**
      * 上架时间
      */
-    @Column(name = "shelve_time")
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date shelveTime;
 
     /**
      * 是否被管理员下架;0否 1是
      */
-    @Column(name = "unshelve_by_admin")
     private Boolean unshelveByAdmin;
 
     /**
@@ -69,7 +68,7 @@ public class TGoods {
     /**
      * 下架时间
      */
-    @Column(name = "unshelve_time")
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date unshelveTime;
 
     /**
@@ -80,27 +79,18 @@ public class TGoods {
     /**
      * 创建时间
      */
-    @Column(name = "create_time")
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
-
-    /**
-     * 创建人id
-     */
-    @Column(name = "create_userid")
-    private String createUserid;
-
-    /**
-     * 更新时间
-     */
-    @Column(name = "update_time")
-    private Date updateTime;
-
-    /**
-     * 更新人id
-     */
-    @Column(name = "update_userid")
-    private String updateUserid;
-
+    
+    
+    private List<?> labelList;
+    
+    private String producer;
+    
+    private String specification;
+    
+    private List<String> detailImgUrl;
+    
     /**
      * @return id
      */
@@ -349,57 +339,35 @@ public class TGoods {
         this.createTime = createTime;
     }
 
-    /**
-     * 获取创建人id
-     *
-     * @return create_userid - 创建人id
-     */
-    public String getCreateUserid() {
-        return createUserid;
-    }
+	public List<?> getLabelList() {
+		return labelList;
+	}
 
-    /**
-     * 设置创建人id
-     *
-     * @param createUserid 创建人id
-     */
-    public void setCreateUserid(String createUserid) {
-        this.createUserid = createUserid == null ? null : createUserid.trim();
-    }
+	public void setLabelList(List<?> labelList) {
+		this.labelList = labelList;
+	}
 
-    /**
-     * 获取更新时间
-     *
-     * @return update_time - 更新时间
-     */
-    public Date getUpdateTime() {
-        return updateTime;
-    }
+	public String getProducer() {
+		return producer;
+	}
 
-    /**
-     * 设置更新时间
-     *
-     * @param updateTime 更新时间
-     */
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
+	public void setProducer(String producer) {
+		this.producer = producer;
+	}
 
-    /**
-     * 获取更新人id
-     *
-     * @return update_userid - 更新人id
-     */
-    public String getUpdateUserid() {
-        return updateUserid;
-    }
+	public String getSpecification() {
+		return specification;
+	}
 
-    /**
-     * 设置更新人id
-     *
-     * @param updateUserid 更新人id
-     */
-    public void setUpdateUserid(String updateUserid) {
-        this.updateUserid = updateUserid == null ? null : updateUserid.trim();
-    }
+	public void setSpecification(String specification) {
+		this.specification = specification;
+	}
+
+	public List<String> getDetailImgUrl() {
+		return detailImgUrl;
+	}
+
+	public void setDetailImgUrl(List<String> detailImgUrl) {
+		this.detailImgUrl = detailImgUrl;
+	} 
 }

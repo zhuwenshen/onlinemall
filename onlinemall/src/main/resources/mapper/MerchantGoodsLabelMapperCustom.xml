@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhuwenshen.mapper.MerchantGoodsLabelMapperCustom">
+ 	
+  	<delete  id="deleteGoodsLabelNotInLabels">	  	
+  	 delete 
+  	 	gl
+  	 from 
+  	 	t_goods_label gl ,
+  	 	t_label l  
+    where 
+    	gl.deleted = '0'
+     	and l.deleted = '0'
+     	and l.id = gl.label_id 
+     	and gl.goods_id = #{goodsId}
+    	<foreach item="item" open=" and l.name not in ( " close=")" collection="labels" separator=",">		          	
+				      	#{item}		          
+		 </foreach>    	
+	 	   	       
+	</delete>
+  	
+  
+</mapper>

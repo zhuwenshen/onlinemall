@@ -2,6 +2,7 @@
 $(function(){
 //	$("body").prepend("<div id='my_css'><div>");
 //	$("#my_css").load(ms.path+"/adminCss");
+	 
 });
 
 var ms = {
@@ -246,6 +247,17 @@ ms.cutUrlIp = function(str){
 		return str.substring(ms.picIp.length,str.length);
 	}else {
 		return str;
+	}
+}
+
+function cutSeconds(id){
+	var inp = $("#"+id);
+	if(inp.val()){
+		var list = inp.split(":"); 
+		if(list>=3) {
+			list[3] = "00" + list[3].substring(2,list[3].length)
+		}
+		inp.val(list.join(":"));
 	}
 }
 

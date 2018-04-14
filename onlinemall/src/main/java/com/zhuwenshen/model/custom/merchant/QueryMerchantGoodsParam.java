@@ -1,18 +1,19 @@
-package com.zhuwenshen.model;
+package com.zhuwenshen.model.custom.merchant;
 
+import java.util.Arrays;
 import java.util.Date;
-import javax.persistence.*;
+import java.util.List;
 
-@Table(name = "t_goods")
-public class TGoods {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class QueryMerchantGoodsParam {
+	
+	private Integer pageNum = 1;
+	private Integer pageSize = 10;
+	
     private String id;
 
     /**
      * 商家id
      */
-    @Column(name = "merchant_information_id")
     private String merchantInformationId;
 
     /**
@@ -28,37 +29,33 @@ public class TGoods {
     /**
      * 商品描述图片1
      */
-    @Column(name = "description_img1_url")
     private String descriptionImg1Url;
 
     /**
      * 商品描述图片2
      */
-    @Column(name = "description_img2_url")
     private String descriptionImg2Url;
 
     /**
      * 商品描述图片3
      */
-    @Column(name = "description_img3_url")
     private String descriptionImg3Url;
 
     /**
      * 商品描述图片4
      */
-    @Column(name = "description_img4url")
     private String descriptionImg4url;
 
     /**
      * 上架时间
-     */
-    @Column(name = "shelve_time")
+     */    
     private Date shelveTime;
+    private Date shelveTimeStart;
+    private Date shelveTimeEnd;
 
     /**
      * 是否被管理员下架;0否 1是
      */
-    @Column(name = "unshelve_by_admin")
     private Boolean unshelveByAdmin;
 
     /**
@@ -69,38 +66,33 @@ public class TGoods {
     /**
      * 下架时间
      */
-    @Column(name = "unshelve_time")
     private Date unshelveTime;
-
-    /**
-     * 是否删除；0否 1是
-     */
-    private Boolean deleted;
-
+    private Date unshelveTimeStart;
+    private Date unshelveTimeEnd;
+    
     /**
      * 创建时间
      */
-    @Column(name = "create_time")
-    private Date createTime;
+    private Date createTimeStart;
+    private Date createTimeEnd;  
+    
+    private String[] label;
+    
+    private List<String> labelList;
+    
+    
+    /**
+     * 厂家
+     */
+    private String producer;
 
     /**
-     * 创建人id
+     * 规格
      */
-    @Column(name = "create_userid")
-    private String createUserid;
-
-    /**
-     * 更新时间
-     */
-    @Column(name = "update_time")
-    private Date updateTime;
-
-    /**
-     * 更新人id
-     */
-    @Column(name = "update_userid")
-    private String updateUserid;
-
+    private String specification;
+    
+    private String[] detailImgUrl;
+    
     /**
      * @return id
      */
@@ -241,23 +233,6 @@ public class TGoods {
         this.descriptionImg4url = descriptionImg4url == null ? null : descriptionImg4url.trim();
     }
 
-    /**
-     * 获取上架时间
-     *
-     * @return shelve _time - 上架时间
-     */
-    public Date getShelveTime() {
-        return shelveTime;
-    }
-
-    /**
-     * 设置上架时间
-     *
-     * @param shelveTime 上架时间
-     */
-    public void setShelveTime(Date shelveTime) {
-        this.shelveTime = shelveTime;
-    }
 
     /**
      * 获取是否被管理员下架;0否 1是
@@ -294,112 +269,142 @@ public class TGoods {
     public void setUnshelve(Boolean unshelve) {
         this.unshelve = unshelve;
     }
+    
 
-    /**
-     * 获取下架时间
-     *
-     * @return unshelve_time - 下架时间
-     */
-    public Date getUnshelveTime() {
-        return unshelveTime;
-    }
+	public Date getShelveTimeStart() {
+		return shelveTimeStart;
+	}
 
-    /**
-     * 设置下架时间
-     *
-     * @param unshelveTime 下架时间
-     */
-    public void setUnshelveTime(Date unshelveTime) {
-        this.unshelveTime = unshelveTime;
-    }
+	public void setShelveTimeStart(Date shelveTimeStart) {
+		this.shelveTimeStart = shelveTimeStart;
+	}
 
-    /**
-     * 获取是否删除；0否 1是
-     *
-     * @return deleted - 是否删除；0否 1是
-     */
-    public Boolean getDeleted() {
-        return deleted;
-    }
+	public Date getShelveTimeEnd() {
+		return shelveTimeEnd;
+	}
 
-    /**
-     * 设置是否删除；0否 1是
-     *
-     * @param deleted 是否删除；0否 1是
-     */
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
+	public void setShelveTimeEnd(Date shelveTimeEnd) {
+		this.shelveTimeEnd = shelveTimeEnd;
+	}
 
-    /**
-     * 获取创建时间
-     *
-     * @return create_time - 创建时间
-     */
-    public Date getCreateTime() {
-        return createTime;
-    }
+	public Date getUnshelveTimeStart() {
+		return unshelveTimeStart;
+	}
 
-    /**
-     * 设置创建时间
-     *
-     * @param createTime 创建时间
-     */
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	public void setUnshelveTimeStart(Date unshelveTimeStart) {
+		this.unshelveTimeStart = unshelveTimeStart;
+	}
 
-    /**
-     * 获取创建人id
-     *
-     * @return create_userid - 创建人id
-     */
-    public String getCreateUserid() {
-        return createUserid;
-    }
+	public Date getUnshelveTimeEnd() {
+		return unshelveTimeEnd;
+	}
 
-    /**
-     * 设置创建人id
-     *
-     * @param createUserid 创建人id
-     */
-    public void setCreateUserid(String createUserid) {
-        this.createUserid = createUserid == null ? null : createUserid.trim();
-    }
+	public void setUnshelveTimeEnd(Date unshelveTimeEnd) {
+		this.unshelveTimeEnd = unshelveTimeEnd;
+	}
 
-    /**
-     * 获取更新时间
-     *
-     * @return update_time - 更新时间
-     */
-    public Date getUpdateTime() {
-        return updateTime;
-    }
+	public Date getCreateTimeStart() {
+		return createTimeStart;
+	}
 
-    /**
-     * 设置更新时间
-     *
-     * @param updateTime 更新时间
-     */
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
+	public void setCreateTimeStart(Date createTimeStart) {
+		this.createTimeStart = createTimeStart;
+	}
 
-    /**
-     * 获取更新人id
-     *
-     * @return update_userid - 更新人id
-     */
-    public String getUpdateUserid() {
-        return updateUserid;
-    }
+	public Date getCreateTimeEnd() {
+		return createTimeEnd;
+	}
 
-    /**
-     * 设置更新人id
-     *
-     * @param updateUserid 更新人id
-     */
-    public void setUpdateUserid(String updateUserid) {
-        this.updateUserid = updateUserid == null ? null : updateUserid.trim();
-    }
+	public void setCreateTimeEnd(Date createTimeEnd) {
+		this.createTimeEnd = createTimeEnd;
+	}
+
+	public Integer getPageNum() {
+		return pageNum;
+	}
+
+	public void setPageNum(Integer pageNum) {
+		this.pageNum = pageNum;
+	}
+
+	public Integer getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(Integer pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	public List<String> getLabelList() {
+		return labelList;
+	}
+
+	public void setLabelList(List<String> labelList) {
+		this.labelList = labelList;
+	}
+
+	public Date getShelveTime() {
+		return shelveTime;
+	}
+
+	public void setShelveTime(Date shelveTime) {
+		this.shelveTime = shelveTime;
+	}
+
+	public Date getUnshelveTime() {
+		return unshelveTime;
+	}
+
+	public void setUnshelveTime(Date unshelveTime) {
+		this.unshelveTime = unshelveTime;
+	}
+
+	public String[] getLabel() {
+		return label;
+	}
+
+	public void setLabel(String[] label) {
+		this.label = label;
+	}
+
+	public String getProducer() {
+		return producer;
+	}
+
+	public void setProducer(String producer) {
+		this.producer = producer;
+	}
+
+	public String getSpecification() {
+		return specification;
+	}
+
+	public void setSpecification(String specification) {
+		this.specification = specification;
+	}
+
+	public String[] getDetailImgUrl() {
+		return detailImgUrl;
+	}
+
+	public void setDetailImgUrl(String[] detailImgUrl) {
+		this.detailImgUrl = detailImgUrl;
+	}
+
+	@Override
+	public String toString() {
+		return "QueryMerchantGoodsParam [pageNum=" + pageNum + ", pageSize=" + pageSize + ", id=" + id
+				+ ", merchantInformationId=" + merchantInformationId + ", name=" + name + ", description=" + description
+				+ ", descriptionImg1Url=" + descriptionImg1Url + ", descriptionImg2Url=" + descriptionImg2Url
+				+ ", descriptionImg3Url=" + descriptionImg3Url + ", descriptionImg4url=" + descriptionImg4url
+				+ ", shelveTime=" + shelveTime + ", shelveTimeStart=" + shelveTimeStart + ", shelveTimeEnd="
+				+ shelveTimeEnd + ", unshelveByAdmin=" + unshelveByAdmin + ", unshelve=" + unshelve + ", unshelveTime="
+				+ unshelveTime + ", unshelveTimeStart=" + unshelveTimeStart + ", unshelveTimeEnd=" + unshelveTimeEnd
+				+ ", createTimeStart=" + createTimeStart + ", createTimeEnd=" + createTimeEnd + ", label="
+				+ Arrays.toString(label) + ", labelList=" + labelList + ", producer=" + producer + ", specification="
+				+ specification + ", detailImgUrl=" + Arrays.toString(detailImgUrl) + "]";
+	} 
+	
+	
+    
 }

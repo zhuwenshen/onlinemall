@@ -8,11 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.zhuwenshen.mapper.MerchantGoodsLabelMapperCustom;
+import com.zhuwenshen.mapper.MerchantGoodsMapperCustom;
 import com.zhuwenshen.mapper.MerchantWaiterMapperCustom;
 import com.zhuwenshen.model.TMerchantInformation;
 import com.zhuwenshen.model.TUser;
 import com.zhuwenshen.model.custom.User;
 import com.zhuwenshen.model.custom.admin.QueryAdminUserParam;
+import com.zhuwenshen.model.custom.merchant.QueryMerchantGoodsParam;
 import com.zhuwenshen.service.ConstantService;
 import com.zhuwenshen.service.admin.AdminUserService;
 import com.zhuwenshen.service.admin.MerchantAminService;
@@ -62,7 +65,7 @@ public class ServiceTest {
 	
 	@Autowired
 	private MerchantInformationService mis;
-	@org.junit.Test
+	//@org.junit.Test
 	public void testUpdateImgDes() {
 		User u = new User();
 		u.setMerchantId("201804022257HAMR5XDY5P");
@@ -71,4 +74,31 @@ public class ServiceTest {
 		
 		System.out.println(mis.updateImgDes(u, null));
 	}
+	
+	@Autowired
+	private MerchantGoodsMapperCustom mgmc;
+	//@org.junit.Test
+	public void testSelectMerchantGoodsList() {
+		QueryMerchantGoodsParam qmgp  = new QueryMerchantGoodsParam();
+		String[] label =  new String[2];
+		qmgp.setLabel(label);
+			
+		
+		System.out.println(mgmc.selectMerchantGoodsList(qmgp));
+	}
+	
+	@Autowired
+	private MerchantGoodsLabelMapperCustom mglmc;
+	@org.junit.Test
+	public void testDeleteGoodsLabelNotInLabels() {
+		
+		
+//		QueryMerchantGoodsParam qmgp  = new QueryMerchantGoodsParam();
+		String[] label =  {"动物"};
+//		qmgp.setLabel(label);
+		mglmc.deleteGoodsLabelNotInLabels("201804131651C0RN62XSY8", label);
+		
+	//	System.out.println(mgmc.selectMerchantGoodsList(qmgp));
+	}
+	
 }
