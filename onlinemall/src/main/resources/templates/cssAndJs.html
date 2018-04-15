@@ -1,73 +1,65 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-<head  th:fragment="head(title)">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="">
-<meta name="author" content="">
+	<head th:fragment="head(title)">
 
-<title th:text="${title}">商家信息</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
 
+		<title th:text="${title}">商家信息</title>
 
-<!-- Bootstrap Core CSS -->
-<link href="/onlinemall/static/vendor/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
+		<!-- Bootstrap Core CSS -->
+		<link href="/onlinemall/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- MetisMenu CSS -->
-<link href="/onlinemall/static/vendor/metisMenu/metisMenu.min.css"
-	rel="stylesheet">
-<link
-	href="https://cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.min.css"
-	rel="stylesheet">
+		<!-- MetisMenu CSS -->
+		<link href="/onlinemall/static/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+		<link href="https://cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.min.css" rel="stylesheet">
 
-<link rel="stylesheet" type="text/css" href="/onlinemall/static/zeroModal/zeroModal.css" />
+		<link rel="stylesheet" type="text/css" href="/onlinemall/static/zeroModal/zeroModal.css" />
 
-<!-- 日期时间控件 -->
-<link href="/onlinemall/static/css/bootstrap-datetimepicker.min.css"	rel="stylesheet">
+		<!-- 日期时间控件 -->
+		<link href="/onlinemall/static/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 
-<!-- Custom CSS -->
-<link href="/onlinemall/static/dist/css/sb-admin-2.css" rel="stylesheet">
+		<!-- Custom CSS -->
+		<link href="/onlinemall/static/dist/css/sb-admin-2.css" rel="stylesheet">
 
-<!-- Custom Fonts -->
-<link
-	href="/onlinemall/static/vendor/font-awesome/css/font-awesome.min.css"
-	rel="stylesheet" type="text/css">
-	
-<link href="/onlinemall/static/css/common.css"
-	rel="stylesheet">
+		<!-- Custom Fonts -->
+		<link href="/onlinemall/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-<!-- Morris Charts CSS -->
-<link href="/onlinemall/static/vendor/morrisjs/morris.css"
-	rel="stylesheet">
+		<link href="/onlinemall/static/css/common.css" rel="stylesheet">
 
-</head>
-<body>
+		<!-- Morris Charts CSS -->
+		<link href="/onlinemall/static/vendor/morrisjs/morris.css" rel="stylesheet">
 
-<div th:fragment="jsWhihMenu">
-	<!-- jQuery -->
-	<script src="/onlinemall/static/vendor/jquery/jquery.min.js"></script>
+	</head>
 
-	<!-- Bootstrap Core JavaScript -->
-	<script src="/onlinemall/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<body>
 
-	<script
-		src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
-	
-	<!-- 弹框	 -->
-	<script src="/onlinemall/static/zeroModal/zeroModal.min.js"></script>
-	<!-- 日期时间控件 -->
-	<script src="/onlinemall/static/js/bootstrap-datetimepicker.min.js"></script>
-	<script src="/onlinemall/static/js/bootstrap-datetimepicker.zh-CN.js"></script>
-		
-	<!-- Metis Menu Plugin JavaScript -->
-	<script src="/onlinemall/static/vendor/metisMenu/metisMenu.min.js"></script>
-	<!-- Custom Theme JavaScript -->
-	<script src="/onlinemall/static/dist/js/sb-admin-2.js"></script>
+		<div th:fragment="jsWhihMenu">
+			<!-- jQuery -->
+			<script src="/onlinemall/static/vendor/jquery/jquery.min.js"></script>
 
-	<script src="/onlinemall/static/js/common.js"></script>
-</div>
-</body>
+			<!-- Bootstrap Core JavaScript -->
+			<script src="/onlinemall/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+			<script src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
+
+			<!-- 弹框	 -->
+			<script src="/onlinemall/static/zeroModal/zeroModal.min.js"></script>
+			<!-- 日期时间控件 -->
+			<script src="/onlinemall/static/js/bootstrap-datetimepicker.min.js"></script>
+			<script src="/onlinemall/static/js/bootstrap-datetimepicker.zh-CN.js"></script>
+
+			<!-- Metis Menu Plugin JavaScript -->
+			<script src="/onlinemall/static/vendor/metisMenu/metisMenu.min.js"></script>
+			<!-- Custom Theme JavaScript -->
+			<script src="/onlinemall/static/dist/js/sb-admin-2.js"></script>
+
+			<script src="/onlinemall/static/js/common.js"></script>
+		</div>
+	</body>
+
 </html>

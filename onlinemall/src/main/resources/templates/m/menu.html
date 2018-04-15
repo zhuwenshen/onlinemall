@@ -1,43 +1,59 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<body>
+	<body>
 
-	<div th:fragment="menu">
-		<div class="navbar-default sidebar" role="navigation">
-			<div class="sidebar-nav navbar-collapse" id="m_side-memu_div">
-				<ul class="nav" id="side-menu">
-					<li><a href="/onlinemall/m/index"><i
-							class="fa fa-dashboard fa-fw"></i>主页</a></li>
-					<li><a href="/onlinemall/m/information/manage"><i
-							class="fa fa-table fa-fw"></i>商家详细信息</a></li>
-					<li><a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>商品管理
-							<span class="fa arrow"></span> </a>
-						<ul class="nav nav-second-level">
-							<li><a href="/onlinemall/m/goods/manage">商品管理</a></li>
-							<li><a href="/onlinemall/m/goods/add">增加商品</a></li>
-						</ul></li>
-					<li><a href="#"><i class="fa fa-table fa-fw"></i> 仓库管理</a></li>
-					<li><a href="#"><i class="fa fa-table fa-fw"></i> 订单管理</a></li>
-					<!-- <li><a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>商家代金券管理<span class="fa arrow"></span> </a>
-		<ul class="nav nav-second-level">
-			<li><a href="#">查看代金券</a></li>
-			<li><a href="#">增加代金券</a></li>
-		</ul>
-	</li> -->
-					<li><a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>店员管理<span
-							class="fa arrow"></span> </a>
-						<ul class="nav nav-second-level">
-							<li><a href="/onlinemall/m/waiter/manage">店员管理</a></li>
-							<li><a href="/onlinemall/m/waiter/add">增加店员</a></li>
-						</ul></li>
-				</ul>
+		<div th:fragment="menu">
+			<div class="navbar-default sidebar" role="navigation">
+				<div class="sidebar-nav navbar-collapse" id="m_side-memu_div">
+					<ul class="nav" id="side-menu">
+						<li>
+							<a href="/onlinemall/m/index"><i class="fa fa-dashboard fa-fw"></i>主页</a>
+						</li>
+						<li>
+							<a href="/onlinemall/m/information/manage"><i class="fa fa-table fa-fw"></i>商家详细信息</a>
+						</li>
+						<li>
+							<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>商品管理
+								<span class="fa arrow"></span> </a>
+							<ul class="nav nav-second-level">
+								<li>
+									<a href="/onlinemall/m/goods/manage">商品管理</a>
+								</li>
+								<li>
+									<a href="/onlinemall/m/goods/add">增加商品</a>
+								</li>								
+							</ul>
+						</li>
+						<li>
+							<a href="#"><i class="fa fa-table fa-fw"></i> 仓库管理</a>
+						</li>
+						<li>
+							<a href="#"><i class="fa fa-table fa-fw"></i> 订单管理</a>
+						</li>
+						<!-- <li><a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>商家代金券管理<span class="fa arrow"></span> </a>
+							<ul class="nav nav-second-level">
+								<li><a href="#">查看代金券</a></li>
+								<li><a href="#">增加代金券</a></li>
+							</ul>
+						</li> -->
+						<li>
+							<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>店员管理<span class="fa arrow"></span> </a>
+							<ul class="nav nav-second-level">
+								<li>
+									<a href="/onlinemall/m/waiter/manage">店员管理</a>
+								</li>
+								<li>
+									<a href="/onlinemall/m/waiter/add">增加店员</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
-	</div>
 
-</body>
+	</body>
 
 </html>
