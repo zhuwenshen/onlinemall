@@ -11,15 +11,15 @@ import com.zhuwenshen.model.custom.User;
 @RequestMapping("m")
 public class MerchantIndexController {
 
-	@GetMapping("/index")
+	@GetMapping("index")
 	public String index(@SessionAttribute("user") User user) {
 		System.out.println(user);
 		System.out.println("商家主页");
-		return "/m/index";
+		return "m/index";
 	}
 	
 	@GetMapping("memu")
 	public String menu() {
-		return "/m/menu";
+		return "m/menu";
 	}
 }

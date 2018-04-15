@@ -1,38 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
 
-	<head>
-
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="description" content="">
-		<meta name="author" content="">
-
-		<title>管理员常量管理</title>
-
-		<!-- Bootstrap Core CSS -->
-		<link href="/onlinemall/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-		<!-- MetisMenu CSS -->
-		<link href="/onlinemall/static/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
-		<link href="https://cdn.bootcss.com/bootstrap-validator/0.5.3/css/bootstrapValidator.min.css" rel="stylesheet">
-
-		<!-- Custom CSS -->
-		<link href="/onlinemall/static/dist/css/sb-admin-2.css" rel="stylesheet">
-		
-		<link rel="stylesheet" type="text/css" href="/onlinemall/static/zeroModal/zeroModal.css" />
-
-		<!-- Custom Fonts -->
-		<link href="/onlinemall/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-		
-		<!-- 日期时间控件 -->
-		<link href="/onlinemall/static/css/bootstrap-datetimepicker.min.css"	rel="stylesheet">
-		
-		<link href="/onlinemall/static/css/common.css"	rel="stylesheet">
-	
-
-	</head>
+<head th:include="cssAndJs::head('商家常量管理')"></head>
 
 	<body>
 
@@ -57,16 +27,9 @@
 				<!-- /.navbar-top-links -->
 
 				<!-- 目录菜单 -->
-				<div class="navbar-default sidebar" role="navigation">
-					<div class="sidebar-nav navbar-collapse" id="m_side-memu_div">
-						<ul class="nav" id="side-menu">
-							<li>
-								<a href="index"><i class="fa fa-dashboard fa-fw"></i>主页</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<!-- 目录菜单  end-->
+			<div th:replace="m/menu::menu" >
+			</div> 	
+			<!-- 目录菜单  end-->
 
 				<!-- /.navbar-static-side -->
 			</nav>
@@ -217,21 +180,10 @@
 		</div>
 		<!-- /#wrapper -->
 
-		<!-- jQuery -->
-		<script src="/onlinemall/static/vendor/jquery/jquery.min.js"></script>
-
-		<!-- Bootstrap Core JavaScript -->
-		<script src="/onlinemall/static/vendor/bootstrap/js/bootstrap.min.js"></script>
-		
-		<script
-		src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
-		<script src="/onlinemall/static/zeroModal/zeroModal.min.js"></script>
-		
-		<!-- 日期时间控件 -->
-		<script src="/onlinemall/static/js/bootstrap-datetimepicker.min.js"></script>
-		<script src="/onlinemall/static/js/bootstrap-datetimepicker.zh-CN.js"></script>
-
-		<script src="/onlinemall/static/js/common.js"></script>
+		<!-- js -->
+		<div th:replace="cssAndJs::jsWhihMenu" >
+		</div> 	
+		<!-- js  end-->
 
 		<script src="/onlinemall/static/js/m/merchant.js"></script>
 		<script src="add.js"></script>
