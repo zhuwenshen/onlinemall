@@ -78,7 +78,7 @@ public class InsertSqlAspect {
 				e.printStackTrace();
 			}
 		} catch (NoSuchMethodException e) {
-			log.info("当前对象没有getId方法");
+			log.trace("当前对象没有getId方法");
 
 		}
 
@@ -100,7 +100,7 @@ public class InsertSqlAspect {
 									break;
 								}
 							}else {
-								log.info(existsWithPrimaryKeyMethod+"返回的类型不是Boolean");
+								log.trace(existsWithPrimaryKeyMethod+"返回的类型不是Boolean");
 							}
 							
 						}
@@ -108,7 +108,7 @@ public class InsertSqlAspect {
 						e.printStackTrace();
 					}
 				} catch (NoSuchMethodException e) {
-					log.info("当前对象"+mapper+"没有selectCountById方法");
+					log.trace("当前对象"+mapper+"没有selectCountById方法");
 					break;
 
 				}
@@ -124,7 +124,7 @@ public class InsertSqlAspect {
 					e.printStackTrace();
 				}
 			} catch (NoSuchMethodException e) {
-				log.info("当前对象没有setId方法");
+				log.trace("当前对象没有setId方法");
 
 			}
 		}
@@ -139,7 +139,7 @@ public class InsertSqlAspect {
 				e.printStackTrace();
 			}
 		} catch (NoSuchMethodException e) {
-			log.info("当前对象没有setDeleted方法");
+			log.trace("当前对象没有setDeleted方法");
 
 		}
 
@@ -152,7 +152,7 @@ public class InsertSqlAspect {
 				e.printStackTrace();
 			}
 		} catch (NoSuchMethodException e) {
-			log.info("当前对象没有setCreateTime方法");
+			log.trace("当前对象没有setCreateTime方法");
 
 		}
 
@@ -165,7 +165,7 @@ public class InsertSqlAspect {
 				e.printStackTrace();
 			}
 		} catch (NoSuchMethodException e) {
-			log.info("当前对象没有setUpdateTime方法");
+			log.trace("当前对象没有setUpdateTime方法");
 
 		}
 
@@ -187,7 +187,7 @@ public class InsertSqlAspect {
 			try {
 				userId = ((User)user).getId();
 			} catch (Exception e) {
-				log.info("session无登录对象");
+				log.trace("session无登录对象");
 			}
 		}
 
@@ -206,7 +206,7 @@ public class InsertSqlAspect {
 				e.printStackTrace();
 			}
 		} catch (NoSuchMethodException e) {
-			log.info("当前对象没有setCreateUserid方法");
+			log.trace("当前对象没有setCreateUserid方法");
 
 		}
 
@@ -219,7 +219,7 @@ public class InsertSqlAspect {
 				e.printStackTrace();
 			}
 		} catch (NoSuchMethodException e) {
-			log.info("当前对象没有setUpdateUserid方法");
+			log.trace("当前对象没有setUpdateUserid方法");
 
 		}
 	}

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhuwenshen.mapper.ClassDeatilMapperCustom">
+  <resultMap id="BaseResultMap" type="com.zhuwenshen.model.custom.GoodsClass">   
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="goods_id" jdbcType="CHAR" property="goodsId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    
+    <collection property="details" ofType="com.zhuwenshen.model.custom.ClassDetail">
+      	<id column="cd_id" jdbcType="CHAR" property="id" />
+	    <result column="cd_goods_id" jdbcType="CHAR" property="classId" />
+	    <result column="cd_name" jdbcType="VARCHAR" property="name" />
+	    <result column="cd_sort" jdbcType="INTEGER" property="sort" />
+    </collection>    
+  </resultMap>
+  
+  <select id="selectGoodsClassByGoodsId" resultMap="BaseResultMap">
+  	select 
+  		gc.id,
+  		gc.goods_id,
+  		gc.name,
+  		gc.sort,
+  		cd.id as cd_id,
+  		cd.class_id as cd_class_id,
+  		cd.name as cd_name,
+  		cd.sort as cd_sort 		
+  	from t_goods_class gc
+  	left join t_goods_class_detail cd on gc.id = cd.class_id
+  	where gc.deleted = 0
+  	and cd.deleted = 0
+  	<if test="goodsId != null and goodsId!=''">
+	      and gc.goods_id  = #{goodsId}
+	</if>
+	<if test="className != null and className !=''">
+	      and gc.name  = #{className}
+	</if>
+	<if test="detailName != null and detailName !=''">
+	      and cd.name  = #{detailName}
+	</if>
+	order by gc.sort, cd.sort
+  </select>
+  
+  <update id="deleteUnuseClassDetail">
+  	update t_goods_class_detail
+  	set deleted = 1
+  	where class_id = #{classId}
+  	and deleted = 0
+  	<foreach item="item" open=" and name not in ( " close=")" collection="detailNameList" separator=",">		          	
+			#{item}		          
+	</foreach> 
+  </update>
+  
+  <update id="deleteUnuserGoodsClass">
+  	update t_goods_class
+  	set deleted = 1
+  	where goods_id = #{goodsId}
+  	and deleted = 0
+  	<foreach item="item" open=" and name not in ( " close=")" collection="classNameList" separator=",">		          	
+			#{item}		          
+	</foreach> 
+  </update>
+  
+</mapper>

@@ -50,7 +50,7 @@ public class RedisQueryCachInterceptor implements Interceptor {
 			Object o = redisService.getCachObject(key, ms.getResultMaps().get(0).getType(), true);
 
 			if (o != null) {
-				log.debug("通过redis获取值，key：" + key + ",data:" + o);
+				log.trace("通过redis获取值，key：" + key + ",data:" + o);
 				return o;
 			}
 		}
@@ -60,7 +60,7 @@ public class RedisQueryCachInterceptor implements Interceptor {
 		//System.out.println(result);
 		if(!StringUtils.isEmpty(key)) {
 			redisService.setCachObject(key, result);
-			log.debug("缓存了对象，key：" + key + ",data:" + result);
+			log.trace("缓存了对象，key：" + key + ",data:" + result);
 
 		}
 		

@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zhuwenshen.model.custom.JsonResult;
 
 public class JsonUtils {	
 
@@ -33,6 +34,15 @@ public class JsonUtils {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static String objectToJsonByFastJson(Object data) {		
+		try {
+			String string = JsonResult.tlToSting(data);
+			return string;
+		} catch (Exception e) {
+			return null;
+		}		
 	}
 	
 	/**

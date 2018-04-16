@@ -89,6 +89,9 @@ function queryGoods(pageNum){
 					" <input type='button' value='更改下架时间' class='btn btn-sm btn-info'" +
 					"onclick=updateUnshelveTime("+"'"+ list[i].id + "'"+","+i+') />'+
 					
+					" <input type='button' value='分类管理' class='btn btn-sm btn-info'" +
+					"onclick=classManage("+"'"+ list[i].id + "'"+") />";
+					
 					" <input type='button' value='删除' class='btn btn-sm btn-warning'" +
 					"onclick=deleteGoods("+"'"+ list[i].id + "'"+") />"
 					+ "</td>" ;
@@ -104,13 +107,13 @@ function queryGoods(pageNum){
 				zeroModal.close(loadingUnique);
 				
 			} else {
-				ms.append_alert("danger",true,result.msg,"msg_alert_div");
+				zeroModal.error(result.msg);
 				zeroModal.close(loadingUnique);
 
 			}
 		},
 		error: function() {				
-			ms.append_alert("danger",true,"服务器异常！","msg_alert_div");
+			zeroModal.error("服务器异常！");
 			zeroModal.close(loadingUnique);
 
 		}
@@ -282,5 +285,54 @@ function deleteGoods(id){
 			}
 		});
 	});
+}
+
+function classManage(id){
+	var zm = zeroModal.show({
+        title: "商品分类管理",
+        url:ms.path +"/m/class/manage?id="+id,
+        width:"800px",
+        height:"80%",
+        max:true,       
+        cancel:true,
+        cancelTitle:"取消",
+        ok:true,
+        okTitle: "保存",
+        okFn:okFn
+    });
+	
+	function okFn(){
+		var json = getJson();
+		//console.log(json);
+		
+		var loadingUnique = zeroModal.loading(3);
+		$.ajax({
+			type: "POST", // 方法类型
+			dataType: "json", // 预期服务器返回的数据类型
+			url: ms.path + "/m/class/update", // url
+			data:{data:json},
+			success: function(result) {	
+				if(result.status) {
+					
+					zeroModal.close(loadingUnique);
+					zeroModal.success(result.msg);	
+					return true;
+					
+				} else {
+					zeroModal.error(result.msg);
+					zeroModal.close(loadingUnique);
+
+				}
+			},
+			error: function() {				
+				zeroModal.error("服务器异常！");
+				zeroModal.close(loadingUnique);
+
+			}
+		});
+		
+		
+		return false;
+	}
 }
 

@@ -39,8 +39,8 @@ public class UpdateSqlAspect {
 		
 		Object o = joinPoint.getArgs()[0];				
 		
-		log.info("反射执行，更新sql设置表的更新人和更新时间");
-		log.info("设置前对象为" + o);				
+		log.trace("反射执行，更新sql设置表的更新人和更新时间");
+		log.trace("设置前对象为" + o);				
 
 		// setUpdateTime
 		try {
@@ -51,7 +51,7 @@ public class UpdateSqlAspect {
 				e.printStackTrace();
 			}
 		} catch (NoSuchMethodException e) {
-			log.info("当前对象没有setUpdateTime方法");
+			log.trace("当前对象没有setUpdateTime方法");
 
 		}
 
@@ -75,7 +75,7 @@ public class UpdateSqlAspect {
 			try {
 				userId = ((User)user).getId();
 			} catch (Exception e) {
-				log.info("session无登录对象");
+				log.trace("session无登录对象");
 			}
 		}
 		
@@ -90,7 +90,7 @@ public class UpdateSqlAspect {
 					e.printStackTrace();
 				}
 			} catch (NoSuchMethodException e) {
-				log.info("当前对象没有setUpdateUserid方法");
+				log.trace("当前对象没有setUpdateUserid方法");
 
 			}
 		}

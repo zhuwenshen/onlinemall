@@ -12,6 +12,13 @@ var ms = {
 //		picPath: "http://127.0.0.1:8100/pic/uploadimg"
 }
 
+String.prototype.isBlank = function(){
+    var s = $.trim(this);
+    if(s == "undefined" || s == null || s == "" || s.length == 0){
+        return true;
+    }
+    return false;
+};
 
 //对boolean翻译，true->是，false->否（图标）
 ms.translateIcon = function(status){

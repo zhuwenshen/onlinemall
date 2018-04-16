@@ -61,7 +61,7 @@ public class JsonResult {
 	 * @param o
 	 * @return
 	 */
-	private static String tlToSting(Object o) {
+	public static String tlToSting(Object o) {
 		return JSON.toJSONString(o, filters,  SerializerFeature.WriteMapNullValue);
 	}
 	

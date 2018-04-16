@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.zhuwenshen.mapper.ClassDeatilMapperCustom;
 import com.zhuwenshen.mapper.MerchantGoodsLabelMapperCustom;
 import com.zhuwenshen.mapper.MerchantGoodsMapperCustom;
 import com.zhuwenshen.mapper.MerchantWaiterMapperCustom;
@@ -89,7 +90,7 @@ public class ServiceTest {
 	
 	@Autowired
 	private MerchantGoodsLabelMapperCustom mglmc;
-	@org.junit.Test
+	//@org.junit.Test
 	public void testDeleteGoodsLabelNotInLabels() {
 		
 		
@@ -99,6 +100,14 @@ public class ServiceTest {
 		mglmc.deleteGoodsLabelNotInLabels("201804131651C0RN62XSY8", label);
 		
 	//	System.out.println(mgmc.selectMerchantGoodsList(qmgp));
+	}	
+
+	@Autowired
+	ClassDeatilMapperCustom deatilMC;
+	@org.junit.Test
+	public void testSelectGoodsClass() {
+		
+		List<?> list = deatilMC.selectGoodsClassByGoodsId("201804131651C0RN62XSY8", null, null);
+		System.out.println(list);
 	}
-	
 }

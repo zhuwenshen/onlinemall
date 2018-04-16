@@ -28,7 +28,7 @@ public class RedisRollbackCachInterceptor implements Interceptor {
 			
 		//在这里清理redis缓存
 		redisService.flushCach();
-		log.debug("因为回滚，清理了redis缓存");
+		log.trace("因为回滚，清理了redis缓存");
 		Object result = invocation.proceed();		
 		return result;
 	}

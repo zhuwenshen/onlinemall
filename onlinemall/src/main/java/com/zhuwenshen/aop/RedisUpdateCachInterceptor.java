@@ -32,7 +32,7 @@ public class RedisUpdateCachInterceptor implements Interceptor {
 		//log.info("当前更新的对象是："+o);
 		//在这里清理redis缓存
 		redisService.flushCach();
-		log.debug("清理了redis缓存");		
+		log.trace("清理了redis缓存");		
 		
 		Object result = invocation.proceed();		
 		return result;
@@ -45,7 +45,7 @@ public class RedisUpdateCachInterceptor implements Interceptor {
 
 	@Override
 	public void setProperties(Properties properties) {
-		System.out.println(properties);
+		//System.out.println(properties);
 
 	}
 
