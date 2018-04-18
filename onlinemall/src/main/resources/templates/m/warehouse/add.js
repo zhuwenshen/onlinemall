@@ -163,6 +163,7 @@ function addFormSubmit(){
 				zeroModal.success(result.msg);
 				zeroModal.close(loadingUnique);	
 				selectNowGoodsPrice();
+				refreshPage();
 				//zeroModal.close($("#modalId").val());
 				
 			} else {

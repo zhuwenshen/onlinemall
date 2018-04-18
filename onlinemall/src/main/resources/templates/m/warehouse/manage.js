@@ -140,7 +140,7 @@ function queryWarehouse(pageNum){
 					tbodyHtml = tbodyHtml  
 									+"<td>￥" + ms.translateZero(list[i].price)  + "</td>" 
 									+"<td>" + ms.translateZero(list[i].num) + "</td>" 
-									+"<td>" + ms.translateZero(list[i].allNum - list[i].num)  + "</td>" 
+									+"<td>" + ms.translateZero(list[i].soldNum)  + "</td>" 
 									+"<td>" + ms.translateZero(list[i].allNum)  + "</td>" ;
 				
 					tbodyHtml = tbodyHtml +	"<td>" + 

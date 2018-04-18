@@ -6,6 +6,7 @@
     <result column="goods_id" jdbcType="CHAR" property="goodsId" />
     <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
     <result column="all_num" jdbcType="INTEGER" property="allNum" />
+    <result column="sold_num" jdbcType="INTEGER" property="soldNum" />
     <result column="num" jdbcType="INTEGER" property="num" />
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
@@ -65,6 +66,7 @@
   		p.goods_id ,
   		g.name as goods_name,
   		p.all_num ,
+  		p.sold_num,
   		p.num ,
   		p.price ,
   		p.id ,
@@ -124,6 +126,7 @@
   		p3.id ,
   		p3.goods_id ,
   		p3.all_num ,
+  		p3.sold_num,
   		p3.num ,
   		p3.price ,
   		p3.id ,

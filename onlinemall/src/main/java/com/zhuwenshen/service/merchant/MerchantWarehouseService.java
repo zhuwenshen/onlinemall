@@ -101,11 +101,13 @@ public class MerchantWarehouseService {
 		}
 		//校验输入classDeatilId
 		List<String> l = new ArrayList<>();
-		for(String s : qgpp.getClassDetailId()) {
-			if(!StringUtils.isEmpty(s)) {
-				l.add(s);
+		if(qgpp.getClassDetailId()!= null) {
+			for(String s : qgpp.getClassDetailId()) {
+				if(!StringUtils.isEmpty(s)) {
+					l.add(s);
+				}
 			}
-		}
+		}		
 		String[] strings = new String[l.size()];
 		l.toArray(strings);
 		qgpp.setClassDetailId(strings);
@@ -128,7 +130,7 @@ public class MerchantWarehouseService {
 		//查询商品跟分类组合的价格是否存在
 		Page<?> page =  gpMC.selectPriceByGoodsAndClassForPage(qgpp.getGoodsId(), qgpp.getClassDetailId(), len);		
 		
-		System.out.println(page);		
+		//System.out.println(page);		
 		return JsonResult.okToPageList(page);
 	}
 
@@ -149,7 +151,7 @@ public class MerchantWarehouseService {
 			throw new JsonResultException(JsonResult.fail("商品id不能为空"));
 		}
 		if(qgpp.getPurchasePrice() == null || qgpp.getPurchasePrice().compareTo(new BigDecimal(0))<0) {
-			throw new JsonResultException(JsonResult.fail("进货格不能为空而且必须大于或等于0"));
+			throw new JsonResultException(JsonResult.fail("进货价不能为空而且必须大于或等于0"));
 		}
 		if(qgpp.getPrice() == null || qgpp.getPrice().compareTo(new BigDecimal(0))<=0) {
 			throw new JsonResultException(JsonResult.fail("售价不能为空而且必须大于0"));
@@ -157,6 +159,19 @@ public class MerchantWarehouseService {
 		if(qgpp.getNum() == null || qgpp.getNum() < 0) {
 			throw new JsonResultException(JsonResult.fail("进货数量不能为空而且必须大于或等于0"));
 		}		
+		//校验输入classDeatilId
+		List<String> l = new ArrayList<>();
+		if(qgpp.getClassDetailId()!= null) {
+			for(String s : qgpp.getClassDetailId()) {
+				if(!StringUtils.isEmpty(s)) {
+					l.add(s);
+				}
+			}
+		}		
+		String[] strings = new String[l.size()];
+		l.toArray(strings);
+		qgpp.setClassDetailId(strings);
+		
 		
 		//检查当前商品是否属于登录商家
 		TGoods g = new TGoods();
@@ -185,6 +200,7 @@ public class MerchantWarehouseService {
 			price.setNum(qgpp.getNum());
 			price.setPrice(qgpp.getPrice());
 			price.setDeleted(false);
+			price.setSoldNum(0);
 			priceMapper.insert(price);
 			
 			//插入关系
@@ -240,6 +256,19 @@ public class MerchantWarehouseService {
 		if(StringUtils.isEmpty(qgpp.getGoodsId())) {
 			throw new JsonResultException(JsonResult.fail("商品id不能为空"));
 		}
+		
+		//校验输入classDeatilId
+		List<String> l = new ArrayList<>();
+		if(qgpp.getClassDetailId()!= null) {
+			for(String s : qgpp.getClassDetailId()) {
+				if(!StringUtils.isEmpty(s)) {
+					l.add(s);
+				}
+			}
+		}		
+		String[] strings = new String[l.size()];
+		l.toArray(strings);
+		qgpp.setClassDetailId(strings);
 		//检查当前商品是否属于登录商家
 		TGoods g = new TGoods();
 		g.setId(qgpp.getGoodsId());
