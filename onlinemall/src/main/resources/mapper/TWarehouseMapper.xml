@@ -11,7 +11,7 @@
     <result column="num" jdbcType="INTEGER" property="num" />
     <result column="supply" jdbcType="VARCHAR" property="supply" />
     <result column="remake" jdbcType="VARCHAR" property="remake" />
-    <result column="type" jdbcType="BIT" property="type" />
+    <result column="type" jdbcType="INTEGER" property="type" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_userid" jdbcType="CHAR" property="createUserid" />

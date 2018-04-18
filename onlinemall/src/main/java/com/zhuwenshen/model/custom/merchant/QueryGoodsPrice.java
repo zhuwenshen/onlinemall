@@ -9,9 +9,11 @@ public class QueryGoodsPrice {
 
 	private String id;
 	private String goodsId;
+	private String goodsName;
 	private BigDecimal price;
 	private Integer num;
 	private Integer allNum;
+	private Integer soldNum;
 	private List<ClassDetail> detailList;
 	
 	public String getGoodsId() {
@@ -50,4 +52,17 @@ public class QueryGoodsPrice {
 	public void setAllNum(Integer allNum) {
 		this.allNum = allNum;
 	}
+	public String getGoodsName() {
+		return goodsName;
+	}
+	public void setGoodsName(String goodsName) {
+		this.goodsName = goodsName;
+	}
+	public Integer getSoldNum() {
+		return soldNum;
+	}
+	public void setSoldNum(Integer soldNum) {
+		this.soldNum = soldNum;
+	}
+	
 }

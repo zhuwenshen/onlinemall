@@ -39,7 +39,7 @@ public class TWarehouse {
     /**
      * 进出仓库类型;【1：进货，-1：退货】
      */
-    private Boolean type;
+    private Integer type;
 
     /**
      * 是否删除；0否 1是
@@ -179,7 +179,7 @@ public class TWarehouse {
      *
      * @return type - 进出仓库类型;【1：进货，-1：退货】
      */
-    public Boolean getType() {
+    public Integer getType() {
         return type;
     }
 
@@ -188,7 +188,7 @@ public class TWarehouse {
      *
      * @param type 进出仓库类型;【1：进货，-1：退货】
      */
-    public void setType(Boolean type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

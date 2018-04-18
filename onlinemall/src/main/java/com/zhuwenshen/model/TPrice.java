@@ -26,6 +26,12 @@ public class TPrice {
      * 剩余数量
      */
     private Integer num;
+    
+    /**
+     * 售出数量
+     */
+    @Column(name = "sold_num")
+    private Integer soldNum;
 
     /**
      * 单价
@@ -236,4 +242,13 @@ public class TPrice {
     public void setUpdateUserid(String updateUserid) {
         this.updateUserid = updateUserid == null ? null : updateUserid.trim();
     }
+
+	public Integer getSoldNum() {
+		return soldNum;
+	}
+
+	public void setSoldNum(Integer soldNum) {
+		this.soldNum = soldNum;
+	}
+    
 }

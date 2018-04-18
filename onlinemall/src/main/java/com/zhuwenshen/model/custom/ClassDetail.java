@@ -5,6 +5,7 @@ public class ClassDetail {
 	private String classId;
 	private Integer sort;
 	private String name;
+	private String className;
 	
 	public String getId() {
 		return id;
@@ -36,11 +37,22 @@ public class ClassDetail {
 
 	public void setName(String name) {
 		this.name = name;
+	}	
+
+	public String getClassName() {
+		return className;
+	}
+
+	public void setClassName(String className) {
+		this.className = className;
 	}
 
 	@Override
 	public String toString() {
-		return "ClassDetail [id=" + id + ", classId=" + classId + ", sort=" + sort + ", name=" + name + "]";
+		return "ClassDetail [id=" + id + ", classId=" + classId + ", sort=" + sort + ", name=" + name + ", className="
+				+ className + "]";
 	}
+
+	
 	
 }

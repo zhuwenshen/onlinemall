@@ -9,6 +9,7 @@
     <result column="goods_id" jdbcType="CHAR" property="goodsId" />
     <result column="all_num" jdbcType="INTEGER" property="allNum" />
     <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="sold_num" jdbcType="INTEGER" property="soldNum" />
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />

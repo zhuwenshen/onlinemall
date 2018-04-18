@@ -28,6 +28,11 @@ public class MerchantWarehouseController {
 		return "/m/warehouse/add";
 	}
 	
+	@GetMapping("m/warehouse/operate")
+	public String operate() {
+		return "/m/warehouse/operate";
+	}
+	
 	/**
 	 * 根据是否被下架查找出商品的基本信息
 	 * @param user
@@ -64,7 +69,7 @@ public class MerchantWarehouseController {
 	@ResponseBody
 	public String queryGoodsPrice (@SessionAttribute("user")User user ,QueryGoodsPriceParam qgpp) {
 		try {
-			return mws.queryGoodsPrice(user, qgpp).toString();
+			return mws.queryGoodsPrice(user, qgpp);
 		} catch (JsonResultException e) {
 			return e.getJson().toString();
 		}
@@ -97,6 +102,64 @@ public class MerchantWarehouseController {
 	public String selectGoodsPrice (@SessionAttribute("user")User user ,QueryGoodsPriceParam qgpp) {
 		try {
 			return mws.selectGoodsPrice(user, qgpp).toString();
+		} catch (JsonResultException e) {
+			return e.getJson().toString();
+		}
+	}
+	
+	@GetMapping("m/warehouse/getPriceInfo")
+	@ResponseBody
+	public String getPriceInfo (String priceId) {
+		try {
+			return mws.getPriceInfo(priceId).toString();
+		} catch (JsonResultException e) {
+			return e.getJson().toString();
+		}
+	}
+	
+	/**
+	 * 进货
+	 * @param user
+	 * @param qgpp
+	 * @return
+	 */
+	@PostMapping("m/warehouse/stockGoodsPrice")
+	@ResponseBody
+	public String stockGoodsPrice (@SessionAttribute("user")User user ,QueryGoodsPriceParam qgpp) {
+		try {
+			return mws.stockGoodsPrice(user, qgpp).toString();
+		} catch (JsonResultException e) {
+			return e.getJson().toString();
+		}
+	}
+	
+	/**
+	 * 退货
+	 * @param user
+	 * @param qgpp
+	 * @return
+	 */
+	@PostMapping("m/warehouse/salesReturnGoodsPrice")
+	@ResponseBody
+	public String salesReturnGoodsPrice (@SessionAttribute("user")User user ,QueryGoodsPriceParam qgpp) {
+		try {
+			return mws.salesReturnGoodsPrice(user, qgpp).toString();
+		} catch (JsonResultException e) {
+			return e.getJson().toString();
+		}
+	}
+	
+	/**
+	 * 修改售价
+	 * @param user
+	 * @param qgpp
+	 * @return
+	 */
+	@PostMapping("m/warehouse/updateGoodsPrice")
+	@ResponseBody
+	public String updateGoodsPrice(@SessionAttribute("user")User user ,QueryGoodsPriceParam qgpp) {
+		try {
+			return mws.updateGoodsPrice(user, qgpp).toString();
 		} catch (JsonResultException e) {
 			return e.getJson().toString();
 		}

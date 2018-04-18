@@ -29,5 +29,5 @@ public interface GoodsPriceMapperCustom {
 	public Page<?> selectPriceByGoodsAndClassForPage(
 			@Param("goodsId")String goodsId, @Param("classDetailIdList")String[] classDetailIdList, @Param("len") int len);
 	
-	public List<?> selectGoodsPrice(@Param("priceIdList")List<String> priceIdList);
+	public List<?> selectGoodsPrice(@Param("priceIdList")List<String> priceIdList);	
 }

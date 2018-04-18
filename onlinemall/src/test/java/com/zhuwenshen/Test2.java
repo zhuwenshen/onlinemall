@@ -37,12 +37,16 @@ public class Test2 {
 		String  p = ".*\\.css$";
 		System.out.println(Pattern.matches(p, "/dqweqwe/dadaq /csss.css"));
 	}*/
-	
-	static void fun() {
-		System.out.println(123);
-	}
+//	
+//	static void fun() {
+//		System.out.println(123);
+//	}
+//	
+//	public static void main(String[] args) {
+//		Test2.fun();
+//	}
 	
 	public static void main(String[] args) {
-		Test2.fun();
+		
 	}
 }

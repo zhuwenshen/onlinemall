@@ -1,10 +1,11 @@
 $(function(){
 	
 	$("#unshelveU").val($("#unshelveU [selected]").val());
-	if(!$("#goodsPriceId").val()){
-		initAddName();
+	if(!$("#goodsPriceId").val()){		
 		$("#priceU").val(0);
 		$("#numU").val(0);
+		$("#purchasePriceU").val(0);
+		initAddName();
 	}
 	
 	
@@ -25,12 +26,20 @@ $(function(){
 	    		return false;
 	    	}
 	    }	
-	   
+	    
+	    if(!$("#purchasePriceU").val()){
+	    	zeroModal.error("进货价不能为空");
+    		return false;
+	    }else if(!($("#purchasePriceU").val()>0)){
+	    	zeroModal.error("进货价必须为合法数且大于0");
+    		return false;
+	    }	    
+	    
 	    if(!$("#priceU").val()){
-	    	zeroModal.error("价格不能为空");
+	    	zeroModal.error("售价不能为空");
     		return false;
 	    }else if(!($("#priceU").val()>0)){
-	    	zeroModal.error("价格必须为合法数且大于0");
+	    	zeroModal.error("售格必须为合法数且大于0");
     		return false;
 	    }
 	    
@@ -171,7 +180,7 @@ function addFormSubmit(){
 }
 
 function selectNowGoodsPrice(){
-	alert("触发查询");
+	//alert("触发查询");
 	//var loadingUnique = zeroModal.loading(3);
 	$.ajax({
 		type: "POST", // 方法类型

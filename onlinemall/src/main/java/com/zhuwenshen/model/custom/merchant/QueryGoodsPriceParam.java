@@ -10,6 +10,9 @@ public class QueryGoodsPriceParam {
 	private String priceId;
 	private String[] classDetailId;
 	private BigDecimal price;
+	private BigDecimal purchasePrice;//进货价
+	private String supply;
+	
 	private Integer num;
 	
 	public Integer getPageSize() {
@@ -53,5 +56,17 @@ public class QueryGoodsPriceParam {
 	}
 	public void setPriceId(String priceId) {
 		this.priceId = priceId;
-	}	
+	}
+	public String getSupply() {
+		return supply;
+	}
+	public void setSupply(String supply) {
+		this.supply = supply;
+	}
+	public BigDecimal getPurchasePrice() {
+		return purchasePrice;
+	}
+	public void setPurchasePrice(BigDecimal purchasePrice) {
+		this.purchasePrice = purchasePrice;
+	}
 }
