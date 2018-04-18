@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhuwenshen.mapper.GoodsPriceMapperCustom">
+  <resultMap id="PriceResultMap" type="com.zhuwenshen.model.custom.merchant.QueryGoodsPrice">   
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="goods_id" jdbcType="CHAR" property="goodsId" />
+    <result column="all_num" jdbcType="INTEGER" property="allNum" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+    
+    <collection property="detailList" ofType="com.zhuwenshen.model.custom.ClassDetail">
+      	<id column="cd_id" jdbcType="CHAR" property="id" />
+	    <result column="cd_class_id" jdbcType="CHAR" property="classId" />
+	    <result column="cd_name" jdbcType="VARCHAR" property="name" />
+	    <result column="cd_sort" jdbcType="INTEGER" property="sort" />
+    </collection>     
+  </resultMap>
+  
+  
+  <select id="selectPriceByGoodsAndClass" resultType="java.lang.String">
+  <if test="classDetailIdList !=null and classDetailIdList.length !=0">
+  		select r2.price_id
+		from
+			(
+  </if>  
+  
+  	SELECT
+  	 <if test="classDetailIdList !=null and classDetailIdList.length !=0">
+  		gp.id ,
+  	</if> 		
+		p.id AS price_id
+	from 
+	t_price p
+	LEFT JOIN	t_goods_price gp on gp.price_id = p.id
+	WHERE
+		p.deleted = 0	
+	<if test="goodsId !=null and goodsId !=''">
+		AND p.goods_id = #{goodsId}
+	</if>
+	<choose>
+		<when test="classDetailIdList !=null and classDetailIdList.length !=0">
+			and gp.deleted = '0'
+			<foreach item="item" open=" and gp.class_detail_id in ( " close=")" collection="classDetailIdList" separator=",">		          	
+					#{item}		          
+			</foreach> 
+			
+			
+			) r2
+			WHERE 1=1		
+			GROUP BY r2.price_id
+			HAVING count(*) = #{len}
+		</when>
+		<otherwise>
+			and gp.class_detail_id is null
+		</otherwise>
+	</choose>
+  </select>
+  
+  <select id="selectOneGoodsPrice" resultMap="PriceResultMap">
+  	select
+  		p.id ,
+  		p.goods_id ,
+  		p.all_num ,
+  		p.num ,
+  		p.price ,
+  		p.id ,
+  		cd.id as cd_id,
+  		cd.class_id as cd_class_id,
+  		cd.name as cd_name,
+  		cd.sort as cd_sort  		
+	from t_price p
+	LEFT JOIN t_goods_price gp on p.id = gp.price_id
+	LEFT JOIN t_goods_class_detail cd on gp.class_detail_id = cd.id
+	WHERE 
+		p.deleted = 0
+	and (gp.deleted = 0 or (gp.id IS NULL and gp.deleted is null))
+	and p.id = #{priceId}
+  </select>
+  
+  
+  <sql id="priceIdSql">  
+ 	select r2.price_id as id
+	from
+		(  
+  	SELECT  	 
+  		gp.id ,  			
+		p.id AS price_id
+	from 
+	t_price p
+	LEFT JOIN	t_goods_price gp on gp.price_id = p.id
+	WHERE
+		p.deleted = 0	
+	<if test="goodsId !=null and goodsId !=''">
+		AND p.goods_id = #{goodsId}
+	</if>
+	<choose>
+		<when test="classDetailIdList !=null and classDetailIdList.length !=0">
+			and gp.deleted = '0'
+			<foreach item="item" open=" and gp.class_detail_id in ( " close=")" collection="classDetailIdList" separator=",">		          	
+					#{item}		          
+			</foreach> 			
+		</when>
+		<otherwise>
+			and (gp.class_detail_id is null or gp.id is not null and gp.deleted = '0')
+		</otherwise>
+	</choose>
+	<![CDATA[
+	) r2
+	WHERE 1=1		
+	GROUP BY r2.price_id
+	HAVING count(*) >= #{len} ]]>
+  </sql>
+  
+  <select id="selectPriceByGoodsAndClassForPage" resultMap="PriceResultMap">
+  	select
+  		p3.id ,
+  		p3.goods_id ,
+  		p3.all_num ,
+  		p3.num ,
+  		p3.price ,
+  		p3.id ,
+  		cd3.id as cd_id,
+  		cd3.class_id as cd_class_id,
+  		cd3.name as cd_name,
+  		cd3.sort as cd_sort  		
+	from t_price p3
+	JOIN (<include refid="priceIdSql"/>) r3 on r3.id = p3.id
+	LEFT JOIN t_goods_price gp3 on p3.id = gp3.price_id
+	LEFT JOIN t_goods_class_detail cd3 on gp3.class_detail_id = cd3.id
+	WHERE 
+		p3.deleted = 0
+	and (gp3.deleted = 0 or (gp3.id IS NULL and gp3.deleted is null))
+	
+  </select>
+  
+</mapper>

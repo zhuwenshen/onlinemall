@@ -90,8 +90,13 @@ public class QueryMerchantGoods {
     private String specification;
     
     private List<String> detailImgUrl;
+            
     
-    /**
+    public QueryMerchantGoods() {
+		super();
+	}
+    
+	/**
      * @return id
      */
     public String getId() {

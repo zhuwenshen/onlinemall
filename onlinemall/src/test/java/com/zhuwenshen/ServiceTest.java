@@ -8,12 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.zhuwenshen.mapper.ClassDeatilMapperCustom;
+import com.zhuwenshen.mapper.GoodsPriceMapperCustom;
 import com.zhuwenshen.mapper.MerchantGoodsLabelMapperCustom;
 import com.zhuwenshen.mapper.MerchantGoodsMapperCustom;
 import com.zhuwenshen.mapper.MerchantWaiterMapperCustom;
 import com.zhuwenshen.model.TMerchantInformation;
 import com.zhuwenshen.model.TUser;
+import com.zhuwenshen.model.custom.JsonResult;
 import com.zhuwenshen.model.custom.User;
 import com.zhuwenshen.model.custom.admin.QueryAdminUserParam;
 import com.zhuwenshen.model.custom.merchant.QueryMerchantGoodsParam;
@@ -104,10 +108,25 @@ public class ServiceTest {
 
 	@Autowired
 	ClassDeatilMapperCustom deatilMC;
-	@org.junit.Test
+	//@org.junit.Test
 	public void testSelectGoodsClass() {
 		
 		List<?> list = deatilMC.selectGoodsClassByGoodsId("201804131651C0RN62XSY8", null, null);
 		System.out.println(list);
+	}
+	
+	@Autowired
+	GoodsPriceMapperCustom  GoodsPriceMC;
+	@org.junit.Test
+	public void testSelectGoodsPrice() {
+		// 开始分页
+		PageHelper.startPage(1, 10);
+		
+//		String[] dettails = {"20180416113085T19NTX1P","20180416112684PYZM67MW","20180416112684RCPNW65P"};
+//		Page<?> list = GoodsPriceMC.selectPriceByGoodsAndClassForPage("201804131651C0RN62XSY8", 
+//				dettails, 3);
+		Page<?> list = GoodsPriceMC.selectPriceByGoodsAndClassForPage("201804131651C0RN62XSY8", 
+				null, 0);
+		System.out.println(JsonResult.tlToSting(list));
 	}
 }

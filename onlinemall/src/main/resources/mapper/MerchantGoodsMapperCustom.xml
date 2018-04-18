@@ -94,6 +94,55 @@
 		  </if>    	       
 	</select>
 	
+	 <select id="selectMerchantGoodsForSelect" resultMap="BaseResultMap" 
+	 	parameterType="com.zhuwenshen.model.custom.merchant.QueryMerchantGoodsParam">
+		SELECT
+			g.id ,
+			g.merchant_information_id ,
+			g.name
+		FROM
+			t_goods g				 		
+		WHERE
+			 g.deleted = '0'
+		<if test="id != null and id != ''">
+	      and g.id = #{id}
+	    </if>
+	    <if test="merchantInformationId != null and merchantInformationId != ''">
+	      and g.merchant_information_id = #{merchantInformationId}
+	    </if>	    
+	    <if test="name != null and name != ''">
+	      and g.name like concat('%', #{name},'%')
+	    </if>	    
+	     <if test="shelveTimeStart != null and shelveTimeStart != ''">
+	     <![CDATA[  and g.shelve_time >= #{shelveTimeStart} ]]> 
+	    </if>
+	    <if test="shelveTimeEnd != null and shelveTimeEnd != ''">
+	      <![CDATA[ and g.shelve_time <= #{shelveTimeEnd} ]]> 
+	    </if>	    
+	    <if test="unshelveByAdmin != null and unshelveByAdmin != ''">
+	      and g.unshelve_by_admin = #{unshelveByAdmin}
+	    </if>	    
+	    <if test="unshelveTimeStart != null and unshelveTimeStart != ''">
+	     <![CDATA[  and g.unshelve_time >= #{unshelveTimeStart} ]]> 
+	    </if>
+	    <if test="unshelveTimeEnd != null and unshelveTimeEnd != ''">
+	      <![CDATA[ and g.unshelve_time <= #{unshelveTimeEnd} ]]> 
+	    </if>	    
+	    <if test="createTimeStart != null and createTimeStart != ''">
+	     <![CDATA[  and g.create_time >= #{createTimeStart} ]]> 
+	    </if>
+	    <if test="createTimeEnd != null and createTimeEnd != ''">
+	      <![CDATA[ and g.create_time <= #{createTimeEnd} ]]> 
+	    </if>
+	    <if test="unshelve != null">
+	      and g.unshelve = #{unshelve}
+	    </if>
+	    order by g.unshelve, g.name		   	       
+	</select>
+	
+	
+	
+	
 	<select id="selectChangedRecently"
 		resultMap="BaseResultMap">
 		SELECT

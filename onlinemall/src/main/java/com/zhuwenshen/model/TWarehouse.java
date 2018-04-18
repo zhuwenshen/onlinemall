@@ -1,19 +1,45 @@
 package com.zhuwenshen.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.*;
 
-@Table(name = "t_goods_price")
-public class TGoodsPrice {
+@Table(name = "t_warehouse")
+public class TWarehouse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
-    @Column(name = "class_detail_id")
-    private String classDetailId;
-
+    /**
+     * 进货商品价格id
+     */
     @Column(name = "price_id")
     private String priceId;
+
+    /**
+     * 定价或退货价
+     */
+    private BigDecimal price;
+
+    /**
+     * 进货数量
+     */
+    private Integer num;
+
+    /**
+     * 货源
+     */
+    private String supply;
+
+    /**
+     * 备注
+     */
+    private String remake;
+
+    /**
+     * 进出仓库类型;【1：进货，-1：退货】
+     */
+    private Boolean type;
 
     /**
      * 是否删除；0否 1是
@@ -59,31 +85,111 @@ public class TGoodsPrice {
     }
 
     /**
-     * @return class_detail_id
-     */
-    public String getClassDetailId() {
-        return classDetailId;
-    }
-
-    /**
-     * @param classDetailId
-     */
-    public void setClassDetailId(String classDetailId) {
-        this.classDetailId = classDetailId == null ? null : classDetailId.trim();
-    }
-
-    /**
-     * @return price_id
+     * 获取进货商品价格id
+     *
+     * @return price_id - 进货商品价格id
      */
     public String getPriceId() {
         return priceId;
     }
 
     /**
-     * @param goodsPriceId
+     * 设置进货商品价格id
+     *
+     * @param priceId 进货商品价格id
      */
     public void setPriceId(String priceId) {
         this.priceId = priceId == null ? null : priceId.trim();
+    }
+
+    /**
+     * 获取定价或退货价
+     *
+     * @return price - 定价或退货价
+     */
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    /**
+     * 设置定价或退货价
+     *
+     * @param price 定价或退货价
+     */
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    /**
+     * 获取进货数量
+     *
+     * @return num - 进货数量
+     */
+    public Integer getNum() {
+        return num;
+    }
+
+    /**
+     * 设置进货数量
+     *
+     * @param num 进货数量
+     */
+    public void setNum(Integer num) {
+        this.num = num;
+    }
+
+    /**
+     * 获取货源
+     *
+     * @return supply - 货源
+     */
+    public String getSupply() {
+        return supply;
+    }
+
+    /**
+     * 设置货源
+     *
+     * @param supply 货源
+     */
+    public void setSupply(String supply) {
+        this.supply = supply == null ? null : supply.trim();
+    }
+
+    /**
+     * 获取备注
+     *
+     * @return remake - 备注
+     */
+    public String getRemake() {
+        return remake;
+    }
+
+    /**
+     * 设置备注
+     *
+     * @param remake 备注
+     */
+    public void setRemake(String remake) {
+        this.remake = remake == null ? null : remake.trim();
+    }
+
+    /**
+     * 获取进出仓库类型;【1：进货，-1：退货】
+     *
+     * @return type - 进出仓库类型;【1：进货，-1：退货】
+     */
+    public Boolean getType() {
+        return type;
+    }
+
+    /**
+     * 设置进出仓库类型;【1：进货，-1：退货】
+     *
+     * @param type 进出仓库类型;【1：进货，-1：退货】
+     */
+    public void setType(Boolean type) {
+        this.type = type;
     }
 
     /**

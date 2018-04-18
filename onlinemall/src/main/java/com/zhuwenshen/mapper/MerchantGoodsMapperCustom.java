@@ -11,6 +11,14 @@ import com.zhuwenshen.model.custom.merchant.QueryMerchantGoodsParam;
 public interface MerchantGoodsMapperCustom {
 
 	public List<QueryMerchantGoods> selectMerchantGoodsList(QueryMerchantGoodsParam qmgp);
+	
+	/**
+	 * 用于下拉框
+	 * @param qmgp
+	 * @return
+	 */
+	public List<QueryMerchantGoods> selectMerchantGoodsForSelect(QueryMerchantGoodsParam qmgp);
+	
 
 	public List<?> selectChangedRecently(@Param("merchantId")String merchantId, @Param("date")Date date);
 
