@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zhuwenshen.mapper.TShoppingTrolleyMapper">
-  <resultMap id="BaseResultMap" type="com.zhuwenshen.model.TShoppingTrolley">
+<mapper namespace="com.zhuwenshen.mapper.TAddressMapper">
+  <resultMap id="BaseResultMap" type="com.zhuwenshen.model.TAddress">
     <!--
       WARNING - @mbg.generated
     -->
     <id column="id" jdbcType="CHAR" property="id" />
     <result column="user_id" jdbcType="CHAR" property="userId" />
-    <result column="goods_id" jdbcType="CHAR" property="goodsId" />
-    <result column="price_id" jdbcType="CHAR" property="priceId" />
-    <result column="num" jdbcType="INTEGER" property="num" />
-    <result column="overdue" jdbcType="BIT" property="overdue" />
+    <result column="alias" jdbcType="VARCHAR" property="alias" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="detail" jdbcType="VARCHAR" property="detail" />
+    <result column="consignee" jdbcType="VARCHAR" property="consignee" />
+    <result column="defaulted" jdbcType="BIT" property="defaulted" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_userid" jdbcType="CHAR" property="createUserid" />

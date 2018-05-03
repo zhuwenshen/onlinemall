@@ -19,8 +19,14 @@ public class TOrderInformation {
     /**
      * 商品种类id
      */
-    @Column(name = "goods_sort_id")
-    private String goodsSortId;
+    @Column(name = "price_id")
+    private String priceId;
+
+    /**
+     * 具体分类信息
+     */
+    @Column(name = "class_details")
+    private String classDetails;
 
     /**
      * 商品数量
@@ -102,19 +108,37 @@ public class TOrderInformation {
     /**
      * 获取商品种类id
      *
-     * @return goods_sort_id - 商品种类id
+     * @return price_id - 商品种类id
      */
-    public String getGoodsSortId() {
-        return goodsSortId;
+    public String getPriceId() {
+        return priceId;
     }
 
     /**
      * 设置商品种类id
      *
-     * @param goodsSortId 商品种类id
+     * @param priceId 商品种类id
      */
-    public void setGoodsSortId(String goodsSortId) {
-        this.goodsSortId = goodsSortId == null ? null : goodsSortId.trim();
+    public void setPriceId(String priceId) {
+        this.priceId = priceId == null ? null : priceId.trim();
+    }
+
+    /**
+     * 获取具体分类信息
+     *
+     * @return class_details - 具体分类信息
+     */
+    public String getClassDetails() {
+        return classDetails;
+    }
+
+    /**
+     * 设置具体分类信息
+     *
+     * @param classDetails 具体分类信息
+     */
+    public void setClassDetails(String classDetails) {
+        this.classDetails = classDetails == null ? null : classDetails.trim();
     }
 
     /**

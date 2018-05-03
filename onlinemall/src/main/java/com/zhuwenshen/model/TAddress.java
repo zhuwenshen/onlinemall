@@ -3,8 +3,8 @@ package com.zhuwenshen.model;
 import java.util.Date;
 import javax.persistence.*;
 
-@Table(name = "t_shopping_trolley")
-public class TShoppingTrolley {
+@Table(name = "t_address")
+public class TAddress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
@@ -16,26 +16,34 @@ public class TShoppingTrolley {
     private String userId;
 
     /**
-     * 商品信息id
+     * 别名
      */
-    @Column(name = "goods_id")
-    private String goodsId;
+    private String alias;
 
     /**
-     * 商家价格id
+     * 收货人手机号
      */
-    @Column(name = "price_id")
-    private String priceId;
+    private String phone;
 
     /**
-     * 商品数量
+     * 详细地址
      */
-    private Integer num;
+    private String detail;
 
     /**
-     * 是否过期;0否 1是 默认0
+     * 收货人
      */
-    private Boolean overdue;
+    private String consignee;
+
+    /**
+     * 是否默认
+     */
+    private Boolean defaulted;
+
+    /**
+     * 排序
+     */
+    private Integer sort;
 
     /**
      * 是否删除；0否 1是
@@ -99,75 +107,111 @@ public class TShoppingTrolley {
     }
 
     /**
-     * 获取商品信息id
+     * 获取别名
      *
-     * @return goods_id - 商品信息id
+     * @return alias - 别名
      */
-    public String getGoodsId() {
-        return goodsId;
+    public String getAlias() {
+        return alias;
     }
 
     /**
-     * 设置商品信息id
+     * 设置别名
      *
-     * @param goodsId 商品信息id
+     * @param alias 别名
      */
-    public void setGoodsId(String goodsId) {
-        this.goodsId = goodsId == null ? null : goodsId.trim();
+    public void setAlias(String alias) {
+        this.alias = alias == null ? null : alias.trim();
     }
 
     /**
-     * 获取商家价格id
+     * 获取收货人手机号
      *
-     * @return price_id - 商家价格id
+     * @return phone - 收货人手机号
      */
-    public String getPriceId() {
-        return priceId;
+    public String getPhone() {
+        return phone;
     }
 
     /**
-     * 设置商家价格id
+     * 设置收货人手机号
      *
-     * @param priceId 商家价格id
+     * @param phone 收货人手机号
      */
-    public void setPriceId(String priceId) {
-        this.priceId = priceId == null ? null : priceId.trim();
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
     }
 
     /**
-     * 获取商品数量
+     * 获取详细地址
      *
-     * @return num - 商品数量
+     * @return detail - 详细地址
      */
-    public Integer getNum() {
-        return num;
+    public String getDetail() {
+        return detail;
     }
 
     /**
-     * 设置商品数量
+     * 设置详细地址
      *
-     * @param num 商品数量
+     * @param detail 详细地址
      */
-    public void setNum(Integer num) {
-        this.num = num;
+    public void setDetail(String detail) {
+        this.detail = detail == null ? null : detail.trim();
     }
 
     /**
-     * 获取是否过期;0否 1是 默认0
+     * 获取收货人
      *
-     * @return overdue - 是否过期;0否 1是 默认0
+     * @return consignee - 收货人
      */
-    public Boolean getOverdue() {
-        return overdue;
+    public String getConsignee() {
+        return consignee;
     }
 
     /**
-     * 设置是否过期;0否 1是 默认0
+     * 设置收货人
      *
-     * @param overdue 是否过期;0否 1是 默认0
+     * @param consignee 收货人
      */
-    public void setOverdue(Boolean overdue) {
-        this.overdue = overdue;
+    public void setConsignee(String consignee) {
+        this.consignee = consignee == null ? null : consignee.trim();
+    }
+
+    /**
+     * 获取是否默认
+     *
+     * @return defaulted - 是否默认
+     */
+    public Boolean getDefaulted() {
+        return defaulted;
+    }
+
+    /**
+     * 设置是否默认
+     *
+     * @param defaulted 是否默认
+     */
+    public void setDefaulted(Boolean defaulted) {
+        this.defaulted = defaulted;
+    }
+
+    /**
+     * 获取排序
+     *
+     * @return sort - 排序
+     */
+    public Integer getSort() {
+        return sort;
+    }
+
+    /**
+     * 设置排序
+     *
+     * @param sort 排序
+     */
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 
     /**

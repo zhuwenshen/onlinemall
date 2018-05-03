@@ -61,8 +61,26 @@ public class TOrder {
     /**
      * 订单支付方式
      */
-    @Column(name = "oeder_paid_type")
-    private Integer oederPaidType;
+    @Column(name = "order_paid_type")
+    private Integer orderPaidType;
+
+    /**
+     * 收货人手机号
+     */
+    @Column(name = "address_phone")
+    private String addressPhone;
+
+    /**
+     * 详细地址
+     */
+    @Column(name = "address_detail")
+    private String addressDetail;
+
+    /**
+     * 收货人
+     */
+    @Column(name = "address_consignee")
+    private String addressConsignee;
 
     /**
      * 评价流程状态
@@ -93,6 +111,47 @@ public class TOrder {
      */
     @Column(name = "express_status")
     private String expressStatus;
+
+    /**
+     * 提交订单时间
+     */
+    @Column(name = "submit_time")
+    private Date submitTime;
+
+    /**
+     * 支付时间
+     */
+    @Column(name = "pay_time")
+    private Date payTime;
+
+    /**
+     * 确认订单时间
+     */
+    @Column(name = "confirm_time")
+    private Date confirmTime;
+
+    /**
+     * 签收时间
+     */
+    @Column(name = "sign_time")
+    private Date signTime;
+
+    /**
+     * 发货时间
+     */
+    @Column(name = "deliver_time")
+    private Date deliverTime;
+
+    /**
+     * 订单完成时间
+     */
+    @Column(name = "finish_time")
+    private Date finishTime;
+
+    /**
+     * 备注
+     */
+    private String remake;
 
     /**
      * 是否删除；0否 1是
@@ -284,19 +343,73 @@ public class TOrder {
     /**
      * 获取订单支付方式
      *
-     * @return oeder_paid_type - 订单支付方式
+     * @return order_paid_type - 订单支付方式
      */
-    public Integer getOederPaidType() {
-        return oederPaidType;
+    public Integer getOrderPaidType() {
+        return orderPaidType;
     }
 
     /**
      * 设置订单支付方式
      *
-     * @param oederPaidType 订单支付方式
+     * @param orderPaidType 订单支付方式
      */
-    public void setOederPaidType(Integer oederPaidType) {
-        this.oederPaidType = oederPaidType;
+    public void setOrderPaidType(Integer orderPaidType) {
+        this.orderPaidType = orderPaidType;
+    }
+
+    /**
+     * 获取收货人手机号
+     *
+     * @return address_phone - 收货人手机号
+     */
+    public String getAddressPhone() {
+        return addressPhone;
+    }
+
+    /**
+     * 设置收货人手机号
+     *
+     * @param addressPhone 收货人手机号
+     */
+    public void setAddressPhone(String addressPhone) {
+        this.addressPhone = addressPhone == null ? null : addressPhone.trim();
+    }
+
+    /**
+     * 获取详细地址
+     *
+     * @return address_detail - 详细地址
+     */
+    public String getAddressDetail() {
+        return addressDetail;
+    }
+
+    /**
+     * 设置详细地址
+     *
+     * @param addressDetail 详细地址
+     */
+    public void setAddressDetail(String addressDetail) {
+        this.addressDetail = addressDetail == null ? null : addressDetail.trim();
+    }
+
+    /**
+     * 获取收货人
+     *
+     * @return address_consignee - 收货人
+     */
+    public String getAddressConsignee() {
+        return addressConsignee;
+    }
+
+    /**
+     * 设置收货人
+     *
+     * @param addressConsignee 收货人
+     */
+    public void setAddressConsignee(String addressConsignee) {
+        this.addressConsignee = addressConsignee == null ? null : addressConsignee.trim();
     }
 
     /**
@@ -387,6 +500,132 @@ public class TOrder {
      */
     public void setExpressStatus(String expressStatus) {
         this.expressStatus = expressStatus == null ? null : expressStatus.trim();
+    }
+
+    /**
+     * 获取提交订单时间
+     *
+     * @return submit_time - 提交订单时间
+     */
+    public Date getSubmitTime() {
+        return submitTime;
+    }
+
+    /**
+     * 设置提交订单时间
+     *
+     * @param submitTime 提交订单时间
+     */
+    public void setSubmitTime(Date submitTime) {
+        this.submitTime = submitTime;
+    }
+
+    /**
+     * 获取支付时间
+     *
+     * @return pay_time - 支付时间
+     */
+    public Date getPayTime() {
+        return payTime;
+    }
+
+    /**
+     * 设置支付时间
+     *
+     * @param payTime 支付时间
+     */
+    public void setPayTime(Date payTime) {
+        this.payTime = payTime;
+    }
+
+    /**
+     * 获取确认订单时间
+     *
+     * @return confirm_time - 确认订单时间
+     */
+    public Date getConfirmTime() {
+        return confirmTime;
+    }
+
+    /**
+     * 设置确认订单时间
+     *
+     * @param confirmTime 确认订单时间
+     */
+    public void setConfirmTime(Date confirmTime) {
+        this.confirmTime = confirmTime;
+    }
+
+    /**
+     * 获取签收时间
+     *
+     * @return sign_time - 签收时间
+     */
+    public Date getSignTime() {
+        return signTime;
+    }
+
+    /**
+     * 设置签收时间
+     *
+     * @param signTime 签收时间
+     */
+    public void setSignTime(Date signTime) {
+        this.signTime = signTime;
+    }
+
+    /**
+     * 获取发货时间
+     *
+     * @return deliver_time - 发货时间
+     */
+    public Date getDeliverTime() {
+        return deliverTime;
+    }
+
+    /**
+     * 设置发货时间
+     *
+     * @param deliverTime 发货时间
+     */
+    public void setDeliverTime(Date deliverTime) {
+        this.deliverTime = deliverTime;
+    }
+
+    /**
+     * 获取订单完成时间
+     *
+     * @return finish_time - 订单完成时间
+     */
+    public Date getFinishTime() {
+        return finishTime;
+    }
+
+    /**
+     * 设置订单完成时间
+     *
+     * @param finishTime 订单完成时间
+     */
+    public void setFinishTime(Date finishTime) {
+        this.finishTime = finishTime;
+    }
+
+    /**
+     * 获取备注
+     *
+     * @return remake - 备注
+     */
+    public String getRemake() {
+        return remake;
+    }
+
+    /**
+     * 设置备注
+     *
+     * @param remake 备注
+     */
+    public void setRemake(String remake) {
+        this.remake = remake == null ? null : remake.trim();
     }
 
     /**

@@ -14,12 +14,22 @@
     <result column="paid_actual_amount" jdbcType="DECIMAL" property="paidActualAmount" />
     <result column="merchant_coupon_id" jdbcType="CHAR" property="merchantCouponId" />
     <result column="user_ip" jdbcType="VARCHAR" property="userIp" />
-    <result column="oeder_paid_type" jdbcType="INTEGER" property="oederPaidType" />
+    <result column="order_paid_type" jdbcType="INTEGER" property="orderPaidType" />
+    <result column="address_phone" jdbcType="VARCHAR" property="addressPhone" />
+    <result column="address_detail" jdbcType="VARCHAR" property="addressDetail" />
+    <result column="address_consignee" jdbcType="VARCHAR" property="addressConsignee" />
     <result column="evaluate_status" jdbcType="INTEGER" property="evaluateStatus" />
     <result column="express_number" jdbcType="VARCHAR" property="expressNumber" />
     <result column="express_company" jdbcType="VARCHAR" property="expressCompany" />
     <result column="express_code" jdbcType="INTEGER" property="expressCode" />
     <result column="express_status" jdbcType="VARCHAR" property="expressStatus" />
+    <result column="submit_time" jdbcType="TIMESTAMP" property="submitTime" />
+    <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
+    <result column="confirm_time" jdbcType="TIMESTAMP" property="confirmTime" />
+    <result column="sign_time" jdbcType="TIMESTAMP" property="signTime" />
+    <result column="deliver_time" jdbcType="TIMESTAMP" property="deliverTime" />
+    <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+    <result column="remake" jdbcType="VARCHAR" property="remake" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_userid" jdbcType="CHAR" property="createUserid" />

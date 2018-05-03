@@ -7,7 +7,8 @@
     -->
     <id column="id" jdbcType="CHAR" property="id" />
     <result column="order_id" jdbcType="CHAR" property="orderId" />
-    <result column="goods_sort_id" jdbcType="CHAR" property="goodsSortId" />
+    <result column="price_id" jdbcType="CHAR" property="priceId" />
+    <result column="class_details" jdbcType="VARCHAR" property="classDetails" />
     <result column="num" jdbcType="INTEGER" property="num" />
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="total_prices" jdbcType="DECIMAL" property="totalPrices" />

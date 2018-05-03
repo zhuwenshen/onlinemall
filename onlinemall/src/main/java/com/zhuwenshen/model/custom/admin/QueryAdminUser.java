@@ -59,7 +59,7 @@ public class QueryAdminUser {
      * 1男 2女 3隐藏
      */
     private Integer sex;
-    @ConstantTranslate(kind="sex",valueMethod="getUserType")
+    @ConstantTranslate(kind="sex",valueMethod="getSex")
     private String sexTL;
 
     /**
@@ -72,7 +72,7 @@ public class QueryAdminUser {
      * 用户类型；1游客 2普通用户 3商家 4商家服务员 5管理员 6超级管理员
      */
     private Integer userType;
-    @ConstantTranslate(kind="user_type",valueMethod="getSex")
+    @ConstantTranslate(kind="user_type",valueMethod="getUserType")
     private String userTypeTL;
 
     /**
