@@ -1,21 +1,17 @@
-package com.zhuwenshen.model;
+package com.zhuwenshen.model.custom.merchant;
 
+import java.math.BigDecimal;
 import java.util.Date;
-import javax.persistence.*;
 
-@Table(name = "t_evaluation")
-public class TEvaluation {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.zhuwenshen.annotation.PicUrl;
 
-    @Column(name = "order_infor_id")
-    private String orderInforId;
+public class QueryEvaluation {
+    private String id;   
 
     /**
      * 评价类型
      */
-    @Column(name = "evaluation_type")
     private Integer evaluationType;
 
     /**
@@ -26,104 +22,101 @@ public class TEvaluation {
     /**
      * 用户评价
      */
-    @Column(name = "user_evaluation")
     private String userEvaluation;
 
     /**
      * 评价图片1
      */
-    @Column(name = "evaluation_img1_url")
     private String evaluationImg1Url;
 
     /**
      * 评价图片2
      */
-    @Column(name = "evaluation_img2_url")
     private String evaluationImg2Url;
 
     /**
      * 评价图片3
-     */
-    @Column(name = "evaluation_img3_url")
+     */   
     private String evaluationImg3Url;
 
     /**
      * 用户是否删除
-     */
-    @Column(name = "user_deleted")
+     */    
     private Boolean userDeleted;
 
     /**
      * 评价时间
      */
-    @Column(name = "user_time")
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date userTime;
 
     /**
      * 商家回复评价
      */
-    @Column(name = "merchant_reply")
     private String merchantReply;
 
     /**
      * 商家回复评价图片1
      */
-    @Column(name = "reply_img1_url")
     private String replyImg1Url;
 
     /**
      * 商家回复评价图片2
      */
-    @Column(name = "reply_img2_url")
     private String replyImg2Url;
 
     /**
      * 商家回复评价图片3
      */
-    @Column(name = "reply_img3_url")
     private String replyImg3Url;
 
     /**
      * 商家是否删除
      */
-    @Column(name = "merchant_deleted")
     private Boolean merchantDeleted;
 
     /**
      * 商家回复评价时间
      */
-    @Column(name = "reply_time")
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date replyTime;
+  
+    private String orderInforId;
+    /**
+     * 商品数量
+     */
+    private Integer num;
 
     /**
-     * 是否删除；0否 1是
+     * 单价
      */
-    private Boolean deleted;
+    private BigDecimal price;    
+    
+    /**
+     * 具体分类信息
+     */
+    private String classDetails;
+    
+    /**
+     * 订单id
+     */
+    private String orderId;
+    
+    private String merchantId;
 
     /**
-     * 创建时间
+     * 商品种类id
      */
-    @Column(name = "create_time")
-    private Date createTime;
+    private String priceId;
 
-    /**
-     * 创建人id
-     */
-    @Column(name = "create_userid")
-    private String createUserid;
+    private String goodsId;
+    private String goodsName;
 
-    /**
-     * 更新时间
-     */
-    @Column(name = "update_time")
-    private Date updateTime;
+    @PicUrl
+    private String goodsImg;
+    
 
-    /**
-     * 更新人id
-     */
-    @Column(name = "update_userid")
-    private String updateUserid;
-
+   
     /**
      * @return id
      */
@@ -404,93 +397,76 @@ public class TEvaluation {
         this.replyTime = replyTime;
     }
 
-    /**
-     * 获取是否删除；0否 1是
-     *
-     * @return deleted - 是否删除；0否 1是
-     */
-    public Boolean getDeleted() {
-        return deleted;
-    }
+	public Integer getNum() {
+		return num;
+	}
 
-    /**
-     * 设置是否删除；0否 1是
-     *
-     * @param deleted 是否删除；0否 1是
-     */
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
+	public void setNum(Integer num) {
+		this.num = num;
+	}
 
-    /**
-     * 获取创建时间
-     *
-     * @return create_time - 创建时间
-     */
-    public Date getCreateTime() {
-        return createTime;
-    }
+	public BigDecimal getPrice() {
+		return price;
+	}
 
-    /**
-     * 设置创建时间
-     *
-     * @param createTime 创建时间
-     */
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
 
-    /**
-     * 获取创建人id
-     *
-     * @return create_userid - 创建人id
-     */
-    public String getCreateUserid() {
-        return createUserid;
-    }
+	public String getClassDetails() {
+		return classDetails;
+	}
 
-    /**
-     * 设置创建人id
-     *
-     * @param createUserid 创建人id
-     */
-    public void setCreateUserid(String createUserid) {
-        this.createUserid = createUserid == null ? null : createUserid.trim();
-    }
+	public void setClassDetails(String classDetails) {
+		this.classDetails = classDetails;
+	}
 
-    /**
-     * 获取更新时间
-     *
-     * @return update_time - 更新时间
-     */
-    public Date getUpdateTime() {
-        return updateTime;
-    }
+	public String getOrderId() {
+		return orderId;
+	}
 
-    /**
-     * 设置更新时间
-     *
-     * @param updateTime 更新时间
-     */
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
 
-    /**
-     * 获取更新人id
-     *
-     * @return update_userid - 更新人id
-     */
-    public String getUpdateUserid() {
-        return updateUserid;
-    }
+	public String getMerchantId() {
+		return merchantId;
+	}
 
-    /**
-     * 设置更新人id
-     *
-     * @param updateUserid 更新人id
-     */
-    public void setUpdateUserid(String updateUserid) {
-        this.updateUserid = updateUserid == null ? null : updateUserid.trim();
-    }
+	public void setMerchantId(String merchantId) {
+		this.merchantId = merchantId;
+	}
+
+	public String getPriceId() {
+		return priceId;
+	}
+
+	public void setPriceId(String priceId) {
+		this.priceId = priceId;
+	}
+
+	public String getGoodsId() {
+		return goodsId;
+	}
+
+	public void setGoodsId(String goodsId) {
+		this.goodsId = goodsId;
+	}
+
+	public String getGoodsName() {
+		return goodsName;
+	}
+
+	public void setGoodsName(String goodsName) {
+		this.goodsName = goodsName;
+	}
+
+	public String getGoodsImg() {
+		return goodsImg;
+	}
+
+	public void setGoodsImg(String goodsImg) {
+		this.goodsImg = goodsImg;
+	}  
+    
 }

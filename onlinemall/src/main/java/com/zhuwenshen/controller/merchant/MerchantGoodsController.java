@@ -29,7 +29,7 @@ public class MerchantGoodsController {
 	@PostMapping("/m/goods/queryGoods")
 	@ResponseBody
 	public String queryGoods(@SessionAttribute("user") User user, QueryMerchantGoodsParam goods ) {
-		System.out.println(goods);
+		//System.out.println(goods);
 		return mgs.queryGoods(user, goods);
 	}
 	

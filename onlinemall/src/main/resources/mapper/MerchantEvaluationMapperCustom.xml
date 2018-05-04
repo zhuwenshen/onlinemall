@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhuwenshen.mapper.MerchantEvaluationMapperCustom">
+  <resultMap id="BaseResultMap" type="com.zhuwenshen.model.custom.merchant.QueryEvaluation">
+   
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="order_infor_id" jdbcType="CHAR" property="orderInforId" />
+    <result column="evaluation_type" jdbcType="INTEGER" property="evaluationType" />
+    <result column="score" jdbcType="INTEGER" property="score" />
+    <result column="user_evaluation" jdbcType="VARCHAR" property="userEvaluation" />
+    <result column="evaluation_img1_url" jdbcType="VARCHAR" property="evaluationImg1Url" />
+    <result column="evaluation_img2_url" jdbcType="VARCHAR" property="evaluationImg2Url" />
+    <result column="evaluation_img3_url" jdbcType="VARCHAR" property="evaluationImg3Url" />
+    <result column="user_deleted" jdbcType="BIT" property="userDeleted" />
+    <result column="user_time" jdbcType="TIMESTAMP" property="userTime" />
+    <result column="merchant_reply" jdbcType="VARCHAR" property="merchantReply" />
+    <result column="reply_img1_url" jdbcType="VARCHAR" property="replyImg1Url" />
+    <result column="reply_img2_url" jdbcType="VARCHAR" property="replyImg2Url" />
+    <result column="reply_img3_url" jdbcType="VARCHAR" property="replyImg3Url" />
+    <result column="merchant_deleted" jdbcType="BIT" property="merchantDeleted" />
+    <result column="reply_time" jdbcType="TIMESTAMP" property="replyTime" />
+    
+    <result column="class_details" jdbcType="VARCHAR" property="classDetails" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    
+    <result column="order_id" jdbcType="CHAR" property="orderId" />
+    <result column="merchant_id" jdbcType="CHAR" property="merchantId" />
+    
+    <result column="price_id" jdbcType="CHAR" property="priceId" />
+    <result column="goods_id" jdbcType="CHAR" property="goodsId" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="goods_img" jdbcType="VARCHAR" property="goodsImg" />
+    
+  </resultMap>
+  
+  <select id="selectEvaluation" resultMap="BaseResultMap">
+  	SELECT
+		e.id,
+		e.order_infor_id,
+		e.evaluation_type,
+		e.score,
+		e.user_time,
+		e.user_evaluation,
+		e.merchant_reply,
+		e.reply_time,
+		oi.class_details,
+		oi.num,
+		oi.price,
+		oi.order_id,
+		o.merchant_id,
+		oi.price_id,
+		p.goods_id,
+		g.`name` AS goods_name,
+		g.description_img1_url AS goods_img
+	FROM
+		t_evaluation e
+	JOIN t_order_information oi ON e.order_infor_id = oi.id
+	JOIN t_order o ON oi.order_id = o.id
+	JOIN t_price p ON oi.price_id = p.id
+	JOIN t_goods g ON p.goods_id = g.id
+	WHERE
+		e.deleted = 0
+	AND e.merchant_deleted = 0
+	and e.reply_time is null
+	<if test="id !=null and id !=''">
+		AND e.id = #{id}
+	</if>
+	<if test="merchantId !=null and merchantId !=''">
+		AND o.merchant_id = #{merchantId}
+	</if>
+	<if test="userTimeStart != null">
+	     <![CDATA[  and e.user_time >= #{userTimeStart} ]]> 
+    </if>	    
+    <if test="userTimeEnd != null ">
+      <![CDATA[ and e.user_time <= #{userTimeEnd} ]]> 
+    </if>
+    <if test="orderInforId !=null and orderInforId !=''">
+		AND e.order_infor_id = #{orderInforId}
+	</if>
+		
+	<if test="orderId !=null and orderId !=''">
+		AND oi.order_id = #{orderId}
+	</if>
+	<if test="priceId !=null and priceId !=''">
+		AND oi.price_id = #{priceId}
+	</if>
+	<if test="goodsId !=null and goodsId !=''">
+		AND p.goods_id = #{goodsId}
+	</if>
+	<if test="goodsName !=null and goodsName !=''">
+		AND g.`name` like concat('%', #{goodsName},'%')
+	</if>
+	<if test="monthStartTime != null">
+	     <![CDATA[  and e.user_time >= #{monthStartTime} ]]> 
+    </if>
+  </select>
+  
+</mapper>

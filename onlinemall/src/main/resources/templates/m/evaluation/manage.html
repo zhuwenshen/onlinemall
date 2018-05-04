@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="cssAndJs::head('评价管理')"></head>
+
+<body>
+	
+	<div id="wrapper">
+
+		<!-- Navigation -->
+		<nav class="navbar navbar-default navbar-static-top" role="navigation"
+			style="margin-bottom: 0">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">商家管理</a>
+			</div>
+			<!-- /.navbar-header -->
+
+			<ul class="nav navbar-top-links navbar-right">
+
+			</ul>
+			<!-- /.navbar-top-links -->
+
+			<!-- 目录菜单 -->
+			<div th:replace="m/menu::menu" >
+			</div> 	
+			<!-- 目录菜单  end-->
+
+			<!-- /.navbar-static-side -->
+		</nav>
+
+		<div id="page-wrapper">
+			<div class="row">
+				<div class="col-lg-12">
+					<h2 class="page-header">评价管理</h2>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- /.row -->			
+			
+			<div class="row">
+				<div class="col-lg-12" style="margin-bottom: 15px;">
+					<form class="form-inline" id="query_form">
+						<div class="form-group" style="margin-right: 15px;">
+							<label>商品名称</label> 
+							<input type="text"	class="form-control" name="goodsName">							
+						</div>											
+												
+						<div class="form-group" style="margin-right: 15px;">
+							<label>买家评价时间</label> 
+							<input type="date"	class="form-control" name="userTimeStart">~
+							<input type="date"	class="form-control" name="userTimeEnd">
+						</div>						
+						
+						 <input type="button" class="btn btn-primary" id="search_btn" value="查询" />
+					</form>
+					<input type="text" hidden="true" id="pageNum" name="pageNum" value="1">
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<hr />
+			
+			<div class="row">
+
+				<!-- /.col-lg-12 -->
+				<div class="col-lg-12">
+					<div class="panel panel-primary">
+						<div class="panel-heading">评价管理</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="table-responsive">
+										<table class="table table-bordered table-hover">
+											<thead>
+												<tr>
+													<th>商品图</th>
+													<th>商品名</th>
+													<th>分类</th>
+													<th>评价时间</th>
+													<th>评分</th>																				
+													<th>内容</th>													
+													<th>操作</th>												
+												</tr>
+											</thead>
+											<tbody id="query_tbody">
+												<!-- ajxa获取数据      -->	
+																																			
+											</tbody>
+										</table>
+
+									</div>
+									<!-- /.table-responsive -->
+								</div>
+							</div>
+							<!-- /.row (nested) -->
+
+
+							<div class="row">
+									<div class="col-sm-12">
+										<span class="pull-right"> 每页10条</span>
+									</div>									
+								<div class="col-sm-12">									
+									<nav aria-label="查询结果" class="">
+										<ul class="pagination" id="m_nav_ul">
+
+										</ul>
+
+									</nav>
+									<div></div>
+								</div>
+
+
+
+							</div>
+
+
+
+						</div>
+						<!-- /.panel-body -->
+					</div>
+					<!-- /.panel -->
+				</div>
+				<!-- /.col-lg-12 -->
+
+			</div>
+			<!-- /.row -->
+
+			
+		
+		
+
+			
+		</div>
+		<!-- /#page-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+	
+	<!-- js -->
+	<div th:replace="cssAndJs::jsWhihMenu" >
+	</div> 	
+	<!-- js  end-->
+
+	<script src="/onlinemall/static/js/m/merchant.js"></script>
+	<script src="manage.js"></script>
+
+</body>
+
+</html>

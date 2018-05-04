@@ -68,10 +68,10 @@
 	    <if test="frozen != null and frozen !=''">
 	      and u.frozen = #{frozen}
 	    </if>	    
-	    <if test="unfreezingTimeStart != null and unfreezingTimeStart!=''">
+	    <if test="unfreezingTimeStart != null ">
 	     <![CDATA[  and u.unfreezing_time >= #{unfreezingTimeStart} ]]> 
 	    </if>	    
-	    <if test="unfreezingTimeEnd != null and unfreezingTimeEnd !=''">
+	    <if test="unfreezingTimeEnd != null">
 	      <![CDATA[ and u.unfreezing_time <= #{unfreezingTimeEnd} ]]> 
 	    </if>	        
 	</select>
