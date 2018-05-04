@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<div class="col-sm-12">
+	<input type="hidden" id="modal_id">
+	<form id="modal_form" class="form-horizontal">
+		<div class="form-group">
+			<input type="hidden" id="orderId" name="orderId">
+		    <label for="reason" class="col-sm-3 control-label">取消原因</label>
+		    <div class="col-sm-9">
+		    	<textarea class="form-control" rows="3" id="reason" placeholder="取消原因" name="reason" required="required"></textarea>		      
+		    </div>
+	  	</div>		
+	</form>
+</div>
+<script type="text/javascript">
+	$(function(){
+		$("#modal_form").submit(function(e){
+			e.preventDefault();
+			subimtModalForm();
+		});
+		
+		function subimtModalForm(){
+			//加载模态
+			var loadingUnique = zeroModal.loading(3);
+			$.ajax({
+				type: "POST", // 方法类型
+				dataType: "json", // 预期服务器返回的数据类型
+				url: ms.path + "/m/order/cancelOrder", // url
+				data: $("#modal_form").serialize(),
+				success: function(result) {
+					//console.log(result); // 打印服务端返回的数据(调试用)
+					if(result.status) {
+						zeroModal.success(result.msg);
+						zeroModal.close(loadingUnique);
+						refreshPage();	
+						zeroModal.close($("#modal_id").val());
+					} else {
+						zeroModal.error(result.msg);
+						zeroModal.close(loadingUnique);
+					}
+				},
+				error: function() {				
+					zeroModal.error("服务器异常！");
+					zeroModal.close(loadingUnique);
+				}
+			});
+		}
+	})
+</script>
+</body>
+</html>

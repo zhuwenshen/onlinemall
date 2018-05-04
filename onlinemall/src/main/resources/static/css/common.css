@@ -62,3 +62,33 @@
 	padding: 2px;
 	margin: 0 2px;
 }
+
+.m-tr-checked{
+	background: #a2ffa2;/* #0fea5733; */
+}
+
+.m-tr-checked :hover{
+	background: #a2ffa2;/* #0fea5733; */
+}
+
+.m-tr-details{
+	background-color: #f6f6f6;	
+}
+
+.m-tr-details :hover{
+	background-color: #f6f6f6;	
+}
+
+.m-trolley-img-td{
+	width: 150px;
+	height: 150px;
+}
+
+.m-trolley-img-td img{
+	width: 150px;
+	height: 150px;
+}
+
+.m-td-btn{
+	margin-bottom: 5px;
+}

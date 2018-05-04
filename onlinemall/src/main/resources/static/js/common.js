@@ -20,10 +20,47 @@ String.prototype.isBlank = function(){
     return false;
 };
 
+ms.isBlank = function(text){
+	if(text == null) return true;
+    var s = text.trim(this);
+    if(s == "undefined" || s == null || s == "" || s.length == 0){
+        return true;
+    }
+    return false;
+};
+
+//制保留2位小数，如：2，会在2后面补上00.即2.00 
+function toDecimal2(x) { 
+	 var f = parseFloat(x); 
+	 if (isNaN(f)) { 
+	 return false; 
+	 } 
+	 var f = Math.round(x*100)/100; 
+	 var s = f.toString(); 
+	 var rs = s.indexOf('.'); 
+	 if (rs < 0) { 
+		 rs = s.length; 
+		 s += '.'; 
+	 } 
+	 while (s.length <= rs + 2) { 
+		 s += '0'; 
+	 } 
+	 return s; 
+} 
+
 //对boolean翻译，true->是，false->否（图标）
 ms.translateIcon = function(status){
 	if(status) return "<span class='glyphicon glyphicon-ok ' style='color:#5cb85c;'><span>";
 	else return "<span class='glyphicon glyphicon-remove' style='color:#FF0000;' ><span>";
+}
+
+ms.translateNullText = function(text){
+	if(text) {
+		if(text.isBlank()){
+			return "无"
+		}
+		return text;
+	}else return "无";
 }
 
 //对boolean翻译，true->是，false->否（文字）
@@ -176,9 +213,9 @@ ms.initSelect = function (id,kind,val){
 		dataType: "json", // 预期服务器返回的数据类型
 		url: ms.path + "/kindConstant?kind="+kind, // url		
 		success: function(result) {
-			console.log(result); // 打印服务端返回的数据(调试用)
+			//console.log(result); // 打印服务端返回的数据(调试用)
 			if(result.status) {
-				console.log(result.data);
+				//console.log(result.data);
 				var selectHtml = "";
 				var list = result.data;
 				var i = 0;

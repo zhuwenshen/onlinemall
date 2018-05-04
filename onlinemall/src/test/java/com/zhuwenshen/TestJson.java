@@ -29,4 +29,14 @@ public class TestJson {
 		String json = JSON.toJSONString(c);
 		System.out.println(json);
 	}
+	
+	/*public static void main(String[] args) {
+		Date d =  new Date(System.currentTimeMillis()+(long)(30*24*60*60*1000));
+		System.out.println(d);
+		System.out.println(System.currentTimeMillis());
+		System.out.println("t:"+((long)30*24*60*60*1000));
+		long  l =  System.currentTimeMillis()-((long)30*24*60*60*1000);
+		System.err.println("l:"+l);
+		System.out.println(new Date(l));
+	}*/
 }

@@ -43,6 +43,13 @@ public class TOrderInformation {
      */
     @Column(name = "total_prices")
     private BigDecimal totalPrices;
+    
+    /**
+     * 评价流程状态
+     */
+    @Column(name = "evaluate_status")
+    private Integer evaluateStatus;
+
 
     /**
      * 是否删除；0否 1是
@@ -284,4 +291,13 @@ public class TOrderInformation {
     public void setUpdateUserid(String updateUserid) {
         this.updateUserid = updateUserid == null ? null : updateUserid.trim();
     }
+
+	public Integer getEvaluateStatus() {
+		return evaluateStatus;
+	}
+
+	public void setEvaluateStatus(Integer evaluateStatus) {
+		this.evaluateStatus = evaluateStatus;
+	}
+    
 }

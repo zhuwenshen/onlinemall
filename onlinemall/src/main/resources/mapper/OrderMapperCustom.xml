@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhuwenshen.mapper.OrderMapperCustom">
+  <resultMap id="BaseResultMap" type="com.zhuwenshen.model.custom.merchant.QueryOrder">   
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="user_id" jdbcType="CHAR" property="userId" />
+    <result column="merchant_id" jdbcType="CHAR" property="merchantId" />
+    <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
+    <result column="original_amount" jdbcType="DECIMAL" property="originalAmount" />
+    <result column="actual_amount" jdbcType="DECIMAL" property="actualAmount" />
+    <result column="paid_actual_amount" jdbcType="DECIMAL" property="paidActualAmount" />
+    <result column="merchant_coupon_id" jdbcType="CHAR" property="merchantCouponId" />
+    <result column="user_ip" jdbcType="VARCHAR" property="userIp" />
+    <result column="order_paid_type" jdbcType="INTEGER" property="oederPaidType" />
+     <result column="address_phone" jdbcType="VARCHAR" property="addressPhone" />
+    <result column="address_detail" jdbcType="VARCHAR" property="addressDetail" />
+    <result column="address_consignee" jdbcType="VARCHAR" property="addressConsignee" />
+    <result column="evaluate_status" jdbcType="INTEGER" property="evaluateStatus" />
+    <result column="express_number" jdbcType="VARCHAR" property="expressNumber" />
+    <result column="express_company" jdbcType="VARCHAR" property="expressCompany" />
+    <result column="express_code" jdbcType="INTEGER" property="expressCode" />
+    <result column="express_status" jdbcType="VARCHAR" property="expressStatus" />
+     <result column="submit_time" jdbcType="TIMESTAMP" property="submitTime" />
+    <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
+    <result column="confirm_time" jdbcType="TIMESTAMP" property="confirmTime" />
+    <result column="sign_time" jdbcType="TIMESTAMP" property="signTime" />
+    <result column="deliver_time" jdbcType="TIMESTAMP" property="deliverTime" />
+    <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+    <result column="remake" jdbcType="VARCHAR" property="remake" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+     <collection property="orderInforList" column="id" javaType="ArrayList" 
+                ofType="com.zhuwenshen.model.custom.merchant.QueryOrderInfor" select="getOrderInforByOrderId"/>
+    
+    <!--  <collection property="orderInforList" ofType="com.zhuwenshen.model.custom.merchant.QueryOrderInfor">
+      	<id column="in_id" jdbcType="CHAR" property="id" />
+      	<result column="in_goods_id" jdbcType="CHAR" property="goodsId" />
+      	<result column="in_goods_name" jdbcType="VARCHAR" property="goodsName" />
+	    <result column="in_order_id" jdbcType="CHAR" property="orderId" />
+	    <result column="in_price_id" jdbcType="CHAR" property="priceId" />
+	    <result column="in_class_details" jdbcType="VARCHAR" property="classDetails" />
+	    <result column="in_num" jdbcType="INTEGER" property="num" />
+	    <result column="in_price" jdbcType="DECIMAL" property="price" />
+	    <result column="in_total_prices" jdbcType="DECIMAL" property="totalPrices" />
+	    <result column="in_deleted" jdbcType="BIT" property="deleted" />
+	    <result column="in_create_time" jdbcType="TIMESTAMP" property="createTime" />
+    </collection>  -->
+  </resultMap>  
+  
+  <resultMap id="OrderInforResultMap" type="com.zhuwenshen.model.custom.merchant.QueryOrderInfor">  
+  		<id column="in_id" jdbcType="CHAR" property="id" />
+      	<result column="in_goods_id" jdbcType="CHAR" property="goodsId" />
+      	<result column="in_goods_name" jdbcType="VARCHAR" property="goodsName" />
+      	<result column="in_description_img1_url" jdbcType="VARCHAR" property="goodsImg" />
+	    <result column="in_order_id" jdbcType="CHAR" property="orderId" />
+	    <result column="in_price_id" jdbcType="CHAR" property="priceId" />
+	    <result column="in_class_details" jdbcType="VARCHAR" property="classDetails" />
+	    <result column="in_num" jdbcType="INTEGER" property="num" />
+	    <result column="in_price" jdbcType="DECIMAL" property="price" />
+	    <result column="in_total_prices" jdbcType="DECIMAL" property="totalPrices" />
+	    <result column="in_evaluate_status" jdbcType="INTEGER" property="evaluateStatus" />
+	    <result column="in_deleted" jdbcType="BIT" property="deleted" />
+	    <result column="in_create_time" jdbcType="TIMESTAMP" property="createTime" /> 
+  </resultMap>  
+
+  <select id="selectOrder" resultMap="BaseResultMap">
+  		select 
+  			o.id,
+  			o.user_id,  			
+  			o.merchant_id,
+  			o.order_status,
+  			o.original_amount,
+  			o.actual_amount,
+  			o.paid_actual_amount,
+  			o.merchant_coupon_id,
+  			o.address_phone,
+  			o.address_detail,
+  			o.address_consignee,
+  			o.evaluate_status,
+  			o.express_number,
+  			o.express_company,
+  			o.express_code,
+  			o.express_status,
+  			
+  			o.submit_time,
+  			o.pay_time,
+  			o.confirm_time,
+  			o.sign_time,
+  			o.deliver_time,
+  			o.finish_time,
+  			o.remake,  			
+  			o.create_time  			
+  			
+  			<!-- oi.id as in_id,
+  			oi.order_id as in_order_id,
+  			p.goods_id as in_goods_id,
+  			g.name as in_goods_name,
+  			oi.price_id as in_price_id,
+  			oi.class_details as in_class_details,
+  			oi.num as in_num,
+  			oi.price as in_price,
+  			oi.total_prices as in_total_prices,
+  			oi.deleted as in_deleted,
+  			oi.create_time as in_create_time  	 -->		
+		from t_order o
+		<!-- JOIN t_order_information oi on oi.order_id = o.id -->
+		<!-- JOIN t_price p on p.id = oi.price_id
+		JOIN t_goods g on g.id = p.goods_id -->
+		where o.deleted = 0
+		<!-- and oi.deleted = 0 -->
+		<if test="id !=null and id !=''">
+				and o.id = #{id}
+		</if> 
+		<if test="userId !=null and userId !=''">
+				and o.user_id = #{userId}
+		</if> 
+		<if test="merchantId !=null and merchantId !=''">
+				and o.merchant_id = #{merchantId}
+		</if> 
+		<if test="orderStatus !=null and orderStatus !=''">
+				and o.order_status = #{orderStatus}
+		</if> 
+		<if test="queryOrderStatus !=null and queryOrderStatus !=''">
+			<choose>  
+             <when test="queryOrderStatus  == 1 ">
+             		and o.order_status = 1
+             </when>  
+             <when test="queryOrderStatus  == 5 ">
+             		and o.order_status in (1,2,3,4,5,7,8,9,10)
+             </when> 
+             <when test="queryOrderStatus  == 14 ">
+             		and o.order_status in (11,12,13,14)
+             </when> 
+          </choose> 
+		</if> 
+		<if test="createTimeStart !=null ">
+			<![CDATA[	and o.create_time >= #{createTimeStart} ]]>
+		</if> 
+		<if test="createTimeEnd !=null ">
+			<![CDATA[	and o.create_time <= #{createTimeEnd} ]]>
+		</if> 
+		<if test="createTimeMon !=null ">
+		and (o.order_status in (11,12,13,14) and o.create_time >= #{createTimeMon} or o.order_status not in (11,12,13,14))
+		</if> 
+		order by o.create_time desc
+  </select>
+  <select id="selectOrderInfo" resultMap="OrderInforResultMap">
+  	select  
+  	  		oi.id as in_id,
+  			oi.order_id as in_order_id,
+  			p.goods_id as in_goods_id,
+  			g.name as in_goods_name,
+  			oi.price_id as in_price_id,
+  			oi.class_details as in_class_details,
+  			oi.num as in_num,
+  			oi.price as in_price,
+  			oi.total_prices as in_total_prices,
+  			oi.evaluate_status as in_evaluate_status,
+  			oi.deleted as in_deleted,
+  			oi.create_time as in_create_time  			
+		from  t_order_information  oi
+		JOIN t_order o on oi.order_id = o.id
+		JOIN t_price p on p.id = oi.price_id
+		JOIN t_goods g on g.id = p.goods_id
+		where o.deleted = 0
+		and oi.deleted = 0
+		<if test="orderInfoId !=null and orderInfoId !=''">
+				and oi.order_id = #{orderInfoId}
+		</if> 		
+		<if test="merchantId !=null and merchantId !=''">
+				and o.merchant_id = #{merchantId}
+		</if> 
+		order by oi.create_time
+  </select>
+  <select id="getOrderInforByOrderId" resultMap="OrderInforResultMap">
+  	select  
+  	  		oi.id as in_id,
+  			oi.order_id as in_order_id,
+  			p.goods_id as in_goods_id,
+  			g.name as in_goods_name,
+  			g.description_img1_url as in_description_img1_url,
+  			oi.price_id as in_price_id,
+  			oi.class_details as in_class_details,
+  			oi.num as in_num,
+  			oi.price as in_price,
+  			oi.total_prices as in_total_prices,
+  			oi.evaluate_status as in_evaluate_status,
+  			oi.deleted as in_deleted,
+  			oi.create_time as in_create_time  			
+		from  t_order_information  oi
+		JOIN t_order o on oi.order_id = o.id
+		JOIN t_price p on p.id = oi.price_id
+		JOIN t_goods g on g.id = p.goods_id
+		where o.deleted = 0
+		and oi.deleted = 0
+		and oi.order_id = #{id}
+		order by oi.create_time
+  </select>
+</mapper>
