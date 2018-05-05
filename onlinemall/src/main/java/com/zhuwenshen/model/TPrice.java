@@ -26,7 +26,7 @@ public class TPrice {
      * 剩余数量
      */
     private Integer num;
-    
+
     /**
      * 售出数量
      */
@@ -136,6 +136,24 @@ public class TPrice {
     }
 
     /**
+     * 获取售出数量
+     *
+     * @return sold_num - 售出数量
+     */
+    public Integer getSoldNum() {
+        return soldNum;
+    }
+
+    /**
+     * 设置售出数量
+     *
+     * @param soldNum 售出数量
+     */
+    public void setSoldNum(Integer soldNum) {
+        this.soldNum = soldNum;
+    }
+
+    /**
      * 获取单价
      *
      * @return price - 单价
@@ -242,13 +260,4 @@ public class TPrice {
     public void setUpdateUserid(String updateUserid) {
         this.updateUserid = updateUserid == null ? null : updateUserid.trim();
     }
-
-	public Integer getSoldNum() {
-		return soldNum;
-	}
-
-	public void setSoldNum(Integer soldNum) {
-		this.soldNum = soldNum;
-	}
-    
 }

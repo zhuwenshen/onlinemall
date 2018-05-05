@@ -9,5 +9,10 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="passworld" jdbcType="VARCHAR" property="passworld" />
     <result column="sex" jdbcType="BIT" property="sex" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_userid" jdbcType="CHAR" property="createUserid" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_userid" jdbcType="CHAR" property="updateUserid" />
   </resultMap>
 </mapper>

@@ -542,12 +542,4 @@ public class TUser {
     public void setUpdateUserid(String updateUserid) {
         this.updateUserid = updateUserid == null ? null : updateUserid.trim();
     }
-
-	@Override
-	public String toString() {
-		return "TUser [id=" + id + ", name=" + name + ", realName=" + realName + ", userType=" + userType + ", loginId="
-				+ loginId + ", frozen=" + frozen + ", unfreezingTime=" + unfreezingTime + ", deleted=" + deleted + "]";
-	}
-    
-    
 }

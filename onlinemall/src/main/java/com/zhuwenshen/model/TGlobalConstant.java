@@ -305,14 +305,4 @@ public class TGlobalConstant {
     public void setUpdateUserid(String updateUserid) {
         this.updateUserid = updateUserid == null ? null : updateUserid.trim();
     }
-
-	@Override
-	public String toString() {
-		return "TGlobalConstant [id=" + id + ", kind=" + kind + ", kindName=" + kindName + ", name=" + name
-				+ ", nameCn=" + nameCn + ", value1=" + value1 + ", useful=" + useful + ", remake=" + remake
-				+ ", deleted=" + deleted + ", createTime=" + createTime + ", createUserid=" + createUserid
-				+ ", updateTime=" + updateTime + ", updateUserid=" + updateUserid + "]";
-	}
-    
-    
 }

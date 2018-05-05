@@ -22,7 +22,7 @@ public class TIdentifiedInforOfMerchant {
     private String merchantInformationId;
 
     /**
-     * 认证流程;1用户申请 2管理员审批 
+     * 认证流程;1用户申请 2管理员审批 3通过 4失败
      */
     @Column(name = "certification_workflow")
     private Integer certificationWorkflow;
@@ -172,18 +172,18 @@ public class TIdentifiedInforOfMerchant {
     }
 
     /**
-     * 获取审批结果类型;1通过 2失败
+     * 获取审批结果类型;0未审核1通过 2失败
      *
-     * @return approval_type - 审批结果类型;1通过 2失败
+     * @return approval_type - 审批结果类型;0未审核1通过 2失败
      */
     public Integer getApprovalType() {
         return approvalType;
     }
 
     /**
-     * 设置审批结果类型;1通过 2失败
+     * 设置审批结果类型;0未审核1通过 2失败
      *
-     * @param approvalType 审批结果类型;1通过 2失败
+     * @param approvalType 审批结果类型;0未审核1通过 2失败
      */
     public void setApprovalType(Integer approvalType) {
         this.approvalType = approvalType;
@@ -192,7 +192,7 @@ public class TIdentifiedInforOfMerchant {
     /**
      * 获取审批结果;对审批的结果描述
      *
-     * @return approval_ result - 审批结果;对审批的结果描述
+     * @return approval_result - 审批结果;对审批的结果描述
      */
     public String getApprovalResult() {
         return approvalResult;

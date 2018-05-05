@@ -80,7 +80,7 @@ public class TGoodsPrice {
     }
 
     /**
-     * @param goodsPriceId
+     * @param priceId
      */
     public void setPriceId(String priceId) {
         this.priceId = priceId == null ? null : priceId.trim();

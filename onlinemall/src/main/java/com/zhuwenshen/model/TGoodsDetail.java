@@ -244,7 +244,7 @@ public class TGoodsDetail {
     /**
      * 获取描述图片3
      *
-     * @return description_img3_ur - 描述图片3
+     * @return description_img3_url - 描述图片3
      */
     public String getDescriptionImg3Url() {
         return descriptionImg3Url;
@@ -253,7 +253,7 @@ public class TGoodsDetail {
     /**
      * 设置描述图片3
      *
-     * @param descriptionImg3Ur 描述图片3
+     * @param descriptionImg3Url 描述图片3
      */
     public void setDescriptionImg3Url(String descriptionImg3Url) {
         this.descriptionImg3Url = descriptionImg3Url == null ? null : descriptionImg3Url.trim();

@@ -244,7 +244,7 @@ public class TGoods {
     /**
      * 获取上架时间
      *
-     * @return shelve _time - 上架时间
+     * @return shelve_time - 上架时间
      */
     public Date getShelveTime() {
         return shelveTime;

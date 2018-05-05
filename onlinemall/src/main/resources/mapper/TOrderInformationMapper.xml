@@ -12,6 +12,7 @@
     <result column="num" jdbcType="INTEGER" property="num" />
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="total_prices" jdbcType="DECIMAL" property="totalPrices" />
+    <result column="evaluate_status" jdbcType="INTEGER" property="evaluateStatus" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_userid" jdbcType="CHAR" property="createUserid" />

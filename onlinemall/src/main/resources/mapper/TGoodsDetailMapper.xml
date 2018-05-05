@@ -12,7 +12,7 @@
     <result column="detail" jdbcType="VARCHAR" property="detail" />
     <result column="description_img1_url" jdbcType="VARCHAR" property="descriptionImg1Url" />
     <result column="description_img2_url" jdbcType="VARCHAR" property="descriptionImg2Url" />
-    <result column="description_img3_url" jdbcType="VARCHAR" property="descriptionImg3Ur" />
+    <result column="description_img3_url" jdbcType="VARCHAR" property="descriptionImg3Url" />
     <result column="description_img4_url" jdbcType="VARCHAR" property="descriptionImg4Url" />
     <result column="description_img5_url" jdbcType="VARCHAR" property="descriptionImg5Url" />
     <result column="description_img6_url" jdbcType="VARCHAR" property="descriptionImg6Url" />
