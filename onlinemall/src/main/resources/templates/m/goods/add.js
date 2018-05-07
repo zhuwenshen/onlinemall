@@ -14,7 +14,11 @@ $(function(){
 	
 	
 	$("#add_label_btn").click(function(){
-		$(this).before('<input class="form-control" placeholder="商品标签" name="label" >');
+		$(this).before('<div class="form-inline">'
+           		+'<input class="form-control" placeholder="商品标签" required="required" onclick="updateGoodsLabel(this);">  '                                         
+           		+'<input type="hidden" name="label" >'
+           		+'<input class="btn btn-danger btn-xs" type="button" onclick="deleteLabel(this);" value="删除" >' 
+           		+'</div>');
 	});
 	
 	$("#descriptionImg1Url").click(addDescriptionImgUrl);
@@ -144,7 +148,7 @@ function queryChangedRecently(){
 		dataType: "json", // 预期服务器返回的数据类型
 		url: ms.path + "/m/goods/queryChangedRecently", // url
 		success: function(result) {
-			console.log(result); // 打印服务端返回的数据(调试用)
+			//console.log(result); // 打印服务端返回的数据(调试用)
 			if(result.status) {
 				var tbodyHtml = "";
 				var list = result.data.list;
@@ -172,4 +176,33 @@ function queryChangedRecently(){
 
 		}
 	});
+}
+
+function updateGoodsLabel(e){
+	
+	var zm = zeroModal.show({
+        title: "修改标签",
+        url:ms.path +"/m/goods/updateGoodsLabel",
+        width:"500px",
+        height:"80%",
+        max:true,
+        onComplete:function(){
+        	$("#update_labelId").val($(e).next().val());
+        },
+        cancel:true,
+        cancelTitle:"取消",
+        ok:true,
+        okTitle: "保存",
+        okFn:okFn
+    });
+	
+	function okFn(){
+		$("#label_modelId").val(zm);
+		submitUpdateLabelForml(e);
+		return false;
+	}
+}
+
+function deleteLabel(e){
+	$(e).parent().remove();	
 }

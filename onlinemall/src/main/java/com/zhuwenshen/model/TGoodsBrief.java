@@ -13,8 +13,20 @@ public class TGoodsBrief {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
+    /**
+     * 商家id
+     */
+    @Column(name = "merchant_id")
+    private String merchantId;
+
     @Column(name = "goods_id")
     private String goodsId;
+
+    /**
+     * 商家名
+     */
+    @Column(name = "merchant_name")
+    private String merchantName;
 
     @Column(name = "goods_name")
     private String goodsName;
@@ -36,18 +48,6 @@ public class TGoodsBrief {
      */
     @Column(name = "goods_img")
     private String goodsImg;
-
-    /**
-     * 商家id
-     */
-    @Column(name = "merchant_id")
-    private String merchantId;
-
-    /**
-     * 商家名
-     */
-    @Column(name = "merchant_name")
-    private String merchantName;
 
     /**
      * 最小商品价格
@@ -127,6 +127,24 @@ public class TGoodsBrief {
     }
 
     /**
+     * 获取商家id
+     *
+     * @return merchant_id - 商家id
+     */
+    public String getMerchantId() {
+        return merchantId;
+    }
+
+    /**
+     * 设置商家id
+     *
+     * @param merchantId 商家id
+     */
+    public void setMerchantId(String merchantId) {
+        this.merchantId = merchantId == null ? null : merchantId.trim();
+    }
+
+    /**
      * @return goods_id
      */
     public String getGoodsId() {
@@ -138,6 +156,24 @@ public class TGoodsBrief {
      */
     public void setGoodsId(String goodsId) {
         this.goodsId = goodsId == null ? null : goodsId.trim();
+    }
+
+    /**
+     * 获取商家名
+     *
+     * @return merchant_name - 商家名
+     */
+    public String getMerchantName() {
+        return merchantName;
+    }
+
+    /**
+     * 设置商家名
+     *
+     * @param merchantName 商家名
+     */
+    public void setMerchantName(String merchantName) {
+        this.merchantName = merchantName == null ? null : merchantName.trim();
     }
 
     /**
@@ -206,42 +242,6 @@ public class TGoodsBrief {
      */
     public void setGoodsImg(String goodsImg) {
         this.goodsImg = goodsImg == null ? null : goodsImg.trim();
-    }
-
-    /**
-     * 获取商家id
-     *
-     * @return merchant_id - 商家id
-     */
-    public String getMerchantId() {
-        return merchantId;
-    }
-
-    /**
-     * 设置商家id
-     *
-     * @param merchantId 商家id
-     */
-    public void setMerchantId(String merchantId) {
-        this.merchantId = merchantId == null ? null : merchantId.trim();
-    }
-
-    /**
-     * 获取商家名
-     *
-     * @return merchant_name - 商家名
-     */
-    public String getMerchantName() {
-        return merchantName;
-    }
-
-    /**
-     * 设置商家名
-     *
-     * @param merchantName 商家名
-     */
-    public void setMerchantName(String merchantName) {
-        this.merchantName = merchantName == null ? null : merchantName.trim();
     }
 
     /**

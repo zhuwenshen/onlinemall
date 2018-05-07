@@ -71,8 +71,12 @@
                                         <div class="form-group">
                                         	<label class="col-sm-3 control-label">商品标签<font color="red">*</font></label>
                                             <div  class="col-sm-9">
-                                            <input class="form-control" placeholder="商品标签" name="label" required="required">                                           
-                                            <input class="btn btn-primary" type="button"   placeholder="添加标签" id="add_label_btn" value="添加标签">
+                                            <div class="form-inline">                                            
+                                           		<input class="form-control" placeholder="商品标签" required="required" onclick="updateGoodsLabel(this);">                                           
+                                            	<input type="hidden" name="label" >
+                                            	<input class="btn btn-danger btn-xs" type="button" onclick="deleteLabel(this);" value="删除" >
+                                            </div>
+                                            <input class="btn btn-primary" type="button"   placeholder="添加标签" id="add_label_btn" value="再添加一个标签" >
                                             </div>                                                                                     
                                         </div>
                                         
@@ -184,7 +188,7 @@
 		<div th:replace="cssAndJs::jsWhihMenu" >
 		</div> 	
 		<!-- js  end-->
-
+		
 		<script src="/onlinemall/static/js/m/merchant.js"></script>
 		<script src="add.js"></script>
 		

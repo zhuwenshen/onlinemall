@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhuwenshen.mapper.LabelMapperCustom">
+  <resultMap id="BaseResultMap" type="com.zhuwenshen.model.custom.QueryLabel">    
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="all_name" jdbcType="VARCHAR" property="allName" />
+    <result column="p_id" jdbcType="CHAR" property="pId" />
+        
+  </resultMap> 
+  
+  <select id="selectByPid" resultMap="BaseResultMap">
+  	select 
+  		l.id,
+  		l.name,
+  		l.all_name,
+  		l.p_id
+  	from t_label l
+  	where l.deleted = 0
+  	<if test="pid !=null and pid !=''">
+		AND l.p_id = #{pid}
+	</if>
+	<if test="pid ==null or pid ==''">
+		AND l.p_id is null
+	</if>
+  </select>  
+  
+  <select id="selectById" resultMap="BaseResultMap">
+  	select 
+  		l.id,
+  		l.name,
+  		l.all_name,
+  		l.p_id
+  	from t_label l
+  	where l.deleted = 0
+  	and l.id = #{id}
+  </select> 
+  
+   <select id="selectByPidAndName" resultMap="BaseResultMap">
+  	select 
+  		l.id,
+  		l.name,
+  		l.all_name,
+  		l.p_id
+  	from t_label l
+  	where l.deleted = 0
+  	<if test="pid !=null and pid !=''">
+		AND l.p_id = #{pid}
+	</if>
+	<if test="pid ==null or pid ==''">
+		AND l.p_id is null
+	</if>
+	<if test="myName !=null and myName !=''">
+		AND l.name = #{myName}
+	</if>
+	limit 1
+  </select>
+</mapper>

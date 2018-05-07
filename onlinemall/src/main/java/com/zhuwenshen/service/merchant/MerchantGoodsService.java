@@ -95,6 +95,10 @@ public class MerchantGoodsService {
 			return JsonResult.fail("商品名不能为没有描述图片");
 		}
 		
+		if(goods.getLabel() == null || goods.getLabel().length ==0) {
+			return JsonResult.fail("商品不能没有标签");
+		}
+		
 		goods.setMerchantInformationId(user.getMerchantId());
 		if(goods.getShelveTime() == null) {
 			goods.setShelveTime(new Date());
@@ -143,11 +147,9 @@ public class MerchantGoodsService {
 		goodsMapper.insertSelective(g);
 		
 		//添加商品标签
-		JsonResult json = this.addGoodsLable(user, g.getId(), goods.getLabel());
-		if(!json.isStatus()) {
-			throw new JsonResultException(json);
-		}
-		
+		this.addGoodsLable(user, g.getId(), goods.getLabel());
+	
+		JsonResult json = null;
 		//添加商品详情
 		json = addGoodsDetail(user, g.getId(), goods);
 		if(!json.isStatus()) {
@@ -163,15 +165,17 @@ public class MerchantGoodsService {
 	 * @param goodsId
 	 * @param labels
 	 * @return
+	 * @throws JsonResultException 
 	 */	
-	public JsonResult addGoodsLable(User user, String goodsId, String[] labels) {
+	@Transactional
+	public JsonResult addGoodsLable(User user, String goodsId, String[] labels) throws JsonResultException {
 		//检查参数
 		if(StringUtils.isEmpty(goodsId)) {
-			return JsonResult.fail("商品id不能为空");
+			throw new JsonResultException(JsonResult.fail("商品id不能为空"));
 		}
 		
 		if(labels == null || labels.length <= 0) {
-			return JsonResult.fail("商品标签不能为空");
+			throw new JsonResultException(JsonResult.fail("商品标签不能为空"));			
 		}
 		//检查商品是否属于当前商家
 		TGoods g = new TGoods();
@@ -182,7 +186,7 @@ public class MerchantGoodsService {
 		Integer num = goodsMapper.selectCount(g);
 		
 		if(num<=0) {
-			return JsonResult.fail("该商品不属于本商家");
+			throw new JsonResultException(JsonResult.fail("该商品不属于本商家"));	
 		}		
 		
 		//检查label关系是否存在并添加		
@@ -199,19 +203,17 @@ public class MerchantGoodsService {
 	 * 更改商品的标签
 	 * @param user
 	 * @param goodsId
-	 * @param labels
+	 * @param labelIds
 	 * @return
+	 * @throws JsonResultException 
 	 */
-	public JsonResult updateGoodsLable(User user, String goodsId, String[] labels) {
+	public JsonResult updateGoodsLable(User user, String goodsId, String[] labelIds) throws JsonResultException {
 		
-		JsonResult json = this.addGoodsLable(user, goodsId, labels);
+		this.addGoodsLable(user, goodsId, labelIds);		
 		
-		if(!json.isStatus()) {
-			return json;
-		}
 		
 		//删除不需要的标签
-		Integer num = merchantGoodsLabelService.deleteGoodsLabelNotInLabels(goodsId, labels);
+		Integer num = merchantGoodsLabelService.deleteGoodsLabelNotInLabels(goodsId, labelIds);
 		
 		return JsonResult.ok("更新成功" , num);
 	}
@@ -458,6 +460,10 @@ public class MerchantGoodsService {
 		
 		if(StringUtils.isEmpty(goods.getDescriptionImg1Url())) {
 			return JsonResult.fail("商品名不能为没有描述图片");
+		}
+		
+		if(goods.getLabel() == null || goods.getLabel().length ==0) {
+			return JsonResult.fail("商品不能没有标签");
 		}
 		
 		goods.setMerchantInformationId(user.getMerchantId());

@@ -9,18 +9,18 @@ import org.springframework.util.StringUtils;
 import com.zhuwenshen.mapper.MerchantGoodsLabelMapperCustom;
 import com.zhuwenshen.mapper.MerchantGoodsMapperCustom;
 import com.zhuwenshen.mapper.TGoodsLabelMapper;
+import com.zhuwenshen.mapper.TLabelMapper;
 import com.zhuwenshen.model.TGoodsLabel;
 import com.zhuwenshen.model.TLabel;
-import com.zhuwenshen.service.LabelService;
 
 @Service
 public class MerchantGoodsLabelService {
 
 	@Autowired
 	private TGoodsLabelMapper goodsLabelMapper;
-	
+		
 	@Autowired
-	private LabelService lableService;
+	private TLabelMapper labelMapper;
 	
 	@Autowired
 	private MerchantGoodsMapperCustom mgmc;
@@ -31,15 +31,22 @@ public class MerchantGoodsLabelService {
 	/**
 	 * 给商品添加标签
 	 * @param goodsId
-	 * @param name
+	 * @param labelId
 	 */
-	public void addGoodsLabel(String goodsId , String name) {
+	public void addGoodsLabel(String goodsId , String labelId) {
 		if(StringUtils.isEmpty(goodsId)) {
 			return ;
 		}
 		
-		TLabel label =  lableService.getLabelByName(name);
+		if(StringUtils.isEmpty(labelId)) {
+			return;
+		}
+		
+		TLabel label =  labelMapper.selectByPrimaryKey(labelId);
 		if(label == null) {			
+			return;
+		}
+		if(label.getDeleted()) {
 			return;
 		}
 		
@@ -67,10 +74,11 @@ public class MerchantGoodsLabelService {
 	/**
 	 * 删除不存在的标签
 	 * @param goodsId
-	 * @param labels
+	 * @param labelIds
 	 * @return 
 	 */
-	public Integer deleteGoodsLabelNotInLabels(String goodsId, String[] labels) {
-		return  mglmc.deleteGoodsLabelNotInLabels(goodsId, labels);		
+	public Integer deleteGoodsLabelNotInLabels(String goodsId, String[] labelIds) {
+		//return  mglmc.deleteGoodsLabelNotInLabels(goodsId, labels);		
+		return  mglmc.deleteGoodsLabelNotInLabelIds(goodsId, labelIds);	
 	}
 }

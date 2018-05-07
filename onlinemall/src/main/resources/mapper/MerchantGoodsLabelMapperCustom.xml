@@ -18,6 +18,20 @@
 		 </foreach>    	
 	 	   	       
 	</delete>
+	
+	<delete  id="deleteGoodsLabelNotInLabelIds">	  	
+  	 delete 
+  	 	gl
+  	 from 
+  	 	t_goods_label gl  
+    where 
+    	gl.deleted = '0'
+     	and gl.goods_id = #{goodsId}
+    	<foreach item="item" open=" and gl.label_id not in ( " close=")" collection="labelIds" separator=",">		          	
+				      	#{item}		          
+		 </foreach>    	
+	 	   	       
+	</delete>
   	
   
 </mapper>

@@ -59,7 +59,11 @@ public class MerchantGoodsController {
 	@PostMapping("/m/goods/addGoodsLable")
 	@ResponseBody
 	public JsonResult addGoodsLable(@SessionAttribute("user") User user, String	 goodsId, String[] label) {
-		return mgs.addGoodsLable(user, goodsId, label);
+		try {
+			return mgs.addGoodsLable(user, goodsId, label);
+		} catch (JsonResultException e) {
+			return e.getJson();
+		}
 		
 	}
 	
@@ -106,5 +110,10 @@ public class MerchantGoodsController {
 	@ResponseBody
 	public JsonResult deleteGoods(@SessionAttribute("user") User user, String id) {
 		return mgs.deleteGoods(user , id);
+	}
+	
+	@GetMapping("/m/goods/updateGoodsLabel")
+	public String updateGoodsLabel() {
+		return "/m/goods/label";
 	}
 }

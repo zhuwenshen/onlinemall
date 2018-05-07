@@ -142,12 +142,21 @@ function initGoods(){
 				var i = 0;
 				var label = data.labelList; 
 				if(!label.length){
-					$("#add_label_btn").before('<input class="form-control" placeholder="商品标签" name="label" >');
+					$("#add_label_btn").before('<div class="form-inline">'
+	           		+'<input class="form-control" placeholder="商品标签" required="required" onclick="updateGoodsLabel(this);">  '                                         
+	           		+'<input type="hidden" name="label" >'
+	           		+'<input class="btn btn-danger btn-xs" type="button" onclick="deleteLabel(this);" value="删除" >' 
+	           		+'</div>');
 				}
 				
 				var labelHtml = "";
 				for(i = 0;i<label.length;i++) {
-					labelHtml= labelHtml+ '<input class="form-control" placeholder="商品标签" name="label" value="'+label[i].name+'" >';
+					labelHtml= labelHtml+ '<div class="form-inline">'
+	           		+'<input class="form-control" placeholder="商品标签" value="'+label[i].allName+'" required="required" onclick="updateGoodsLabel(this);">  '                                         
+	           		+'<input type="hidden" name="label" value="'+label[i].id+'">'
+	           		+'<input class="btn btn-danger btn-xs" type="button" onclick="deleteLabel(this);" value="删除" >' 
+	           		+'</div>';
+					//labelHtml= labelHtml+ '<input class="form-control" placeholder="商品标签" name="label" value="'+label[i].allName+'" >';
 				}
 				$("#add_label_btn").before(labelHtml);
 				
@@ -228,4 +237,33 @@ function initGoods(){
 
 		}
 	});
+}
+
+function updateGoodsLabel(e){
+	
+	var zm = zeroModal.show({
+        title: "修改标签",
+        url:ms.path +"/m/goods/updateGoodsLabel",
+        width:"500px",
+        height:"80%",
+        max:true,
+        onComplete:function(){
+        	$("#update_labelId").val($(e).next().val());
+        },
+        cancel:true,
+        cancelTitle:"取消",
+        ok:true,
+        okTitle: "保存",
+        okFn:okFn
+    });
+	
+	function okFn(){
+		$("#label_modelId").val(zm);
+		submitUpdateLabelForml(e);
+		return false;
+	}
+}
+
+function deleteLabel(e){
+	$(e).parent().remove();	
 }

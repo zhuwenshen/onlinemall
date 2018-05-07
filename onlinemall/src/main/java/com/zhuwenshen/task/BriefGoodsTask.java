@@ -17,7 +17,7 @@ public class BriefGoodsTask {
 	 * 提取goods简要信息
 	 */
 	//@Async
-	@Scheduled(cron = "0/10 * * * * ?") //每10秒执行一次
+	//@Scheduled(cron = "0/10 * * * * ?") //每10秒执行一次
     public void brief() {
 		try {
 			service.brief();
@@ -31,7 +31,7 @@ public class BriefGoodsTask {
 	 * @throws Exception
 	 */
 	//@Async
-	@Scheduled(cron = "0 0 0 * * ? ") //每天零点秒执行一次
+	//@Scheduled(cron = "0 0 0 * * ? ") //每天零点秒执行一次
     public void briefAll() throws Exception {
 		try {
 			service.briefAll();

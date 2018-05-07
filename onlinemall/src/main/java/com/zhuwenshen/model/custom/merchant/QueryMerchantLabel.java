@@ -5,6 +5,8 @@ public class QueryMerchantLabel {
 	private String id;
 	
 	private String name;
+	
+	private String allName;
 
 	public String getId() {
 		return id;
@@ -20,6 +22,14 @@ public class QueryMerchantLabel {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getAllName() {
+		return allName;
+	}
+
+	public void setAllName(String allName) {
+		this.allName = allName;
 	}
 
 	@Override

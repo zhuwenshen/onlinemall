@@ -80,7 +80,7 @@
   <select id="selectGoodsLabel" resultType="java.lang.String">
   	SELECT
 		group_concat(
-			DISTINCT l.`name` SEPARATOR ' '
+			DISTINCT l.`all_name` SEPARATOR ' '
 		) 
 	FROM
 		t_goods_label gl

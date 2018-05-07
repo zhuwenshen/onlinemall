@@ -7,6 +7,7 @@
     -->
     <id column="id" jdbcType="CHAR" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="all_name" jdbcType="VARCHAR" property="allName" />
     <result column="p_id" jdbcType="CHAR" property="pId" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />

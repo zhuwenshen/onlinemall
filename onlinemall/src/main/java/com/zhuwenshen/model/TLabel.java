@@ -11,6 +11,12 @@ public class TLabel {
 
     private String name;
 
+    /**
+     * 所有标签的名称（包括自身，空格隔开）
+     */
+    @Column(name = "all_name")
+    private String allName;
+
     @Column(name = "p_id")
     private String pId;
 
@@ -69,6 +75,24 @@ public class TLabel {
      */
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    /**
+     * 获取所有标签的名称（包括自身，空格隔开）
+     *
+     * @return all_name - 所有标签的名称（包括自身，空格隔开）
+     */
+    public String getAllName() {
+        return allName;
+    }
+
+    /**
+     * 设置所有标签的名称（包括自身，空格隔开）
+     *
+     * @param allName 所有标签的名称（包括自身，空格隔开）
+     */
+    public void setAllName(String allName) {
+        this.allName = allName == null ? null : allName.trim();
     }
 
     /**

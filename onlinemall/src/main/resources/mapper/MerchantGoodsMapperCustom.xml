@@ -19,7 +19,8 @@
   
   <resultMap id="GoodsLabelResultMap" type="com.zhuwenshen.model.custom.merchant.QueryMerchantLabel">    
     <id column="id" jdbcType="CHAR" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />    
+    <result column="name" jdbcType="VARCHAR" property="name" />   
+     <result column="all_name" jdbcType="VARCHAR" property="allName" />   
   </resultMap>
   
   
@@ -172,7 +173,8 @@
   	<select id="selectGoodsLabel"	resultMap="GoodsLabelResultMap">		
  	select distinct
  		l.id ,
- 		l.name 		
+ 		l.name,
+ 		l.all_name 		
  	FROM 		 						
      	t_goods_label gl,
      	t_label l,

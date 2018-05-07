@@ -1,0 +1,192 @@
+
+<style type="text/css">
+
+</style>
+<!-- <link href="/onlinemall/static/css/select-style.css" rel="stylesheet"> -->
+<div class="row" >
+	<div class="col-lg-12" >
+	<div >
+		<form role="form" id="update_label_form" class="form-horizontal" > 
+			<input type="hidden"  id="update_labelId"> 
+			<input	type="hidden" id="label_modelId">
+			
+			<div>
+				<div class="form-group">
+					<label for="name" class="col-sm-3 control-label"> 选择 1 级标签
+					<font color="red">*</font></label>
+					<div class="col-sm-9">					
+					    <select class="form-control" name="labelId1" id="addLabelId1" myValue="1" required="required">
+					        <option value=""></option>					        
+					    </select>
+					</div>				
+				</div>			
+			</div>
+			<!-- <div class="form-group">
+				<label class="col-sm-3 control-label">可附加的2级标签</label>
+				<div class="col-sm-9">
+					<input class="form-control" name="addLabelName" myValue="2">
+				</div>				
+			</div> -->
+			
+			<input class="col-sm-offset-2 btn btn-primary" type="button"  placeholder="添加下级标签" value="再添加一个标签" 
+			onclick="modalMoreLabel(this);" myValue="1" id="modal_more_label_btn">
+			
+			
+		</form>
+		</div>
+	</div>
+</div>
+<!-- /.row (nested) -->
+<!-- <script src="/onlinemall/static/js/jquery.custom-select.js"></script> -->
+
+<script type="text/javascript">
+$(function(){
+	var label = $("#update_labelId").val();
+	init1Level();	
+});
+
+function init1Level(){
+	var loadingUnique = zeroModal.loading(3);
+	$.ajax({
+		type: "GET", // 方法类型
+		dataType: "json", // 预期服务器返回的数据类型
+		url: ms.path + "/label/get1Level", // url		
+		success: function(result) {
+			console.log(result); // 打印服务端返回的数据(调试用)
+			if(result.status) {
+				//console.log(result.data);
+				var selectHtml = "";
+				var list = result.data;
+				var i = 0;		
+				
+				selectHtml = selectHtml + "<option value=''></option>";
+				for(i = 0; i < list.length; i++) {
+					
+					selectHtml = selectHtml + 
+					"<option value='"+list[i].id+"' >"+list[i].name+"</option>"; 
+					
+				}
+
+				$('#update_label_form select[myValue="1"]').html(selectHtml);	
+				initLabelValue();
+				
+			} else {
+				
+				zeroModal.error(result.msg);
+
+			}
+			zeroModal.close(loadingUnique);
+		},
+		error: function() {	
+			zeroModal.close(loadingUnique);
+			zeroModal.error("服务器异常！");
+
+		}
+	});
+}
+
+function modalMoreLabel(e){
+	var html = "";
+	var myValue = $(e).attr("myValue");
+	myValue = parseInt(myValue) +1;
+	//alert(myValue);
+	html = '<div class="form-group">'
+			+'<label class="col-sm-3 control-label">可附加的'+myValue+'级标签</label>'
+			+'<div class="col-sm-9">'
+			+'<input class="form-control" name="addLabelName" id="goodsDescription" myValue="2">'
+			+'</div>'				
+			+'</div>';
+	$(e).attr("myValue",myValue);
+	$(e).before(html);
+}
+
+function submitUpdateLabelForml(e){
+	var addLabelId1 = $("#addLabelId1").val();
+	if(!addLabelId1){
+		zeroModal.error("一级标签不能为空");
+		return;
+	}
+	
+	//加载模态
+	var loadingUnique = zeroModal.loading(3);
+	$.ajax({
+		type: "POST", // 方法类型
+		dataType: "json", // 预期服务器返回的数据类型
+		url: ms.path + "/label/add", // url
+		data: $("#update_label_form").serialize(),
+		success: function(result) {
+			//console.log(result)
+			if(result.status) {
+				var data = result.data;
+				
+				zeroModal.success(result.msg);
+				zeroModal.close(loadingUnique);
+				$(e).val(data.allName);
+				//再赋值id
+				$(e).next().val(data.id);
+				zeroModal.close($("#label_modelId").val());			
+			} else {
+				zeroModal.close(loadingUnique);
+				zeroModal.error(result.msg);
+
+			}
+		},
+		error: function() {	
+			zeroModal.close(loadingUnique);
+			zeroModal.error("服务器异常！");
+
+		}
+	});
+}
+
+function initLabelValue(){
+	var update_labelId = $("#update_labelId").val();
+	if(!update_labelId) {
+		return;
+	}
+	//加载模态
+	var loadingUnique = zeroModal.loading(3);
+	$.ajax({
+		type: "GET", // 方法类型
+		dataType: "json", // 预期服务器返回的数据类型
+		url: ms.path + "/label/getLabel/"+update_labelId, // url		
+		success: function(result) {
+			//console.log(result); // 打印服务端返回的数据(调试用)
+			if(result.status) {						
+				var data  = result.data;
+				if(data){
+					$('#update_label_form select option[value="'+data.id+'"]').prop("selected",true);	
+					data = data.child;
+					var html = "";
+					var myValue = 1;
+					while(data) {
+						myValue++;
+						html = html+'<div class="form-group">'
+							+'<label class="col-sm-3 control-label">可附加的'+myValue+'级标签</label>'
+							+'<div class="col-sm-9">'
+							+'<input class="form-control" name="addLabelName" id="goodsDescription" myValue="2" value="'+data.name+'">'
+							+'</div>'				
+							+'</div>';
+						
+						data = data.child;
+					}
+				}
+				
+				$("#modal_more_label_btn").attr("myValue",myValue);
+				$("#modal_more_label_btn").before(html);
+			}
+			
+			zeroModal.close(loadingUnique);
+			
+		},
+		error: function() {	
+			zeroModal.close(loadingUnique);
+			zeroModal.error("服务器异常！");
+
+		}
+	});
+}
+</script>
+
+
+
