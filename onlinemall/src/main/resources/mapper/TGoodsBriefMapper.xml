@@ -7,16 +7,22 @@
     -->
     <id column="id" jdbcType="CHAR" property="id" />
     <result column="goods_id" jdbcType="CHAR" property="goodsId" />
-    <result column="latest_time" jdbcType="DATE" property="latestTime" />
-    <result column="sold_order_num" jdbcType="INTEGER" property="soldOrderNum" />
-    <result column="success_num" jdbcType="INTEGER" property="successNum" />
-    <result column="fali_num" jdbcType="INTEGER" property="faliNum" />
-    <result column="avg_score" jdbcType="DOUBLE" property="avgScore" />
-    <result column="last_mon_time" jdbcType="DATE" property="lastMonTime" />
-    <result column="mon_sold_num" jdbcType="INTEGER" property="monSoldNum" />
     <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="goods_label" jdbcType="VARCHAR" property="goodsLabel" />
     <result column="goods_des" jdbcType="VARCHAR" property="goodsDes" />
     <result column="goods_img" jdbcType="VARCHAR" property="goodsImg" />
+    <result column="merchant_id" jdbcType="CHAR" property="merchantId" />
+    <result column="merchant_name" jdbcType="VARCHAR" property="merchantName" />
     <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="latest_time" jdbcType="DATE" property="latestTime" />
+    <result column="order_sold_num" jdbcType="INTEGER" property="orderSoldNum" />
+    <result column="order_success_num" jdbcType="INTEGER" property="orderSuccessNum" />
+    <result column="order_fail_num" jdbcType="INTEGER" property="orderFailNum" />
+    <result column="avg_score" jdbcType="DOUBLE" property="avgScore" />
+    <result column="sold_num" jdbcType="INTEGER" property="soldNum" />
+    <result column="success_num" jdbcType="INTEGER" property="successNum" />
+    <result column="fail_num" jdbcType="INTEGER" property="failNum" />
+    <result column="last_mon_time" jdbcType="DATE" property="lastMonTime" />
+    <result column="mon_sold_num" jdbcType="INTEGER" property="monSoldNum" />
   </resultMap>
 </mapper>

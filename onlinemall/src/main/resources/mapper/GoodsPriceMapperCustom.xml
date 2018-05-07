@@ -10,15 +10,24 @@
     <result column="num" jdbcType="INTEGER" property="num" />
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
+    <collection property="detailList" column="id" javaType="ArrayList" 
+                ofType="com.zhuwenshen.model.custom.ClassDetail" select="getClassDetailByPriceId"/>
     
-    <collection property="detailList" ofType="com.zhuwenshen.model.custom.ClassDetail">
+    <!-- <collection property="detailList" ofType="com.zhuwenshen.model.custom.ClassDetail">
       	<id column="cd_id" jdbcType="CHAR" property="id" />
       	<result column="cd_class_name" jdbcType="VARCHAR" property="className" />
 	    <result column="cd_class_id" jdbcType="CHAR" property="classId" />
 	    <result column="cd_name" jdbcType="VARCHAR" property="name" />
 	    <result column="cd_sort" jdbcType="INTEGER" property="sort" />
-    </collection>     
+    </collection>  -->    
   </resultMap>
+  <resultMap id="ClassDetailResultMap" type="com.zhuwenshen.model.custom.ClassDetail">  
+  		<id column="cd_id" jdbcType="CHAR" property="id" />
+      	<result column="cd_class_name" jdbcType="VARCHAR" property="className" />
+	    <result column="cd_class_id" jdbcType="CHAR" property="classId" />
+	    <result column="cd_name" jdbcType="VARCHAR" property="name" />
+	    <result column="cd_sort" jdbcType="INTEGER" property="sort" />
+  </resultMap> 
   
   
   <select id="selectPriceByGoodsAndClass" resultType="java.lang.String">
@@ -68,8 +77,7 @@
   		p.all_num ,
   		p.sold_num,
   		p.num ,
-  		p.price ,
-  		p.id ,
+  		p.price ,  		
   		cd.id as cd_id,
   		cd.class_id as cd_class_id,
   		gc.name as cd_class_name,
@@ -128,12 +136,12 @@
   		p3.all_num ,
   		p3.sold_num,
   		p3.num ,
-  		p3.price ,
-  		p3.id ,
+  		p3.price <!--,
+  		p3.id  ,
   		cd3.id as cd_id,
   		cd3.class_id as cd_class_id,
   		cd3.name as cd_name,
-  		cd3.sort as cd_sort  		
+  		cd3.sort as cd_sort   -->		
 	from t_price p3
 	JOIN (<include refid="priceIdSql"/>) r3 on r3.id = p3.id
 	LEFT JOIN t_goods_price gp3 on p3.id = gp3.price_id
@@ -144,6 +152,20 @@
 	and (gp3.deleted = 0 or (gp3.id IS NULL and gp3.deleted is null))
 	order by p3.id desc ,gc3.sort
 	
+  </select>
+  
+   <select id="getClassDetailByPriceId" resultMap="ClassDetailResultMap">
+  	select  		
+  		cd3.id as cd_id,
+  		cd3.class_id as cd_class_id,
+  		cd3.name as cd_name,
+  		cd3.sort as cd_sort  		
+	from t_goods_class_detail cd3	
+	JOIN t_goods_price gp3 on cd3.id = gp3.class_detail_id	
+	<!-- JOIN t_goods_class gc3 on gc3.id = cd3.class_id -->
+	WHERE 
+		cd3.deleted = 0
+	and gp3.price_id = #{id}		
   </select>
   
 </mapper>

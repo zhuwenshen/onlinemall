@@ -41,14 +41,18 @@ public class InsertSqlAspect {
 	public void deBefore(JoinPoint joinPoint) {		
 		
 		// 接收到请求，记录请求内容
-		Object ob = joinPoint.getArgs()[0];
-		if (List.class.isInstance(ob)) {
-			List<?> list = (List<?>) ob;
-			for (int i = 0; i < list.size(); i++) {
-				setValue(list.get(i), joinPoint);
+		try {
+			Object ob = joinPoint.getArgs()[0];
+			if (List.class.isInstance(ob)) {
+				List<?> list = (List<?>) ob;
+				for (int i = 0; i < list.size(); i++) {
+					setValue(list.get(i), joinPoint);
+				}
+			} else {
+				setValue(ob, joinPoint);
 			}
-		} else {
-			setValue(ob, joinPoint);
+		} catch (Exception e) {
+			log.error("插入拦截异常");
 		}
 
 	}

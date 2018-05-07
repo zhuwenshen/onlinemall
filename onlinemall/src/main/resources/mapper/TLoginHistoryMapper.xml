@@ -18,24 +18,5 @@
     <result column="create_userid" jdbcType="CHAR" property="createUserid" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="update_userid" jdbcType="CHAR" property="updateUserid" />
-  </resultMap>
-   <resultMap id="BaseResultMap" type="com.zhuwenshen.model.TLoginHistory">
-    <id column="id" jdbcType="CHAR" property="id" />
-    <result column="user_id" jdbcType="CHAR" property="userId" />
-    <result column="client_type" jdbcType="INTEGER" property="clientType" />
-    <result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />
-    <result column="token" jdbcType="VARCHAR" property="token" />
-    <result column="ip" jdbcType="VARCHAR" property="ip" />
-    <result column="location" jdbcType="VARCHAR" property="location" />
-    <result column="useful" jdbcType="BIT" property="deleted" />
-    <result column="deleted" jdbcType="BIT" property="deleted" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="create_userid" jdbcType="CHAR" property="createUserid" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="update_userid" jdbcType="CHAR" property="updateUserid" />
-  </resultMap>
-  
-  
-  
-  
+  </resultMap>  
 </mapper>

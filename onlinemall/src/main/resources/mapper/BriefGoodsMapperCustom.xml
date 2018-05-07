@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhuwenshen.mapper.BriefGoodsMapperCustom">
+  <insert id="insertAll">
+  	INSERT INTO t_task_goods_index(id)
+	SELECT g.id
+	from t_goods g
+	WHERE g.deleted = 0
+	and unshelve = 0
+  </insert>
+  
+  <delete id="deleteAll">
+  	delete from t_task_goods_index
+  </delete>
+  
+  <select id="selectOrderNum" resultType="java.lang.Integer">
+  	SELECT 
+		count(*) as num
+	FROM t_order_information oi
+	JOIN t_order o on oi.order_id = o.id
+	WHERE 
+		<foreach item="item" open=" oi.price_id in  ( " close=")" collection="priceIdList" separator=",">		          	
+			#{item}		          
+		</foreach> 
+	<if test="type != null and type == 1">
+	      
+	</if>
+	<if test="type != null and type == 2">
+	      and o.order_status in ( 6 , 7,9,10,12,13 ) 
+	</if>	 
+	<if test="type != null and type == 3">
+	      and o.order_status in ( 8 , 11,14)
+	</if> 
+  </select>
+  
+  <select id="selectGoodsNum" resultType="java.lang.Integer">
+  	SELECT 
+		sum(oi.num) as num
+	FROM t_order_information oi
+	JOIN t_order o on oi.order_id = o.id
+	WHERE 
+		<foreach item="item" open=" oi.price_id in  ( " close=")" collection="priceIdList" separator=",">		          	
+			#{item}		          
+		</foreach> 
+	<if test="type != null and type == 1">
+	      
+	</if>
+	<if test="type != null and type == 2">
+	      and o.order_status in ( 6 , 7,9,10,12,13 ) 
+	</if>	 
+	<if test="type != null and type == 3">
+	      and o.order_status in ( 8 , 11,14)
+	</if>  
+  </select>
+  
+  <select id="selectMonSoldNum" resultType="java.lang.Integer">
+  	SELECT 
+		sum(oi.num) as num
+	FROM t_order_information oi
+	JOIN t_order o on oi.order_id = o.id
+	WHERE 
+		<foreach item="item" open=" oi.price_id in  ( " close=")" collection="priceIdList" separator=",">		          	
+			#{item}		          
+		</foreach> 
+	and o.order_status in ( 6 , 7,9,10,12,13 )
+	<![CDATA[  and oi.create_time <= #{today} ]]> 
+	<![CDATA[  and oi.create_time >= #{lastMonDate}  ]]> 	
+  </select>
+ 
+ 	<select id="selectAvgScore" resultType="java.lang.Double">
+  	SELECT 
+		AVG(e.score) as score
+	FROM t_order_information oi
+	JOIN t_evaluation  e on  e.order_infor_id = oi.id	
+	WHERE 
+		<foreach item="item" open=" oi.price_id in  ( " close=")" collection="priceIdList" separator=",">		          	
+			#{item}		          
+		</foreach> 	
+  </select>
+  <select id="selectGoodsLabel" resultType="java.lang.String">
+  	SELECT
+		group_concat(
+			DISTINCT l.`name` SEPARATOR ' '
+		) 
+	FROM
+		t_goods_label gl
+	JOIN t_label l on l.id = gl.label_id
+	WHERE
+		goods_id = #{goodsId}
+	GROUP BY
+		goods_id;
+  </select>
+</mapper>
