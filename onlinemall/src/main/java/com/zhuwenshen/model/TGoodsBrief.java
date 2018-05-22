@@ -109,6 +109,18 @@ public class TGoodsBrief {
     private Integer monSoldNum;
 
     /**
+     * 加权评分
+     */
+    @Column(name = "weight_score")
+    private Double weightScore;
+
+    /**
+     * 上架时间
+     */
+    @Column(name = "shelve_time")
+    private Date shelveTime;
+
+    /**
      * 获取goodsId
      *
      * @return id - goodsId
@@ -432,5 +444,41 @@ public class TGoodsBrief {
      */
     public void setMonSoldNum(Integer monSoldNum) {
         this.monSoldNum = monSoldNum;
+    }
+
+    /**
+     * 获取加权评分
+     *
+     * @return weight_score - 加权评分
+     */
+    public Double getWeightScore() {
+        return weightScore;
+    }
+
+    /**
+     * 设置加权评分
+     *
+     * @param weightScore 加权评分
+     */
+    public void setWeightScore(Double weightScore) {
+        this.weightScore = weightScore;
+    }
+
+    /**
+     * 获取上架时间
+     *
+     * @return shelve_time - 上架时间
+     */
+    public Date getShelveTime() {
+        return shelveTime;
+    }
+
+    /**
+     * 设置上架时间
+     *
+     * @param shelveTime 上架时间
+     */
+    public void setShelveTime(Date shelveTime) {
+        this.shelveTime = shelveTime;
     }
 }

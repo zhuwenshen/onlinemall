@@ -63,7 +63,7 @@ public class SqlUtils {
 		String rs = "{";
 		try {
 			long st = System.currentTimeMillis();
-			String json = JsonUtils.objectToJsonForRedisKey(boundSql.getParameterObject());
+			String json = JsonUtils.toJSONStringWithoutFilters(boundSql.getParameterObject());
 			System.out.println((System.currentTimeMillis()-st)+"ms，fastjson装换为redis key："+json);
 			rs+="["+boundSql.getSql()+"],";
 			rs+="["+shortParameterMappings(boundSql.getParameterMappings())+"],";

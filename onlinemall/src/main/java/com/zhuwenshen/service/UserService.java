@@ -2,9 +2,12 @@ package com.zhuwenshen.service;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -18,11 +21,13 @@ import org.springframework.util.StringUtils;
 import com.zhuwenshen.exception.RedisException;
 import com.zhuwenshen.mapper.TLoginHistoryMapper;
 import com.zhuwenshen.mapper.TLoginHistoryMapperCustom;
+import com.zhuwenshen.mapper.TLogoutHistoryMapper;
 import com.zhuwenshen.mapper.TMerchantInformationMapper;
 import com.zhuwenshen.mapper.TMerchantWaiterMapper;
 import com.zhuwenshen.mapper.TUserMapper;
 import com.zhuwenshen.mapper.TUserMapperCustom;
 import com.zhuwenshen.model.TLoginHistory;
+import com.zhuwenshen.model.TLogoutHistory;
 import com.zhuwenshen.model.TMerchantInformation;
 import com.zhuwenshen.model.TMerchantWaiter;
 import com.zhuwenshen.model.TUser;
@@ -31,6 +36,7 @@ import com.zhuwenshen.model.custom.User;
 import com.zhuwenshen.util.ConstantUtils;
 import com.zhuwenshen.util.ContextUtils;
 import com.zhuwenshen.util.DateFormatUtils;
+import com.zhuwenshen.util.GlobalSession;
 import com.zhuwenshen.util.MySid;
 import com.zhuwenshen.util.ValidResultUtils;
 
@@ -65,6 +71,9 @@ public class UserService {
 	
 	@Autowired
 	private TMerchantWaiterMapper merchantWaiterMapper;
+	
+	@Autowired
+	private TLogoutHistoryMapper logoutHistoryMapper;
 
 	private String contextPath = "";
 
@@ -324,6 +333,66 @@ public class UserService {
 		// TODO 这是权限url
 		// u.setUrls( );
 		return u;
+	}
+
+	@Transactional
+	public JsonResult logout(HttpServletResponse response, String ip) {
+		HttpSession session = GlobalSession.getHttpSession();
+		if(session == null) {
+			return JsonResult.ok("注销成功");
+		}
+		String token = (String) session.getAttribute("_token");
+		if(token == null) {
+			session.invalidate();
+			return JsonResult.ok("注销成功");
+		}
+		//删除redis
+		//redisService.deleteSession(token, ip);
+		
+		TLoginHistory lh2 = new TLoginHistory();	
+		lh2.setToken(token);
+		lh2.setUseful(true);
+		lh2.setDeleted(false);
+		lh2 = loginHistoryMapper.selectOne(lh2);
+		
+		
+		//删除数据库
+		// 更改以前的登录历史为无效
+		TLoginHistory lh = new TLoginHistory();	
+		lh.setUseful(false);
+		Example example = new Example(TLoginHistory.class);
+		Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("token", token);	
+		criteria.andEqualTo("useful", true);
+		loginHistoryMapper.updateByExampleSelective(lh, example);		
+		
+		//插入登出历史
+		if(lh2!=null) {
+			TLogoutHistory logout = new TLogoutHistory();	
+			logout.setUserId(lh2.getUserId());
+			logout.setClientType(lh2.getClientType());
+			logout.setLogoutTime(new Date());
+			logout.setToken(token);
+			logoutHistoryMapper.insert(logout);
+		}
+		
+		
+		//删除cookie
+		Cookie cookie = new Cookie("t", "");
+		cookie.setPath(ContextUtils.contextPath);
+		cookie.setMaxAge(0);
+		response.addCookie(cookie);
+		Enumeration<String> namelsit =  session.getAttributeNames();		
+		
+		while(namelsit.hasMoreElements()) {
+			session.removeAttribute(namelsit.nextElement());
+		}	
+		 
+		//删除session
+		GlobalSession.invalidateSession(token);		
+		
+		
+		return JsonResult.ok("注销成功");
 	}
 
 }

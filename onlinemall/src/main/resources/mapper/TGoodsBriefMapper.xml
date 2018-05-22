@@ -24,5 +24,7 @@
     <result column="fail_num" jdbcType="INTEGER" property="failNum" />
     <result column="last_mon_time" jdbcType="DATE" property="lastMonTime" />
     <result column="mon_sold_num" jdbcType="INTEGER" property="monSoldNum" />
+    <result column="weight_score" jdbcType="DOUBLE" property="weightScore" />
+    <result column="shelve_time" jdbcType="TIMESTAMP" property="shelveTime" />
   </resultMap>
 </mapper>

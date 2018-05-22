@@ -29,6 +29,25 @@
 	    <result column="cd_sort" jdbcType="INTEGER" property="sort" />
   </resultMap> 
   
+  <resultMap id="PriceByOneSqlResultMap" type="com.zhuwenshen.model.custom.merchant.QueryGoodsPrice">   
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="goods_id" jdbcType="CHAR" property="goodsId" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="all_num" jdbcType="INTEGER" property="allNum" />
+    <result column="sold_num" jdbcType="INTEGER" property="soldNum" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+        
+     <collection property="detailList" ofType="com.zhuwenshen.model.custom.ClassDetail">
+      	<id column="cd_id" jdbcType="CHAR" property="id" />
+      	<result column="cd_class_name" jdbcType="VARCHAR" property="className" />
+	    <result column="cd_class_id" jdbcType="CHAR" property="classId" />
+	    <result column="cd_name" jdbcType="VARCHAR" property="name" />
+	    <result column="cd_sort" jdbcType="INTEGER" property="sort" />
+    </collection>     
+  </resultMap>
+  
   
   <select id="selectPriceByGoodsAndClass" resultType="java.lang.String">
   <if test="classDetailIdList !=null and classDetailIdList.length !=0">
@@ -69,20 +88,20 @@
 	</choose>
   </select>
   
-  <select id="selectOneGoodsPrice" resultMap="PriceResultMap">
-  	select
+  <select id="selectOneGoodsPrice" resultMap="PriceByOneSqlResultMap">
+  	select distinct
   		p.id ,
   		p.goods_id ,
   		g.name as goods_name,
   		p.all_num ,
   		p.sold_num,
   		p.num ,
-  		p.price ,  		
+  		p.price <!-- ,  		
   		cd.id as cd_id,
   		cd.class_id as cd_class_id,
   		gc.name as cd_class_name,
   		cd.name as cd_name,
-  		cd.sort as cd_sort  		
+  		cd.sort as cd_sort  --> 		
 	from t_price p
 	LEFT JOIN t_goods g on g.id = p.goods_id
 	LEFT JOIN t_goods_price gp on p.id = gp.price_id
@@ -92,7 +111,7 @@
 		p.deleted = 0
 	and (gp.deleted = 0 or (gp.id IS NULL and gp.deleted is null))
 	and p.id = #{priceId}
-	order by gc.sort
+	<!-- order by gc.sort -->
   </select>
   
   
@@ -130,7 +149,7 @@
   </sql>
   
   <select id="selectPriceByGoodsAndClassForPage" resultMap="PriceResultMap">
-  	select
+  	select distinct
   		p3.id ,
   		p3.goods_id ,
   		p3.all_num ,
@@ -150,7 +169,7 @@
 	WHERE 
 		p3.deleted = 0
 	and (gp3.deleted = 0 or (gp3.id IS NULL and gp3.deleted is null))
-	order by p3.id desc ,gc3.sort
+	order by p3.id desc <!-- ,gc3.sort -->
 	
   </select>
   

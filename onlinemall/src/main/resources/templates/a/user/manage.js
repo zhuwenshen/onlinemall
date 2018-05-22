@@ -35,8 +35,8 @@ function queryAdminUser(pageNum){
 						"<td>" + ms.tlEmpty(list[i].email)  + "</td>" +
 						"<td>" + ms.tlEmpty(list[i].realName)  + "</td>" +
 						"<td>" + ms.tlEmpty(list[i].idNumber) + "</td>" +
-						"<td>" + ms.tlEmpty(list[i].headPortraitUrl)  + "</td>" +
-						"<td>" + list[i].allIntegral  + "</td>" +
+						/*"<td>" + ms.tlEmpty(list[i].headPortraitUrl)  + "</td>" +
+						"<td>" + list[i].allIntegral  + "</td>" +*/
 						"<td>" + list[i].fund  + "</td>" +
 						"<td>" + ms.tlEmpty(list[i].sexTL)  + "</td>" +	
 						"<td>" + ms.tlEmpty(list[i].userTypeTL)  + "</td>" +	

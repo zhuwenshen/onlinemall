@@ -51,9 +51,13 @@ public class BriefGoodsService {
 	
 	/**
 	 * 提取goods简要信息
+	 * @param isAll 是否全部更新
 	 */
 	@Transactional(propagation=Propagation.NOT_SUPPORTED)
-	public void brief() {		
+	public synchronized void brief(boolean isAll) {		
+		if(isAll) {
+			insertAllIndex();
+		}		
 		doBrief();
 	}
 	
@@ -61,7 +65,7 @@ public class BriefGoodsService {
 	 * 全部提取
 	 */
 	@Transactional(propagation=Propagation.NOT_SUPPORTED)
-	public void briefAll() {
+	public synchronized void briefAll() {
 		insertAllIndex();
 		doBrief();
 	}
@@ -90,9 +94,11 @@ public class BriefGoodsService {
 	
 	@Transactional(propagation=Propagation.NOT_SUPPORTED)
 	private void doBrief() {
+		//获取需要更新的商品id
 		List<TTaskGoodsIndex> list = getIndex();
 		for(TTaskGoodsIndex i :list) {
 			try {
+				//统计一个商品信息
 				briefOneGoods(i.getId());
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -132,6 +138,7 @@ public class BriefGoodsService {
 		brief.setGoodsDes(goods.getDescription());
 		brief.setGoodsName(goods.getName());
 		brief.setGoodsImg(goods.getDescriptionImg1Url());
+		brief.setShelveTime(goods.getShelveTime());
 		
 		//找到所有price
 		Example aPrice = new Example(TPrice.class);
@@ -178,15 +185,43 @@ public class BriefGoodsService {
 		brief.setOrderFailNum(goodsBriefMC.selectOrderNum(priceIdList, 3));
 		
 		//设置商品数量
-		brief.setSoldNum(goodsBriefMC.selectGoodsNum(priceIdList, 1));
-		brief.setSuccessNum(goodsBriefMC.selectGoodsNum(priceIdList, 2));
-		brief.setFailNum(goodsBriefMC.selectGoodsNum(priceIdList, 3));
+		Integer num = null;
+		num = goodsBriefMC.selectGoodsNum(priceIdList, 1);
+		if(num == null) {
+			num = 0;
+		}
+		brief.setSoldNum(num);
+		
+		num = goodsBriefMC.selectGoodsNum(priceIdList, 2);
+		if(num == null) {
+			num = 0;
+		}
+		brief.setSuccessNum(num);
+		
+		num = goodsBriefMC.selectGoodsNum(priceIdList, 3);
+		if(num == null) {
+			num = 0;
+		}
+		brief.setFailNum(num);
 		
 		//设置评分
 		brief.setAvgScore(goodsBriefMC.selectAvgScore(priceIdList));
 		
-		//设置月售		
-		brief.setMonSoldNum(goodsBriefMC.selectMonSoldNum(priceIdList, brief.getLatestTime(), brief.getLastMonTime()));
+		//设置月售	
+		num = goodsBriefMC.selectMonSoldNum(priceIdList, brief.getLatestTime(), brief.getLastMonTime());
+		if(num == null) {
+			num = 0;
+		}
+		brief.setMonSoldNum(num);
+		
+		//设置加权分 avg_score + (order_success_num - order_fail_num*0.9)/(order_success_num + 1) +1
+		Double avgScore  = brief.getAvgScore();
+		if(avgScore == null) {
+			avgScore = 0.0;
+		}
+		
+		Double weightScore = avgScore + (brief.getOrderSuccessNum() - brief.getOrderFailNum()*0.9+1)/(brief.getSuccessNum()+1) +1;
+		brief.setWeightScore(weightScore);
 		
 		TGoodsBrief up = new TGoodsBrief();
 		up.setGoodsId(goodsId);

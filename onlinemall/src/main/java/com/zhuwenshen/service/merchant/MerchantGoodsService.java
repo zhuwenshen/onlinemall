@@ -479,7 +479,7 @@ public class MerchantGoodsService {
 		
 		if(goods.getUnshelveTime() != null) {
 			if(goods.getUnshelveTime().before(goods.getShelveTime())) {
-				return JsonResult.fail("商品下架时间不能比下架时间早");
+				return JsonResult.fail("商品下架时间不能比上架时间早");
 			}
 			
 			if(goods.getUnshelveTime().before(new Date())) {

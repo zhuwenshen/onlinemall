@@ -79,7 +79,7 @@ public class RedisKey {
 
 	@Override
 	public String toString() {
-		return JsonUtils.objectToJson(this);
+		return JsonUtils.toJSONStringWithoutFilters(this);
 	}
 	
 	

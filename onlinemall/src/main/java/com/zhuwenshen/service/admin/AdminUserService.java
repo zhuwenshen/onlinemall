@@ -1,6 +1,7 @@
 package com.zhuwenshen.service.admin;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,14 +12,18 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.zhuwenshen.mapper.AdminUserMapperCustom;
 import com.zhuwenshen.mapper.TFrozenInformationMapper;
+import com.zhuwenshen.mapper.TLoginHistoryMapper;
 import com.zhuwenshen.mapper.TUserMapper;
 import com.zhuwenshen.model.TFrozenInformation;
+import com.zhuwenshen.model.TLoginHistory;
 import com.zhuwenshen.model.TUser;
 import com.zhuwenshen.model.custom.JsonResult;
 import com.zhuwenshen.model.custom.User;
 import com.zhuwenshen.model.custom.admin.QueryAdminUserParam;
 import com.zhuwenshen.service.FrozenInformationService;
+import com.zhuwenshen.service.RedisService;
 import com.zhuwenshen.util.DateFormatUtils;
+import com.zhuwenshen.util.GlobalSession;
 
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.Example.Criteria;
@@ -37,6 +42,12 @@ public class AdminUserService {
 	
 	@Autowired
 	private TFrozenInformationMapper frozenInformationMapper;
+	
+	@Autowired
+	private TLoginHistoryMapper loginHistoryMapper;
+	
+	@Autowired
+	private RedisService redisService;
 	
 	public String queryUser(QueryAdminUserParam qaup) {
 		if(qaup == null) {
@@ -129,8 +140,33 @@ public class AdminUserService {
 		userMapper.updateByPrimaryKey(tuser);
 		System.out.println("tuser:"+tuser);
 		
-		//TODO 强制正在上线的用户下线
+		//TODO 推送用户被冻结
 		
+		//TODO 强制正在上线的用户下线（调用用户端接口）		
+		//检查该用户是否存在有用的token
+//		TLoginHistory l2 = new TLoginHistory();
+//		l2.setDeleted(false);
+//		l2.setUseful(true);
+//		l2.setUserId(tuser.getId());
+//		List<TLoginHistory> list = loginHistoryMapper.select(l2);
+//		for(TLoginHistory l3 :list) {
+//			//redisSession中删除
+//			redisService.deleteSession(l3.getToken() , l3.getIp());
+//			
+//			//在session中删除
+//			GlobalSession.invalidateSession(l3.getToken());
+//		}
+//				
+//		// 更改冻结用户的登录历史为无效
+//		TLoginHistory lh = new TLoginHistory();
+//		lh.setUseful(false);
+//		Example example = new Example(TLoginHistory.class);
+//		Criteria criteria = example.createCriteria();
+//		criteria.andEqualTo("userId", tuser.getId());
+//		criteria.andEqualTo("useful", true);
+//		loginHistoryMapper.updateByExampleSelective(lh, example);
+		
+
 		return JsonResult.ok("昵称："+tuser.getName()+" 冻结成功，解封时间为"+DateFormatUtils.formatToDateAndTime(qaup.getUnfreezingTimeU()));
 	}
 
@@ -180,6 +216,23 @@ public class AdminUserService {
 		userMapper.updateByPrimaryKey(tuser);
 		
 		return JsonResult.ok("昵称："+tuser.getName()+" 被解封成功");
+	}
+
+	/**
+	 * 定时任务之解冻到期用户
+	 */
+	public void unfreezingUserTask() {
+		TUser u = new TUser();
+		u.setFrozen(false);
+		
+		Example example = new Example(TUser.class);
+		Criteria c = example.createCriteria();
+		c.andEqualTo("frozen", true);
+		c.andEqualTo("deleted", false);
+		c.andCondition("unfreezing_time < ", new Date());
+		
+		userMapper.updateByExampleSelective(u, example);
+		
 	}
 
 }

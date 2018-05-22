@@ -12,7 +12,7 @@ import redis.clients.jedis.JedisPool;
 @Component
 public class Redis {
 	
-	public static int SESSION_TIME = 1*60*60;//session存活时间
+public static int SESSION_TIME = 1*60*60;//session存活时间
 	
 	public static int CACH_TIME = 5*60;//普通对象存活时间
 	//永久保存对象
@@ -124,9 +124,9 @@ public class Redis {
 	 */
 	public void setObject(String key, Object data , int seconds) {	
 		if(seconds <= 0) {
-			set(key.toString(), JsonUtils.objectToJson(data));	
+			set(key.toString(), JsonUtils.toJSONStringWithoutFilters(data));	
 		}else {
-			set(key.toString(), seconds, JsonUtils.objectToJson(data));
+			set(key.toString(), seconds, JsonUtils.toJSONStringWithoutFilters(data));
 		}
 			
 	}	
@@ -144,9 +144,9 @@ public class Redis {
 		try {
 			if(!StringUtils.isEmpty(data)) {
 				if(isList) {
-					t = JsonUtils.jsonToList(data, clazz);
+					t = JsonUtils.parseArray(data, clazz);
 				}else {
-					t =  JsonUtils.jsonToPojo(data, clazz);
+					t =  JsonUtils.parseObject(data, clazz);
 				}				 
 			}
 		} catch (Exception e) {			
@@ -173,9 +173,9 @@ public class Redis {
 			jedis.expire(key, seconds);
 			if(!StringUtils.isEmpty(data)) {
 				if(isList) {
-					t = JsonUtils.jsonToList(data, clazz);
+					t = JsonUtils.parseArray(data, clazz);
 				}else {
-					t =  JsonUtils.jsonToPojo(data, clazz);
+					t =  JsonUtils.parseObject(data, clazz);
 				}				 
 			}
 		}catch(Exception e) {
@@ -257,6 +257,5 @@ public class Redis {
 		}
 		return keys;
 	}
-	
 	
 }
